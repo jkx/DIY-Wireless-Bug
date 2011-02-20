@@ -1,0 +1,45 @@
+<head>
+<title>Symbol: mega48-tqfp32.sym</title>
+<link rel="stylesheet" href="/gedasymbols.css" type="text/css">
+</head>
+<body>
+<h1 align=center>Symbol: mega48-tqfp32.sym</h1>
+
+<p>
+File size: 6.6 Kb <br>
+File date: Sat Sep 15 20:22:11 2007 <br>
+<a href="mega48-tqfp32.sym?dl">Download</a> </p>
+
+<p>
+author: andrewmATthehacktoryDOTcom
+<br>
+documentation: <a href="http://www.atmel.com/dyn/resources/prod_documents/doc2545.pdf">http://www.atmel.com/dyn/resources/prod_documents/doc2545.pdf</a>
+<br>
+description: ATMega48
+<br>
+dist-license: <a href="/licenses/GPL.html">GPL</a>
+<br>
+use-license: unlimited
+<br>
+</p>
+
+
+<p>
+<img src="mega48-tqfp32.sym?png">
+</p>
+<p><br></p>
+<p><hr noshade size=1></p>
+
+<small>
+
+<p align=center>
+
+Copyright 2007, all rights reserved unless specified otherwise.
+<br>
+<a href="/">gedasymbols.org</a> is maintained by
+<a href="/user/dj_delorie/">DJ Delorie</a></p>
+
+</small>
+
+</body>
+</html>
