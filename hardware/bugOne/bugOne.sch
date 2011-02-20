@@ -1,0 +1,22 @@
+v 20100214 2
+C 40000 40000 0 0 0 title-B.sym
+C 49400 42900 1 0 0 megaX8-tqfp32.sym
+{
+T 53900 49400 5 10 1 1 0 6 1
+refdes=U?
+T 49700 49700 5 10 0 0 0 0 1
+device=ATMega48-TQFP32
+T 49700 49900 5 10 0 0 0 0 1
+footprint=TQFP32_7
+}
+C 42100 46500 1 0 0 avr-isp-6.sym
+{
+T 43500 55900 5 10 0 0 0 0 1
+device=AVR ISP 6
+T 43500 56100 5 10 0 0 0 0 1
+footprint=MLF 44
+T 44100 49100 5 10 1 1 0 0 1
+refdes=U?
+T 43500 56500 5 10 0 0 0 0 1
+symversion=1.0
+}
