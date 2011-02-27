@@ -1,5 +1,5 @@
 v 20100214 2
-B 400 800 2600 2400 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+B 400 400 2600 2800 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
 T 1400 9400 8 10 0 0 0 0 1
 device=RFM12
 T 1400 9600 8 10 0 0 0 0 1
@@ -7,17 +7,17 @@ footprint=MLF 44
 T 1400 9800 8 10 0 0 0 0 1
 numslots=0
 T 1800 3300 9 10 1 0 0 0 1
-RFM12 DIP
-P 3000 2600 3300 2600 1 0 1
+RFM12 CMS
+P 3000 2000 3300 2000 1 0 1
 {
-T 3000 2600 5 10 0 1 0 0 1
+T 3000 2000 5 10 0 1 0 0 1
 pintype=pwr
-T 3000 2600 5 10 1 1 0 0 1
+T 3000 2000 5 10 1 1 0 0 1
 pinnumber=12
-T 3000 2600 5 10 0 1 0 0 1
+T 3000 2000 5 10 0 1 0 0 1
 pinseq=12
-T 2563 2606 3 10 1 1 0 0 1
-pinlabel=VDD
+T 2563 2006 3 10 1 1 0 0 1
+pinlabel=SDI
 }
 T 2800 3500 5 10 1 1 0 0 1
 refdes=U?
@@ -32,7 +32,7 @@ pinnumber=1
 T 400 2600 5 10 0 1 180 0 1
 pinseq=1
 T 455 2595 3 10 1 1 0 0 1
-pinlabel=nINT/VDI
+pinlabel=SDO
 }
 P 400 2300 100 2300 1 0 1
 {
@@ -43,7 +43,7 @@ pinnumber=2
 T 400 2300 5 10 0 1 180 0 1
 pinseq=2
 T 455 2295 3 10 1 1 0 0 1
-pinlabel=SDI
+pinlabel=nIRQ
 }
 P 400 2000 100 2000 1 0 1
 {
@@ -54,7 +54,7 @@ pinnumber=3
 T 400 2000 5 10 0 1 180 0 1
 pinseq=3
 T 455 1995 3 10 1 1 0 0 1
-pinlabel=nSEL
+pinlabel=FSK
 }
 P 400 1700 100 1700 1 0 1
 {
@@ -65,7 +65,7 @@ pinnumber=4
 T 400 1700 5 10 0 1 180 0 1
 pinseq=4
 T 455 1695 3 10 1 1 0 0 1
-pinlabel=nIRQ
+pinlabel=DCLK
 }
 P 400 1400 100 1400 1 0 1
 {
@@ -76,7 +76,7 @@ pinnumber=5
 T 400 1400 5 10 0 1 180 0 1
 pinseq=5
 T 455 1395 3 10 1 1 0 0 1
-pinlabel=DCLK
+pinlabel=CLK
 }
 P 400 1100 100 1100 1 0 1
 {
@@ -89,58 +89,80 @@ pinseq=6
 T 455 1095 3 10 1 1 0 0 1
 pinlabel=nRES
 }
+P 3000 800 3300 800 1 0 1
+{
+T 3000 800 5 10 0 1 0 0 1
+pintype=io
+T 3000 800 5 10 1 1 0 0 1
+pinnumber=8
+T 3000 800 5 10 0 1 0 0 1
+pinseq=8
+T 2563 806 3 10 1 1 0 0 1
+pinlabel=ANT
+}
 P 3000 1100 3300 1100 1 0 1
 {
 T 3000 1100 5 10 0 1 0 0 1
-pintype=pwr
+pintype=io
 T 3000 1100 5 10 1 1 0 0 1
-pinnumber=7
+pinnumber=9
 T 3000 1100 5 10 0 1 0 0 1
-pinseq=7
+pinseq=9
 T 2563 1106 3 10 1 1 0 0 1
-pinlabel=GND
+pinlabel=VDD
 }
 P 3000 1400 3300 1400 1 0 1
 {
 T 3000 1400 5 10 0 1 0 0 1
 pintype=io
 T 3000 1400 5 10 1 1 0 0 1
-pinnumber=8
+pinnumber=10
 T 3000 1400 5 10 0 1 0 0 1
-pinseq=8
+pinseq=10
 T 2563 1406 3 10 1 1 0 0 1
-pinlabel=CLK
+pinlabel=GND
 }
 P 3000 1700 3300 1700 1 0 1
 {
 T 3000 1700 5 10 0 1 0 0 1
 pintype=io
 T 3000 1700 5 10 1 1 0 0 1
-pinnumber=9
+pinnumber=11
 T 3000 1700 5 10 0 1 0 0 1
-pinseq=9
+pinseq=11
 T 2563 1706 3 10 1 1 0 0 1
-pinlabel=FSK
+pinlabel=nINT
 }
-P 3000 2000 3300 2000 1 0 1
+P 400 800 100 800 1 0 1
 {
-T 3000 2000 5 10 0 1 0 0 1
+T 400 800 5 10 0 1 180 0 1
 pintype=io
-T 3000 2000 5 10 1 1 0 0 1
-pinnumber=10
-T 3000 2000 5 10 0 1 0 0 1
-pinseq=10
-T 2563 2006 3 10 1 1 0 0 1
-pinlabel=SDO
+T 305 845 5 10 1 1 0 6 1
+pinnumber=7
+T 400 800 5 10 0 1 180 0 1
+pinseq=7
+T 455 795 3 10 1 1 0 0 1
+pinlabel=GND
 }
 P 3000 2300 3300 2300 1 0 1
 {
 T 3000 2300 5 10 0 1 0 0 1
-pintype=io
+pintype=pwr
 T 3000 2300 5 10 1 1 0 0 1
-pinnumber=11
+pinnumber=13
 T 3000 2300 5 10 0 1 0 0 1
-pinseq=11
+pinseq=13
 T 2563 2306 3 10 1 1 0 0 1
 pinlabel=SCK
+}
+P 3000 2600 3300 2600 1 0 1
+{
+T 3000 2600 5 10 0 1 0 0 1
+pintype=pwr
+T 3000 2600 5 10 1 1 0 0 1
+pinnumber=14
+T 3000 2600 5 10 0 1 0 0 1
+pinseq=14
+T 2563 2606 3 10 1 1 0 0 1
+pinlabel=nSEL
 }
