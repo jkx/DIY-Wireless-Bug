@@ -20,3 +20,14 @@ refdes=U?
 T 43500 56500 5 10 0 0 0 0 1
 symversion=1.0
 }
+C 41500 42500 1 0 0 rfm12S.sym
+{
+T 42900 51900 5 10 0 0 0 0 1
+device=RFM12
+T 42900 52100 5 10 0 0 0 0 1
+footprint=MLF 44
+T 44300 46000 5 10 1 1 0 0 1
+refdes=U?
+T 42900 52500 5 10 0 0 0 0 1
+symversion=1.0
+}
