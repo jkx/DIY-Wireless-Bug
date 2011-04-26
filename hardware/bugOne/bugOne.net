@@ -1,9 +1,8 @@
 Vss	CONN4-1 R0-1 F1-1 
-unnamed_net22	C2-2 C1-2 R0-2 F1-2 U3-1 
-unnamed_net21	CONN2-2 LED1-1 R3-2 
-unnamed_net20	CONN2-1 R2-2 LED2-1 
-unnamed_net19	CONN2-6 U1-22 
-unnamed_net18	CONN2-7 U1-19 
+unnamed_net21	C2-2 C1-2 R0-2 F1-2 U3-1 
+unnamed_net20	CONN2-2 LED1-1 R3-2 
+unnamed_net19	CONN2-1 R2-2 LED2-1 
+unnamed_net18	CONN2-6 U1-22 
 unnamed_net17	U2-2 U1-32 
 unnamed_net16	CONN3-3 U1-31 
 unnamed_net15	CONN3-2 U1-30 
