@@ -1,5 +1,5 @@
 # release: pcb 20100929
-# date:    Sun May  1 18:09:19 2011
+# date:    Fri May  6 23:54:49 2011
 # user:    a2683 (Nicolas DUPEUX,,,)
 # host:    a2683-laptop
 
@@ -818,24 +818,7 @@ Element["" "Standard SMT resistor, capacitor etc" "LED1" "1206" 306905 141000 -5
 
 	)
 
-Element["" "Header connector, ribbon cable numbering" "CONN5" "HEADER6_2" 214000 197000 8000 -1086 1 100 ""]
-(
-	Pin[0 0 6000 3000 6600 3800 "1" "1" "square"]
-	Pin[-10000 0 6000 3000 6600 3800 "2" "2" ""]
-	Pin[0 -10000 6000 3000 6600 3800 "3" "3" ""]
-	Pin[-10000 -10000 6000 3000 6600 3800 "4" "4" ""]
-	Pin[0 -20000 6000 3000 6600 3800 "5" "5" ""]
-	Pin[-10000 -20000 6000 3000 6600 3800 "6" "6" "thermal(1X)"]
-	ElementLine [-5000 -5000 -5000 5000 1000]
-	ElementLine [-5000 -5000 5000 -5000 1000]
-	ElementLine [-15000 5000 5000 5000 1000]
-	ElementLine [-15000 -25000 -15000 5000 1000]
-	ElementLine [-15000 -25000 5000 -25000 1000]
-	ElementLine [5000 -25000 5000 5000 1000]
-
-	)
-
-Element["" "Jumper, i.e. single row headers" "CONN1" "JUMPER8" 194000 234000 -24000 -3000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN1" "JUMPER10" 174000 234000 -5000 -11000 0 100 ""]
 (
 	Pin[0 0 6000 3000 6600 3800 "1" "1" "square,edge2"]
 	Pin[10000 0 6000 3000 6600 3800 "2" "2" "edge2"]
@@ -844,13 +827,24 @@ Element["" "Jumper, i.e. single row headers" "CONN1" "JUMPER8" 194000 234000 -24
 	Pin[40000 0 6000 3000 6600 3800 "5" "5" "edge2"]
 	Pin[50000 0 6000 3000 6600 3800 "6" "6" "edge2"]
 	Pin[60000 0 6000 3000 6600 3800 "7" "7" "edge2"]
-	Pin[70000 0 6000 3000 6600 3800 "8" "8" "edge2,thermal(1X)"]
+	Pin[70000 0 6000 3000 6600 3800 "8" "8" "edge2"]
+	Pin[80000 0 6000 3000 6600 3800 "9" "9" "edge2"]
+	Pin[90000 0 6000 3000 6600 3800 "10" "10" "edge2,thermal(0X,1X)"]
 	ElementLine [-5000 -5000 5000 -5000 1000]
 	ElementLine [5000 -5000 5000 5000 1000]
 	ElementLine [-5000 -5000 -5000 5000 1000]
-	ElementLine [-5000 -5000 75000 -5000 1000]
-	ElementLine [75000 -5000 75000 5000 1000]
-	ElementLine [-5000 5000 75000 5000 1000]
+	ElementLine [-5000 -5000 95000 -5000 1000]
+	ElementLine [95000 -5000 95000 5000 1000]
+	ElementLine [-5000 5000 95000 5000 1000]
+
+	)
+
+Element["" "Standard SMT resistor, capacitor etc" "R3" "0805" 289000 124000 -1693 -9150 0 100 ""]
+(
+	Pad[-3543 -393 -3543 393 5118 2000 5718 "1" "1" "square"]
+	Pad[3543 -393 3543 393 5118 2000 5718 "2" "2" "square"]
+	ElementLine [-393 2755 393 2755 800]
+	ElementLine [-393 -2755 393 -2755 800]
 
 	)
 
@@ -895,7 +889,7 @@ Element["" "" "U2" "" 275000 181000 0 0 0 100 ""]
 
 	)
 
-Element["" "Jumper, i.e. single row headers" "CONN2" "JUMPER8" 194000 124000 -25000 -3000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "" "JUMPER18" 164000 80000 -5000 -11000 0 100 ""]
 (
 	Pin[0 0 6000 3000 6600 3800 "1" "1" "square,edge2"]
 	Pin[10000 0 6000 3000 6600 3800 "2" "2" "edge2"]
@@ -904,13 +898,23 @@ Element["" "Jumper, i.e. single row headers" "CONN2" "JUMPER8" 194000 124000 -25
 	Pin[40000 0 6000 3000 6600 3800 "5" "5" "edge2"]
 	Pin[50000 0 6000 3000 6600 3800 "6" "6" "edge2"]
 	Pin[60000 0 6000 3000 6600 3800 "7" "7" "edge2"]
-	Pin[70000 0 6000 3000 6600 3800 "8" "8" "edge2,thermal(1X)"]
+	Pin[70000 0 6000 3000 6600 3800 "8" "8" "edge2"]
+	Pin[80000 0 6000 3000 6600 3800 "9" "9" "edge2"]
+	Pin[90000 0 6000 3000 6600 3800 "10" "10" "edge2"]
+	Pin[100000 0 6000 3000 6600 3800 "11" "11" "edge2"]
+	Pin[110000 0 6000 3000 6600 3800 "12" "12" "edge2"]
+	Pin[120000 0 6000 3000 6600 3800 "13" "13" "edge2"]
+	Pin[130000 0 6000 3000 6600 3800 "14" "14" "edge2"]
+	Pin[140000 0 6000 3000 6600 3800 "15" "15" "edge2"]
+	Pin[150000 0 6000 3000 6600 3800 "16" "16" "edge2"]
+	Pin[160000 0 6000 3000 6600 3800 "17" "17" "edge2"]
+	Pin[170000 0 6000 3000 6600 3800 "18" "18" "edge2"]
 	ElementLine [-5000 -5000 5000 -5000 1000]
 	ElementLine [5000 -5000 5000 5000 1000]
 	ElementLine [-5000 -5000 -5000 5000 1000]
-	ElementLine [-5000 -5000 75000 -5000 1000]
-	ElementLine [75000 -5000 75000 5000 1000]
-	ElementLine [-5000 5000 75000 5000 1000]
+	ElementLine [-5000 -5000 175000 -5000 1000]
+	ElementLine [175000 -5000 175000 5000 1000]
+	ElementLine [-5000 5000 175000 5000 1000]
 
 	)
 
@@ -1020,7 +1024,7 @@ Element["" "Jumper, i.e. single row headers" "" "JUMPER18" 36000 94000 11000 -50
 
 	)
 
-Element["" "Jumper, i.e. single row headers" "CONN3" "JUMPER4" 94000 123000 38000 -3000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN3" "JUMPER4" 94000 124000 38000 -3000 0 100 ""]
 (
 	Pin[0 0 6000 3000 6600 3800 "1" "1" "square,edge2"]
 	Pin[10000 0 6000 3000 6600 3800 "2" "2" "edge2"]
@@ -1122,16 +1126,7 @@ Element["" "Standard SMT resistor, capacitor etc" "R2" "0805" 288457 141000 -169
 
 	)
 
-Element["" "Standard SMT resistor, capacitor etc" "R3" "0805" 289000 124000 -1693 -9150 0 100 ""]
-(
-	Pad[-3543 -393 -3543 393 5118 2000 5718 "1" "1" "square"]
-	Pad[3543 -393 3543 393 5118 2000 5718 "2" "2" "square"]
-	ElementLine [-393 2755 393 2755 800]
-	ElementLine [-393 -2755 393 -2755 800]
-
-	)
-
-Element["" "Jumper, i.e. single row headers" "" "JUMPER18" 164000 80000 -5000 -11000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN2" "JUMPER10" 174000 124000 -5000 -11000 0 100 ""]
 (
 	Pin[0 0 6000 3000 6600 3800 "1" "1" "square,edge2"]
 	Pin[10000 0 6000 3000 6600 3800 "2" "2" "edge2"]
@@ -1142,36 +1137,54 @@ Element["" "Jumper, i.e. single row headers" "" "JUMPER18" 164000 80000 -5000 -1
 	Pin[60000 0 6000 3000 6600 3800 "7" "7" "edge2"]
 	Pin[70000 0 6000 3000 6600 3800 "8" "8" "edge2"]
 	Pin[80000 0 6000 3000 6600 3800 "9" "9" "edge2"]
-	Pin[90000 0 6000 3000 6600 3800 "10" "10" "edge2"]
-	Pin[100000 0 6000 3000 6600 3800 "11" "11" "edge2"]
-	Pin[110000 0 6000 3000 6600 3800 "12" "12" "edge2"]
-	Pin[120000 0 6000 3000 6600 3800 "13" "13" "edge2"]
-	Pin[130000 0 6000 3000 6600 3800 "14" "14" "edge2"]
-	Pin[140000 0 6000 3000 6600 3800 "15" "15" "edge2"]
-	Pin[150000 0 6000 3000 6600 3800 "16" "16" "edge2"]
-	Pin[160000 0 6000 3000 6600 3800 "17" "17" "edge2"]
-	Pin[170000 0 6000 3000 6600 3800 "18" "18" "edge2"]
+	Pin[90000 0 6000 3000 6600 3800 "10" "10" "edge2,thermal(1X)"]
 	ElementLine [-5000 -5000 5000 -5000 1000]
 	ElementLine [5000 -5000 5000 5000 1000]
 	ElementLine [-5000 -5000 -5000 5000 1000]
-	ElementLine [-5000 -5000 175000 -5000 1000]
-	ElementLine [175000 -5000 175000 5000 1000]
-	ElementLine [-5000 5000 175000 5000 1000]
+	ElementLine [-5000 -5000 95000 -5000 1000]
+	ElementLine [95000 -5000 95000 5000 1000]
+	ElementLine [-5000 5000 95000 5000 1000]
+
+	)
+
+Element["" "Header connector, ribbon cable numbering" "CONN5" "HEADER6_2" 214000 184000 8000 -1086 1 100 ""]
+(
+	Pin[0 0 6000 3000 6600 3800 "1" "1" "square"]
+	Pin[-10000 0 6000 3000 6600 3800 "2" "2" ""]
+	Pin[0 -10000 6000 3000 6600 3800 "3" "3" ""]
+	Pin[-10000 -10000 6000 3000 6600 3800 "4" "4" ""]
+	Pin[0 -20000 6000 3000 6600 3800 "5" "5" ""]
+	Pin[-10000 -20000 6000 3000 6600 3800 "6" "6" "thermal(1X)"]
+	ElementLine [-5000 -5000 -5000 5000 1000]
+	ElementLine [-5000 -5000 5000 -5000 1000]
+	ElementLine [-15000 5000 5000 5000 1000]
+	ElementLine [-15000 -25000 -15000 5000 1000]
+	ElementLine [-15000 -25000 5000 -25000 1000]
+	ElementLine [5000 -25000 5000 5000 1000]
 
 	)
 Rat[106000 188819 0 74000 114000 1  "via"]
-Rat[135008 184575 0 74000 114000 1  "via"]
 Rat[135008 178276 0 74000 114000 1  "via"]
+Rat[176992 181425 0 74000 114000 1  "via"]
+Rat[135008 184575 0 74000 114000 1  "via"]
 Rat[140000 224000 0 154425 162008 0  ""]
-Rat[154425 162008 0 214000 177000 1  ""]
-Rat[226000 215000 0 204000 187000 1  ""]
-Rat[214000 197000 0 236417 156984 0  ""]
+Rat[154425 162008 0 214000 164000 1  ""]
+Rat[289000 223000 1 74000 114000 1  "via"]
+Rat[244000 223000 0 249000 223000 0  ""]
+Rat[229000 187000 0 236417 156984 0  ""]
+Rat[214000 187000 0 214000 174000 1  ""]
 Rat[144976 162008 0 236417 164858 0  ""]
+Rat[194000 124000 1 135008 171977 0  ""]
+Rat[184000 124000 1 135008 175126 0  ""]
+Rat[184000 234000 1 144977 203992 0  ""]
+Rat[194000 234000 1 148126 203992 0  ""]
 Rat[151276 203992 0 311614 156984 0  ""]
+Rat[204000 197000 1 204000 184000 1  ""]
 Rat[117000 181000 0 135008 181425 0  ""]
 Rat[135008 181425 0 135008 187725 0  ""]
+Rat[194000 224000 1 174000 234000 1  ""]
 Rat[204000 197000 1 176992 190874 0  ""]
-Rat[176992 190874 0 194000 124000 1  ""]
+Rat[176992 190874 0 174000 124000 1  ""]
 Rat[204000 197000 1 311614 196354 0  ""]
 Layer(1 "component")
 (
@@ -1331,15 +1344,13 @@ Layer(1 "component")
 )
 Layer(2 "solder")
 (
-	Line[194000 227000 194000 234000 2800 2000 "clearline"]
-	Line[191000 224000 194000 227000 2800 2000 "clearline"]
+	Line[234000 223000 289000 223000 1400 2000 "clearline"]
+	Line[246000 141000 278000 141000 1400 2000 "clearline"]
 	Line[112000 224000 194000 224000 2800 2000 "clearline"]
 	Line[194000 224000 204000 214000 2800 2000 "clearline"]
 	Line[204000 214000 204000 197000 2800 2000 "clearline"]
 	Line[244000 133000 244000 139000 1400 2000 "clearline"]
 	Line[244000 139000 246000 141000 1400 2000 "clearline"]
-	Line[246000 141000 278000 141000 1400 2000 "clearline"]
-	Line[234000 223000 289000 223000 1400 2000 "clearline"]
 	Polygon("clearpoly")
 	(
 		[74000 114000] [324000 114000] [324000 244000] [74000 244000] 
@@ -1381,8 +1392,8 @@ NetList()
 		Connect("C2-1")
 		Connect("C3-1")
 		Connect("C4-2")
-		Connect("CONN1-8")
-		Connect("CONN2-8")
+		Connect("CONN1-10")
+		Connect("CONN2-10")
 		Connect("CONN3-4")
 		Connect("CONN4-4")
 		Connect("CONN5-6")
@@ -1402,34 +1413,34 @@ NetList()
 	)
 	Net("unnamed_net2" "(unknown)")
 	(
-		Connect("CONN2-7")
+		Connect("CONN2-9")
 		Connect("R3-1")
 		Connect("U1-23")
 	)
 	Net("unnamed_net3" "(unknown)")
 	(
-		Connect("CONN2-6")
+		Connect("CONN2-8")
 		Connect("R2-1")
 		Connect("U1-24")
 	)
 	Net("unnamed_net4" "(unknown)")
 	(
-		Connect("CONN2-5")
+		Connect("CONN2-7")
 		Connect("U1-25")
 	)
 	Net("unnamed_net5" "(unknown)")
 	(
-		Connect("CONN2-4")
+		Connect("CONN2-6")
 		Connect("U1-26")
 	)
 	Net("unnamed_net6" "(unknown)")
 	(
-		Connect("CONN2-3")
+		Connect("CONN2-5")
 		Connect("U1-27")
 	)
 	Net("unnamed_net7" "(unknown)")
 	(
-		Connect("CONN2-2")
+		Connect("CONN2-4")
 		Connect("U1-28")
 	)
 	Net("unnamed_net8" "(unknown)")
@@ -1441,36 +1452,36 @@ NetList()
 	)
 	Net("unnamed_net9" "(unknown)")
 	(
-		Connect("CONN1-2")
+		Connect("CONN1-4")
 		Connect("U1-12")
 	)
 	Net("unnamed_net10" "(unknown)")
 	(
-		Connect("CONN1-3")
+		Connect("CONN1-5")
 		Connect("U1-13")
 	)
 	Net("unnamed_net11" "(unknown)")
 	(
-		Connect("CONN1-4")
+		Connect("CONN1-6")
 		Connect("U1-14")
 	)
 	Net("unnamed_net12" "(unknown)")
 	(
-		Connect("CONN1-5")
+		Connect("CONN1-7")
 		Connect("CONN5-4")
 		Connect("U1-15")
 		Connect("U2-12")
 	)
 	Net("unnamed_net13" "(unknown)")
 	(
-		Connect("CONN1-6")
+		Connect("CONN1-8")
 		Connect("CONN5-1")
 		Connect("U1-16")
 		Connect("U2-1")
 	)
 	Net("unnamed_net14" "(unknown)")
 	(
-		Connect("CONN1-7")
+		Connect("CONN1-9")
 		Connect("CONN5-3")
 		Connect("U1-17")
 		Connect("U2-13")
@@ -1492,20 +1503,40 @@ NetList()
 	)
 	Net("unnamed_net18" "(unknown)")
 	(
+		Connect("CONN2-3")
+		Connect("U1-1")
+	)
+	Net("unnamed_net19" "(unknown)")
+	(
+		Connect("CONN2-2")
+		Connect("U1-2")
+	)
+	Net("unnamed_net20" "(unknown)")
+	(
+		Connect("CONN1-2")
+		Connect("U1-9")
+	)
+	Net("unnamed_net21" "(unknown)")
+	(
+		Connect("CONN1-3")
+		Connect("U1-10")
+	)
+	Net("unnamed_net22" "(unknown)")
+	(
 		Connect("U1-11")
 		Connect("U2-14")
 	)
-	Net("unnamed_net19" "(unknown)")
+	Net("unnamed_net23" "(unknown)")
 	(
 		Connect("LED2-1")
 		Connect("R3-2")
 	)
-	Net("unnamed_net20" "(unknown)")
+	Net("unnamed_net24" "(unknown)")
 	(
 		Connect("LED1-1")
 		Connect("R2-2")
 	)
-	Net("unnamed_net21" "(unknown)")
+	Net("unnamed_net25" "(unknown)")
 	(
 		Connect("C1-2")
 		Connect("C2-2")
