@@ -1,5 +1,5 @@
 # release: pcb 20100929
-# date:    Mon May 23 12:20:47 2011
+# date:    Fri May 27 01:12:50 2011
 # user:    jkx (jkx,,,)
 # host:    q6.jkx.local
 
@@ -12,7 +12,7 @@ Grid[1000.000000 0 0 0]
 Cursor[0 0 0.000000]
 PolyArea[200000000.000000]
 Thermal[0.500000]
-DRC[1000 1000 1000 1000 1500 1000]
+DRC[800 1000 800 1000 1500 1000]
 Flags("nameonpcb,clearnew,snappin,liveroute")
 Groups("1,c:2,s:3:4:5:6:7:8")
 Styles["Signal,1400,3400,1800,1000:Power,2800,6200,3600,1000:Fat,4000,6000,3500,1000:Skinny,600,2402,1181,600"]
@@ -806,7 +806,7 @@ Via[112000 224000 6200 2000 0 3600 "" ""]
 Via[258000 204000 6200 2000 0 3600 "" "thermal(0X,1X)"]
 Via[293480 188480 6200 2000 0 3600 "" "thermal(1X)"]
 Via[126000 170000 3400 2000 0 1800 "" ""]
-Via[131000 165000 3400 2000 0 1800 "" ""]
+Via[131000 165000 3400 2000 0 1800 "" "found"]
 Via[288000 157000 3400 2000 0 1800 "" ""]
 Via[224000 217000 3400 2000 0 1800 "" ""]
 Via[294000 173000 3400 2000 0 1800 "" ""]
@@ -823,7 +823,7 @@ Via[94000 210000 6200 2000 0 3600 "" "thermal(1X)"]
 Via[259000 142000 3400 2000 0 1800 "" ""]
 Via[314000 214000 9200 2000 0 5600 "" ""]
 
-Element["" "Standard SMT resistor, capacitor etc" "C3" "1206" 94000 194905 -11150 14960 1 100 ""]
+Element["found" "Standard SMT resistor, capacitor etc" "C3" "1206" 94000 194905 -11150 14960 1 100 ""]
 (
 	Pad[-1181 5905 1181 5905 5118 2000 5718 "1" "1" "square"]
 	Pad[-1181 -5905 1181 -5905 5118 2000 5718 "2" "2" "square"]
@@ -940,7 +940,7 @@ Element["" "Jumper, i.e. single row headers" "" "JUMPER18" 164000 80000 -5000 -1
 
 	)
 
-Element["" "TQFP32_7" "U1" "unknown" 156000 183000 16000 -21000 0 100 ""]
+Element["found" "TQFP32_7" "U1" "unknown" 156000 183000 16000 -21000 0 100 ""]
 (
 	Attribute("device" "ATMega48-TQFP32")
 	Attribute("manufacturer" "unknown")
@@ -1106,7 +1106,7 @@ Element["" "Jumper, i.e. single row headers" "CONN2" "JUMPER10" 164000 124000 38
 
 	)
 
-Element["" "Standard SMT resistor, capacitor etc" "C4" "0805" 193000 180457 -3150 13693 1 100 ""]
+Element["found" "Standard SMT resistor, capacitor etc" "C4" "0805" 193000 180457 -3150 13693 1 100 ""]
 (
 	Pad[-393 3543 393 3543 5118 2000 5718 "1" "1" "square"]
 	Pad[-393 -3543 393 -3543 5118 2000 5718 "2" "2" "square"]
@@ -1115,7 +1115,7 @@ Element["" "Standard SMT resistor, capacitor etc" "C4" "0805" 193000 180457 -315
 
 	)
 
-Element["" "Standard SMT resistor, capacitor etc" "R0" "0805" 98000 219000 -2693 2850 0 100 ""]
+Element["found" "Standard SMT resistor, capacitor etc" "R0" "0805" 98000 219000 -2693 2850 0 100 ""]
 (
 	Pad[3543 -393 3543 393 5118 2000 5718 "1" "1" "square"]
 	Pad[-3543 -393 -3543 393 5118 2000 5718 "2" "2" "square"]
@@ -1124,7 +1124,7 @@ Element["" "Standard SMT resistor, capacitor etc" "R0" "0805" 98000 219000 -2693
 
 	)
 
-Element["" "Standard SMT resistor, capacitor etc" "C1" "1206" 110000 195000 -4150 -10040 1 100 ""]
+Element["found" "Standard SMT resistor, capacitor etc" "C1" "1206" 110000 195000 -4150 -10040 1 100 ""]
 (
 	Pad[-1181 5905 1181 5905 5118 2000 5718 "1" "1" "square"]
 	Pad[-1181 -5905 1181 -5905 5118 2000 5718 "2" "2" "square"]
@@ -1477,6 +1477,9 @@ Layer(2 "solder")
 	Polygon("clearpoly")
 	(
 		[74000 114000] [324000 114000] [324000 244000] [74000 244000] 
+		Hole (
+			[199000 159000] [199000 189000] [219000 189000] [219000 159000] 
+		)
 	)
 )
 Layer(3 "GND")
