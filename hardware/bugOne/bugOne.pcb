@@ -1,7 +1,7 @@
 # release: pcb 20100929
-# date:    Fri May 27 01:12:50 2011
-# user:    jkx (jkx,,,)
-# host:    q6.jkx.local
+# date:    Sat Jun 18 00:26:45 2011
+# user:    diancecht (diancecht,,,)
+# host:    diancecht.local.infini.fr
 
 # To read pcb files, the pcb version (or the git source date) must be >= the file version
 FileVersion[20100606]
@@ -12,7 +12,7 @@ Grid[1000.000000 0 0 0]
 Cursor[0 0 0.000000]
 PolyArea[200000000.000000]
 Thermal[0.500000]
-DRC[800 1000 800 1000 1500 1000]
+DRC[800 1000 800 800 1500 1300]
 Flags("nameonpcb,clearnew,snappin,liveroute")
 Groups("1,c:2,s:3:4:5:6:7:8")
 Styles["Signal,1400,3400,1800,1000:Power,2800,6200,3600,1000:Fat,4000,6000,3500,1000:Skinny,600,2402,1181,600"]
@@ -800,13 +800,13 @@ Symbol('~' 12)
 Attribute("import::newX" "258239")
 Attribute("import::newY" "299282")
 Via[294000 221000 6200 2000 0 3600 "" ""]
-Via[303000 136000 3400 2000 0 1800 "" "thermal(1X)"]
+Via[303000 136000 3400 2000 0 1800 "" "selected,thermal(1X)"]
 Via[85000 173000 6200 2000 0 3600 "" "thermal(1X)"]
 Via[112000 224000 6200 2000 0 3600 "" ""]
 Via[258000 204000 6200 2000 0 3600 "" "thermal(0X,1X)"]
 Via[293480 188480 6200 2000 0 3600 "" "thermal(1X)"]
 Via[126000 170000 3400 2000 0 1800 "" ""]
-Via[131000 165000 3400 2000 0 1800 "" "found"]
+Via[131000 165000 3400 2000 0 1800 "" ""]
 Via[288000 157000 3400 2000 0 1800 "" ""]
 Via[224000 217000 3400 2000 0 1800 "" ""]
 Via[294000 173000 3400 2000 0 1800 "" ""]
@@ -822,6 +822,7 @@ Via[110000 210000 6200 2000 0 3600 "" "thermal(1X)"]
 Via[94000 210000 6200 2000 0 3600 "" "thermal(1X)"]
 Via[259000 142000 3400 2000 0 1800 "" ""]
 Via[314000 214000 9200 2000 0 5600 "" ""]
+Via[193000 162000 3400 2000 0 1800 "" "thermal(1X)"]
 
 Element["found" "Standard SMT resistor, capacitor etc" "C3" "1206" 94000 194905 -11150 14960 1 100 ""]
 (
@@ -832,7 +833,7 @@ Element["found" "Standard SMT resistor, capacitor etc" "C3" "1206" 94000 194905 
 
 	)
 
-Element["" "Jumper, i.e. single row headers" "CONN1" "JUMPER10" 164000 234000 38000 -12000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN1" "JUMPER10" 164000 234000 -14000 4000 1 100 ""]
 (
 	Pin[0 0 7000 3000 7600 4800 "1" "1" "square,edge2"]
 	Pin[10000 0 7000 3000 7600 4800 "2" "2" "edge2"]
@@ -1046,7 +1047,7 @@ Element["" "Jumper, i.e. single row headers" "" "JUMPER18" 36000 94000 11000 -50
 
 	)
 
-Element["" "Jumper, i.e. single row headers" "CONN3" "JUMPER4" 94000 124000 37086 -3000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN3" "JUMPER4" 94000 124000 38000 12914 1 100 ""]
 (
 	Pin[0 0 7000 3000 7600 4800 "1" "1" "square,edge2"]
 	Pin[10000 0 7000 3000 7600 4800 "2" "2" "edge2"]
@@ -1061,7 +1062,7 @@ Element["" "Jumper, i.e. single row headers" "CONN3" "JUMPER4" 94000 124000 3708
 
 	)
 
-Element["" "Jumper, i.e. single row headers" "CONN4" "JUMPER4" 94000 234000 37000 -3000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN4" "JUMPER4" 94000 234000 38000 4000 1 100 ""]
 (
 	Pin[0 0 7000 3000 7600 4800 "1" "1" "square,edge2"]
 	Pin[10000 0 7000 3000 7600 4800 "2" "2" "edge2"]
@@ -1085,7 +1086,7 @@ Element["" "Standard SMT resistor, capacitor etc" "R1" "0805" 129000 205000 5497
 
 	)
 
-Element["" "Jumper, i.e. single row headers" "CONN2" "JUMPER10" 164000 124000 38000 6000 0 100 ""]
+Element["" "Jumper, i.e. single row headers" "CONN2" "JUMPER10" 164000 124000 -14000 13000 1 100 ""]
 (
 	Pin[0 0 7000 3000 7600 4800 "1" "1" "square,edge2"]
 	Pin[10000 0 7000 3000 7600 4800 "2" "2" "edge2"]
@@ -1211,7 +1212,7 @@ Layer(1 "component")
 	Line[209000 191000 209000 179000 1400 2000 "clearline"]
 	Line[188000 177000 192914 177000 1400 2000 "clearline"]
 	Line[244000 222000 244000 228000 1400 2000 "clearline"]
-	Line[193000 166000 195000 164000 1400 2000 "clearline"]
+	Line[303000 131000 303000 141000 1400 2000 "clearline"]
 	Line[307086 172732 294268 172732 1400 2000 "clearline"]
 	Line[192914 177000 193000 176914 1400 2000 "clearline"]
 	Line[294000 199000 294000 221000 2800 2000 "clearline"]
@@ -1231,7 +1232,7 @@ Layer(1 "component")
 	Line[129000 184000 129000 200457 1400 2000 "clearline"]
 	Line[294268 172732 294000 173000 1400 2000 "clearline"]
 	Line[306944 165000 307086 164858 1400 2000 "clearline"]
-	Line[193000 176914 193000 166000 1400 2000 "clearline"]
+	Line[303000 141000 302000 142000 1400 2000 "clearline"]
 	Line[123000 203000 127457 203000 2800 2000 "clearline"]
 	Line[114000 234000 114000 232000 1400 2000 "clearline"]
 	Line[286000 167000 288000 165000 1400 2000 "clearline"]
@@ -1242,7 +1243,7 @@ Layer(1 "component")
 	Line[94600 173000 95000 173400 2800 2000 "clearline"]
 	Line[204000 190000 204000 184000 1400 2000 "clearline"]
 	Line[306818 173000 307086 172732 1400 2000 "clearline"]
-	Line[195000 164000 204000 164000 1400 2000 "clearline"]
+	Line[302000 142000 295457 142000 1400 2000 "clearline"]
 	Line[307354 173000 307086 172732 1400 2000 "clearline"]
 	Line[174779 190874 203126 190874 1400 2000 "clearline"]
 	Line[126000 173000 126000 170000 1400 2000 "clearline"]
@@ -1407,9 +1408,9 @@ Layer(1 "component")
 	Line[265000 130000 271914 130000 1400 2000 "clearline"]
 	Line[295000 130000 302000 130000 1400 2000 "clearline"]
 	Line[302000 130000 303000 131000 1400 2000 "clearline"]
-	Line[303000 131000 303000 141000 1400 2000 "clearline"]
-	Line[303000 141000 302000 142000 1400 2000 "clearline"]
-	Line[302000 142000 295457 142000 1400 2000 "clearline"]
+	Line[193000 176914 193000 162000 1400 2000 "clearline"]
+	Line[193000 162000 202000 162000 1400 2000 "clearline"]
+	Line[202000 162000 204000 164000 1400 2000 "clearline"]
 )
 Layer(2 "solder")
 (
@@ -1511,6 +1512,33 @@ Layer(10 "silk")
 	Line[74000 244000 324000 244000 1400 2000 "clearline"]
 	Text[262000 225000 0 122 "#mdl29 - bugOne" "clearline"]
 	Text[265000 233000 0 100 "05/2011" "clearline"]
+	Text[161000 227000 1 100 "Vcc" "clearline"]
+	Text[171000 227000 1 100 "PD5" "clearline"]
+	Text[181000 227000 1 100 "PD6" "clearline"]
+	Text[201000 227000 1 100 "PB1" "clearline"]
+	Text[192000 227000 1 100 "PB0" "clearline"]
+	Text[211000 227000 1 100 "PB2" "clearline"]
+	Text[221000 227000 1 100 "PB3" "clearline"]
+	Text[232000 227000 1 100 "PB4" "clearline"]
+	Text[241000 227000 1 100 "PB5" "clearline"]
+	Text[251000 227000 1 100 "Gnd" "clearline"]
+	Text[91000 139000 1 100 "Vcc" "clearline"]
+	Text[101000 137000 1 100 "TX" "clearline"]
+	Text[111000 137000 1 100 "RX" "clearline"]
+	Text[121000 140000 1 100 "Gnd" "clearline"]
+	Text[81000 238000 1 100 "Vss" "clearline"]
+	Text[122000 227000 1 100 "Gnd" "clearline"]
+	Text[113000 228000 1 100 "/RST" "clearline"]
+	Text[161000 140000 1 100 "Vcc" "clearline"]
+	Text[251000 140000 1 100 "Gnd" "clearline"]
+	Text[171000 141000 1 100 "PD4" "clearline"]
+	Text[181000 140000 1 100 "PD3" "clearline"]
+	Text[192000 140000 1 100 "PC5" "clearline"]
+	Text[201000 140000 1 100 "PC4" "clearline"]
+	Text[211000 140000 1 100 "PC3" "clearline"]
+	Text[221000 140000 1 100 "PC2" "clearline"]
+	Text[241000 140000 1 100 "PC0" "clearline"]
+	Text[231000 139000 1 100 "PC1" "clearline"]
 )
 NetList()
 (
