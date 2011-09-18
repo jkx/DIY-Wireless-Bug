@@ -4,6 +4,7 @@
 #include <util/delay.h>
 #include <string.h>
 #include <avr/sleep.h>
+#include <avr/power.h>
 
 
 #include "rfm12_config.h"
@@ -21,6 +22,8 @@ int main ( void )
 	
   drive(LED1);
   drive(LED2);
+
+  clock_prescale_set(1);
 
   toggle_output(LED1);
 	
