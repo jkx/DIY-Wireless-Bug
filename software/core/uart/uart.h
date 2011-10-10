@@ -22,7 +22,7 @@ void uart_init();
 void uart_putc(char c);
 void uart_putstr(char * str);
 void uart_putstr_P(PGM_P str);
-void uart_hexdump(char *buf, int len);
+void uart_hexdump(uint8_t *buf, int len);
 
 char uart_getc();
 char uart_getc_nb(char *c);		// returns 1 on success

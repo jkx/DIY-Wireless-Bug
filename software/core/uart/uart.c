@@ -23,8 +23,6 @@ volatile static char *volatile rxhead, *volatile rxtail;
 SIGNAL(USART_RX_vect) {
 	int diff; 
 
-	toggle_output(LED1);
-
 	/* buffer full? */
 	diff = rxhead - rxtail;
 	if ( diff < 0 ) diff += UART_RXBUFSIZE;
@@ -48,9 +46,6 @@ void uart_init() {
 
 	// init buffers
 	rxhead = rxtail = rxbuf;
-
-	drive(LED1);
-	toggle_output(LED1);
 }
 
 void uart_putc(char c) {
@@ -73,21 +68,51 @@ void uart_putstr_P(PGM_P str) {
 	}
 }
 
-void uart_hexdump(char *buf, int len)
-{
-	unsigned char x=0;
+void uart_hexdump_hex(uint8_t *buf, int len) {
+	const char hex[] = "0123456789ABCDEF";
+	char sbuf[4] = "XX ";
+
+	while (len--) {
+		sbuf[0] = hex[*buf / 16];
+		sbuf[1] = hex[*buf % 16];
+		buf++;
+		uart_putstr(sbuf);
+	}
+}
+
+void uart_hexdump_ascii(uint8_t *buf, int len) {
 	char sbuf[3];
 
-	while(len--){
-		itoa(*buf++, sbuf, 16);
-		if (sbuf[1] == 0) uart_putc(' ');
-		uart_putstr(sbuf);
-		uart_putc(' ');
-		if(++x == 16) {
-			uart_putstr_P(PSTR("\r\n"));
-			x = 0;
+	while (len--) {
+		if ((*buf >= 32) && (*buf <= 128)) {
+			uart_putc(*buf);
+		} else {
+			uart_putc('.');
 		}
+		buf++;
 	}
+}
+
+/* Produce a nice hexdump output */
+void uart_hexdump(uint8_t *buf, int len)
+{
+	uint8_t i;
+
+	while (len > 16) {
+		uart_hexdump_hex(buf,16);
+		uart_putstr_P(PSTR("  "));
+		uart_hexdump_ascii(buf,16);
+		uart_putstr_P(PSTR("\r\n"));
+		len-=16;
+		buf+=16;
+	}
+	uart_hexdump_hex(buf,len);
+	for (i = 0; i < 16 - len; i++) {
+		uart_putstr_P(PSTR("   "));
+	}
+	uart_putstr_P(PSTR("  "));
+	uart_hexdump_ascii(buf,len);
+	uart_putstr_P(PSTR("\r\n"));
 }
 
 
