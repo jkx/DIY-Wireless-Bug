@@ -6,6 +6,6 @@
 #define LED1 C,1
 #define LED2 C,0
 
-#define UART_BAUD_RATE 9600
+#define UART_BAUD_RATE 38400
 
 #endif
