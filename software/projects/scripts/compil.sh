@@ -15,8 +15,10 @@ BOARD=$1
 eval MCU=\$MCU_$BOARD
 
 CC=avr-gcc
+AS=avr-as
+CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS="-I../../boards/$BOARD -I../../core -I../../core/uart -I../../core/protocol -mmcu=$MCU -Os"
+CFLAGS="-I../../boards/$BOARD -I../../core -I../../core/uart -I../../core/protocol -I../../core/aes -mmcu=$MCU -Os"
 
 mkdir -p $BOARD
 
