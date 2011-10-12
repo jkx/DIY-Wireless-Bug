@@ -18,7 +18,6 @@
 int main ( void )
 {
   uint8_t *bufcontents;
-  uint16_t ticker = 0;
   char buf[4];
 
   drive(LED1);
@@ -50,11 +49,12 @@ int main ( void )
   clr_output(LED1);
   clr_output(LED2);
 
+  // Set timer 1 prescaler
+  TCCR1B |= ((1 << CS10) | (1 << CS12)); // Set up timer at Fcpu/1024
+
   uart_putstr_P(PSTR("AVR init complete\r\n"));
 
   while (1) {
-      ticker++;
-
       rfm12_tick();
 
       if (rfm12_rx_status() == STATUS_COMPLETE) {
@@ -62,10 +62,11 @@ int main ( void )
 	recv(bufcontents);
       }
 
-      if (ticker > 50000) {
-	ticker=0;
+      // Send a ping every second
+      if (TCNT1 >= 7812) {
 	send_ping(1);
         toggle_output(LED2);
+	TCNT1 = 0;
       }
   }
 }
