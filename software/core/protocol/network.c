@@ -41,5 +41,6 @@ uint8_t recv(char* payload) {
 		recv_pong();
 	}
 	payload=network->payload;
+	rfm12_rx_clear();
 	return network->type;
 }
