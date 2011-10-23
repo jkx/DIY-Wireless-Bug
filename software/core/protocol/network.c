@@ -8,12 +8,16 @@
 
 #include "uart.h"
 
+static uint16_t counter = 0;
+
 void send(uint8_t dst, uint8_t type, char* payload) {
 	struct network_t network;
+	counter++;
 	network.src=config.address;
 	network.dst=dst;
 	network.hop=0;
 	network.type=type;
+	network.count=counter;
 	strcpy(network.payload,payload);
 	rfm12_tx(32,0,(char*)&network);
 }
