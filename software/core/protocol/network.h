@@ -4,7 +4,7 @@
 #define HELLO 1
 #define PING 2
 #define PONG 3
-#define DATA 10
+#define VALUE 5
 
 struct hello_t {
 	uint8_t	address;
@@ -20,7 +20,8 @@ struct network_t {
 	uint8_t	dst;
 	uint8_t	hop;
 	uint8_t	type;
-	char payload[28];
+	uint16_t count;
+	char payload[26];
 };
 
 struct route_t {
@@ -29,7 +30,7 @@ struct route_t {
 	uint8_t cost;
 };
 
-void send(uint8_t dst, uint8_t type, char* payload);
+void send(uint8_t dst, uint8_t type, char* payload, uint8_t size);
 uint8_t recv(char* payload);
 
 #include "config.h"
