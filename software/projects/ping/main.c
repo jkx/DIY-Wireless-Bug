@@ -64,7 +64,6 @@ int main ( void )
 
       // Send a ping every second
       if (TCNT1 >= 7812) {
-	send_ping(1);
         toggle_output(LED2);
 	TCNT1 = 0;
       }

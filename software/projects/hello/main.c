@@ -23,8 +23,6 @@ int main ( void )
   drive(LED1);
   drive(LED2);
 
-  clock_prescale_set(1);
-
   toggle_output(LED1);
 	
   uart_init();
@@ -64,7 +62,7 @@ int main ( void )
       
       rfm12_tick();
       // send data
-      if (ticker == 10000) 
+      if (ticker > 50000) 
 	{ 
 	  ticker = 0;
 	  rc = rfm12_tx (sizeof(tv), 0, tv);

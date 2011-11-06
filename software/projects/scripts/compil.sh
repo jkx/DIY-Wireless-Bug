@@ -22,6 +22,8 @@ CFLAGS="-I../../boards/$BOARD -I../../core -I../../core/uart -I../../core/protoc
 
 mkdir -p $BOARD
 
+rm -f $BOARD/*.o
+
 echo "===== Compiling $PRG for $BOARD"
 
 set -x

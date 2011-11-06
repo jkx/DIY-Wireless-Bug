@@ -10,6 +10,7 @@
 #include "rfm12.h"
 #include "uart.h"
 #include "avr_compat.h"
+#include "network.h"
 
 /* Ping command. To ping destination address 25 :
    P25 
@@ -22,12 +23,60 @@ void run_cmd_ping(char *params) {
 	send_ping(dst);
 }
 
+/* Get command. To get value of sensor 2 on node 5 :
+   G5.2
+*/
+void run_cmd_get(char *params) {
+	uint8_t dst;
+	uint8_t sensor;
+	char *next;
+
+	dst=strtol(params,&next,10);
+	next++;	// bypass dot
+	sensor=strtol(next,NULL,10);
+
+	send_get(dst,sensor);
+}
+
+/* Set command. To set value 14 to sensor 2 on node 5 :
+   S5.2,14
+*/
+void run_cmd_set(char *params) {
+	uint8_t dst;
+	uint8_t sensor;
+	int16_t value;
+	char *next;
+  char strbuf[6];
+
+	dst=strtol(params,&next,10);
+	next++;	// bypass dot
+	sensor=strtol(next,&next,10);
+	next++;	// bypass comma
+	value=strtol(next,NULL,10);
+
+          itoa(value,strbuf,10);
+	  uart_putstr (strbuf);
+
+	send_set(dst,sensor,value);
+}
+
 void run_cmd(char *cmd) {
+	uart_putstr_P(PSTR("run_cmd()\r\n"));
 	switch (cmd[0]) {
 		case 'P':
 		case 'p':
 			cmd+=1;
 			run_cmd_ping(cmd);
+			break;
+		case 'G':
+		case 'g':
+			cmd+=1;
+			run_cmd_get(cmd);
+			break;
+		case 'S':
+		case 's':
+			cmd+=1;
+			run_cmd_set(cmd);
 			break;
 	}
 }
@@ -102,6 +151,7 @@ int main ( void )
       }
 
 	  if (uart_getc_nb(c) == 1) {
+            uart_putc(*c);
 	    if (*c == 13) {
 		  *c = 0;
 		  run_cmd(cmd);

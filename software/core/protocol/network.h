@@ -4,7 +4,9 @@
 #define HELLO 1
 #define PING 2
 #define PONG 3
-#define VALUE 5
+#define GET  4
+#define SET  5
+#define VALUE 6
 
 struct hello_t {
 	uint8_t	address;

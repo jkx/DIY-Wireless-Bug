@@ -10,6 +10,8 @@
 
 static uint16_t counter = 0;
 
+#define DEBUG
+
 void send(uint8_t dst, uint8_t type, char* payload, uint8_t size) {
 	struct network_t network;
 	counter++;
@@ -19,11 +21,20 @@ void send(uint8_t dst, uint8_t type, char* payload, uint8_t size) {
 	network.type=type;
 	network.count=counter;
 	memcpy(network.payload,payload,size);
+#ifdef DEBUG
+	uart_putstr_P(PSTR("Sending\r\n"));
+	uart_hexdump((char*)&network,32);
+#endif
 	rfm12_tx(32,0,(char*)&network);
 }
 
 uint8_t recv(char* payload) {
 	struct network_t* network=(struct network_t*)payload;
+
+#ifdef DEBUG
+	uart_putstr_P(PSTR("Receiving\r\n"));
+	uart_hexdump((char*)network,32);
+#endif
 
 	if ((network->dst != config.address) && (network->hop!=config.address)) {
 		// This is not for us
@@ -43,6 +54,12 @@ uint8_t recv(char* payload) {
 	}
 	if (network->type==PONG) {
 		recv_pong();
+	}
+	if (network->type==GET) {
+		recv_get(payload);
+	}
+	if (network->type==SET) {
+		recv_set(payload);
 	}
 	payload=network->payload;
 	rfm12_rx_clear();
