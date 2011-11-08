@@ -35,6 +35,16 @@ CFLAGS=-I../../boards/$(BOARD) -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(C
 
 all:preconfig $(BOARD)/$(PRG).hex
 
+readaddress:
+	echo "dump eeprom 0 1" | avrdude $(DUDE_OPT) -qq -t
+
+writeaddress:
+ifndef ADDRESS
+	echo "Please specify ADDRESS"
+else
+	echo "write eeprom 0 $(ADDRESS)" | avrdude $(DUDE_OPT) -qq -t
+endif
+
 preconfig:
 	@mkdir -p $(BOARD)
 
