@@ -79,3 +79,5 @@ $(BOARD)/uart.o:
 
 $(BOARD)/rfm12.o:
 	$(CC) $(CFLAGS) -c ../../core/rfm12.c -o $(BOARD)/rfm12.o
+
+base: $(BOARD)/network.o $(BOARD)/ping.o $(BOARD)/get.o $(BOARD)/apps.o $(BOARD)/value.o $(BOARD)/config.o $(BOARD)/uart.o $(BOARD)/rfm12.o
