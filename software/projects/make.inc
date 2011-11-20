@@ -45,6 +45,12 @@ else
 	echo "write eeprom 0 $(ADDRESS)" | avrdude $(DUDE_OPT) -qq -t
 endif
 
+wrfuses:
+	avrdude $(DUDE_OPT) lfuse:w:0xe2:m -U hfuse:w:0xd7:m
+reset:
+	avrdude $(DUDE_OPT)
+
+
 preconfig:
 	@mkdir -p $(BOARD)
 
@@ -57,8 +63,9 @@ load: preconfig $(BOARD)/$(PRG).hex
 	avrdude $(DUDE_OPT) -U flash:w:$(BOARD)/$(PRG).hex
 
 
-$(BOARD)/$(PRG.hex):$(BOARD)/$(PRG).elf
-	$(OBJCOPY) -j .text -j .data -O ihex $(BOARD)/$(PRG).elf $(BOARD)/$PRG.hex	
+$(BOARD)/$(PRG).hex:$(BOARD)/$(PRG).elf
+	$(OBJCOPY) -j .text -j .data -O ihex $(BOARD)/$(PRG).elf $(BOARD)/$(PRG).hex
+	avr-size $(BOARD)/$(PRG).elf
 
 
 $(BOARD)/network.o: $(CORE)/protocol/network.c $(CORE)/protocol/network.h
@@ -92,3 +99,7 @@ $(BOARD)/rfm12.o:
 	$(CC) $(CFLAGS) -c $(CORE)/rfm12.c -o $(BOARD)/rfm12.o
 
 base: $(BOARD)/network.o $(BOARD)/ping.o $(BOARD)/get.o $(BOARD)/apps.o $(BOARD)/value.o $(BOARD)/config.o $(BOARD)/uart.o $(BOARD)/rfm12.o
+
+
+
+
