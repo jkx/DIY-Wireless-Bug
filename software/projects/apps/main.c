@@ -23,6 +23,8 @@ void delay_1s() {
     _delay_ms(250);
 }
 
+volatile uint8_t wake_me_up=0;
+
 int16_t const_read() {
 	uart_putstr_P(PSTR("const_read()\r\n"));
 	return 42;
@@ -58,13 +60,31 @@ int16_t led_get() {
 	return get_output(LED1);
 }
 
+/* Button */
+#define BUTTON1 D,4
+void button_init(void* cfg) {
+	// Button is connected to PD4 / PCINT20
+	PCMSK2 |= (1 << PCINT20);
+	PCICR |= (1 << PCIE2);
+}
+
+ISR (PCINT2_vect) {
+	wake_me_up = 3;
+}
+
+int16_t button_read() {
+	uart_putstr_P(PSTR("button read\r\n"));
+	return get_input(BUTTON1);
+}
+
 // XXX: Theses structures belong to PROGMEM ...
 const lm35_cfg_s lm35_cfg = {2};
 
-const application_t applications[3] = {
+const application_t applications[4] = {
  {lm35_init,lm35_read,NULL,(void*)&lm35_cfg},
  {NULL,const_read,NULL,NULL},
  {NULL,led_get,led_set,NULL},
+ {button_init,button_read,NULL,NULL},
 };
 
 /* Initialise board */
@@ -143,6 +163,13 @@ int main ( void )
 		}
 
 		TCNT1 = 0;
+	}
+
+	// Asynchronous events
+	if (wake_me_up > 0) {
+		application_t* app=get_app(wake_me_up);
+		send_value(2,app->get(),0,0);
+		wake_me_up = 0;
 	}
  }
 }
