@@ -6,6 +6,7 @@
 #include <string.h>
 #include <avr/sleep.h>
 #include <stdlib.h>
+#include <avr/eeprom.h>
 
 #include "avr_compat.h"
 #include "rfm12.h"
@@ -122,6 +123,68 @@ void bugone_init() {
 	clr_output(LED2);
 }
 
+/* Send data from local devices to other nodes/devices
+   according to peering configured in eeprom */
+void send_data_to_peers() {
+	uint8_t i,j;
+	uint8_t nb_peers_nodes,node_dst,nb_devices,device_src,device_dst;
+	uint8_t *peers_ptr;
+	struct ctx_t ctx;
+	char buf[28];
+	int16_t value;
+
+	peers_ptr=(uint8_t*)9;
+	nb_peers_nodes=eeprom_read_byte((const void*)peers_ptr);
+	peers_ptr++;
+	for (i=0 ; i < nb_peers_nodes ; i++) {
+		node_dst = eeprom_read_byte((const void*)peers_ptr);
+		peers_ptr++;
+		start_value(&ctx,node_dst,buf);
+		nb_devices = eeprom_read_byte((const void*)peers_ptr);
+		peers_ptr++;
+		for (j=0 ; j < nb_devices; j++) {
+			device_src = eeprom_read_byte((const void*)peers_ptr);
+			peers_ptr++;
+			device_dst = eeprom_read_byte((const void*)peers_ptr);
+			peers_ptr++;
+	    		uart_putstr_P(PSTR("#"));
+
+			if (applications[device_src].get == NULL) { continue; }
+			value=applications[device_src].get();
+			add_value(&ctx,value,-1,0);
+		}
+		end_value(&ctx);
+	}
+}
+
+/* Send data for a specific device of local node */
+void send_data_to_peers_for_device(uint8_t for_device) {
+	uint8_t i,j;
+	uint8_t nb_peers_nodes,node_dst,nb_devices,device_src,device_dst;
+	uint8_t *peers_ptr;
+
+	peers_ptr=(uint8_t*)9;
+	nb_peers_nodes=eeprom_read_byte((const void*)peers_ptr);
+	peers_ptr++;
+	for (i=0 ; i < nb_peers_nodes ; i++) {
+		node_dst = eeprom_read_byte((const void*)peers_ptr);
+		peers_ptr++;
+		nb_devices = eeprom_read_byte((const void*)peers_ptr);
+		peers_ptr++;
+		for (j=0 ; j < nb_devices; j++) {
+			device_src = eeprom_read_byte((const void*)peers_ptr);
+			peers_ptr++;
+			if (device_src == for_device) {
+				device_dst = eeprom_read_byte((const void*)peers_ptr);
+				application_t* app=get_app(wake_me_up);
+				send_value(2,app->get(),0,0);
+			}
+			peers_ptr++;
+	    		uart_putstr_P(PSTR("#"));
+		}
+	}
+}
+
 int main ( void )
 {
   uint8_t *bufcontents;
@@ -151,14 +214,7 @@ int main ( void )
 		// Every minutes
 		if (seconds > 20) {
 	        	uart_putstr_P(PSTR("\r\n"));
-			start_value(&ctx,2,buf);
-			for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
-	    			uart_putstr_P(PSTR("#"));
-				if (applications[i].get == NULL) { continue; }
-				value=applications[i].get();
-				add_value(&ctx,value,-1,0);
-			}
-			end_value(&ctx);
+			send_data_to_peers();
 			seconds=0;
 		}
 
@@ -167,8 +223,7 @@ int main ( void )
 
 	// Asynchronous events
 	if (wake_me_up > 0) {
-		application_t* app=get_app(wake_me_up);
-		send_value(2,app->get(),0,0);
+		send_data_to_peers_for_device(wake_me_up);
 		wake_me_up = 0;
 	}
  }
