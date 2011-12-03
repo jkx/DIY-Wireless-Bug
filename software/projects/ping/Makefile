@@ -1,5 +1,5 @@
 
-PRG=sniffer
+PRG=ping
 
 include ../make.inc
 

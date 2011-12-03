@@ -1,5 +1,5 @@
 
-PRG=sniffer
+PRG=test
 
 include ../make.inc
 
