@@ -1,23 +1,12 @@
 #ifndef VALUE_H
 #define VALUE_H
 
-#define UNIT_CELSIUS 1
-#define UNIT_VOLT 2
+uint8_t get_data_type(struct data_t *data);
 
-// Send one value
-void send_value(uint8_t dst, int16_t value, int8_t pow, uint8_t unit);
+uint8_t set_data_int16(struct data_t *data, int16_t value);
+int16_t get_data_int16(struct data_t *data);
 
-struct ctx_t {
-	uint8_t dst;
-	char *buf;
-	char *cursor;
-};
-
-// send severals values in one packet
-void start_value(struct ctx_t* ctx, uint8_t dst, char* buf);
-void add_value(struct ctx_t* ctx, int16_t value, int8_t pow, uint8_t unit);
-void end_value(struct ctx_t* ctx);
-
+uint8_t set_data_string(struct data_t *data, char* str, uint8_t len);
 #include "config.h"
 
 #endif
