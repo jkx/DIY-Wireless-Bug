@@ -13,27 +13,9 @@
 #include "uart.h"
 #include "config.h"
 
+#include "apps.h"
 #include "value.h"
 #include "lm35.h"
-#include "apps.h"
-
-uint8_t get_data_type(struct data_t *data) {
-	return data->buf[0];
-}
-
-void set_data_int16(struct data_t *data, int16_t value) {
-	char buf[4];
-	itoa(value,buf,10);
-	uart_putstr(buf);
-
-	data->buf[0]='I';
-	data->buf[1]=value & 0x00FF;
-	data->buf[2]=(value & 0xFF00) >> 8;
-}
-
-int16_t get_data_int16(struct data_t *data) {
-	return data->buf[1]+data->buf[0]*0xFF;
-}
 
 uint8_t get_device_src(struct data_t *data) {
 	return data->buf[-2];
@@ -64,9 +46,7 @@ volatile uint8_t wake_me_up=0;
 int8_t const_read(struct data_t *data) {
 	uart_putstr_P(PSTR("const_read()\r\n"));
 	if (data->remaining_len < 2) return -1;
-	data->buf[0]='I';
-	data->buf[1]=0x42;
-	data->buf[2]=0x00;
+	set_data_int16(data,42);
 	return 3;
 }
 
@@ -78,11 +58,7 @@ int8_t text_get(struct data_t *data) {
 	uart_putstr_P(PSTR("text_get()\r\n"));
 	if (data->remaining_len < (len+2)) return -1;	/* Not enough room */
 	
-	/* XXX: should be a function */
-	data->buf[0]='S';
-	data->buf[1]=len;
-	memcpy(data->buf+2,text,len);
-	return len+2;
+	return set_data_string(data,text,len);
 }
 
 uint16_t text_set(struct data_t *data) {
