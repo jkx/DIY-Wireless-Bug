@@ -8,7 +8,7 @@ PORT=/dev/ttyUSB0
 
 ifeq ($(BOARD),bugone)
 	MCU=atmega168
-	DUDE_OPT =-c usbasp -p m168
+	DUDE_OPT =-c usbasp -p m168 -V
 endif
 
 
