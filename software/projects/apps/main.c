@@ -46,8 +46,7 @@ volatile uint8_t wake_me_up=0;
 int8_t const_read(struct data_t *data) {
 	uart_putstr_P(PSTR("const_read()\r\n"));
 	if (data->remaining_len < 2) return -1;
-	set_data_int16(data,42);
-	return 3;
+	return set_data_int16(data,42);
 }
 
 /* This device get a string : "helloworld" and write
@@ -114,8 +113,7 @@ void led_set(struct data_t *data) {
 
 int8_t led_get(struct data_t *data) {
 	uart_putstr_P(PSTR("led_get()\r\n"));
-	set_data_int16(data,get_output(LED1));
-	return 3;
+	return set_data_int16(data,get_output(LED1));
 }
 
 /* Button */
