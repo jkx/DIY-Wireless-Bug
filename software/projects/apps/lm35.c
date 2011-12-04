@@ -40,7 +40,7 @@ void lm35_init(lm35_cfg_s *lm35_cfg) {
 	adc_init(lm35_cfg->adc_pin);
 }
 
-int16_t lm35_read() {
+int8_t lm35_read(struct data_t *data) {
 	uint16_t voltage;
 	uint16_t temperature;
 	float tmp;
@@ -64,5 +64,5 @@ int16_t lm35_read() {
 	uart_putstr_P(PSTR("\r\n"));
 #endif
 
-	return temperature;
+	return set_data_int16(data, temperature);
 }
