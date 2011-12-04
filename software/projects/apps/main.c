@@ -17,6 +17,41 @@
 #include "lm35.h"
 #include "apps.h"
 
+uint8_t get_data_type(struct data_t *data) {
+	return data->buf[0];
+}
+
+void set_data_int16(struct data_t *data, int16_t value) {
+	char buf[4];
+	itoa(value,buf,10);
+	uart_putstr(buf);
+
+	data->buf[0]='I';
+	data->buf[1]=value & 0x00FF;
+	data->buf[2]=(value & 0xFF00) >> 8;
+}
+
+int16_t get_data_int16(struct data_t *data) {
+	return data->buf[1]+data->buf[0]*0xFF;
+}
+
+uint8_t get_device_src(struct data_t *data) {
+	return data->buf[-2];
+}
+
+uint8_t get_device_dst(struct data_t *data) {
+	return data->buf[-1];
+}
+
+uint8_t get_node_src(struct data_t *data) {
+	return data->packet[0];
+}
+
+void set_devices(struct data_t *data, uint8_t device_src, uint8_t device_dst) {
+	data->buf[0] = device_src;
+	data->buf[1] = device_dst;
+}
+
 void delay_1s() {
     _delay_ms(250);
     _delay_ms(250);
@@ -26,9 +61,53 @@ void delay_1s() {
 
 volatile uint8_t wake_me_up=0;
 
-int16_t const_read() {
+int8_t const_read(struct data_t *data) {
 	uart_putstr_P(PSTR("const_read()\r\n"));
-	return 42;
+	if (data->remaining_len < 2) return -1;
+	data->buf[0]='I';
+	data->buf[1]=0x42;
+	data->buf[2]=0x00;
+	return 3;
+}
+
+/* This device get a string : "helloworld" and write
+   what he get on the uart */
+int8_t text_get(struct data_t *data) {
+	char *text = "hello";
+	uint8_t len = strlen(text);
+	uart_putstr_P(PSTR("text_get()\r\n"));
+	if (data->remaining_len < (len+2)) return -1;	/* Not enough room */
+	
+	/* XXX: should be a function */
+	data->buf[0]='S';
+	data->buf[1]=len;
+	memcpy(data->buf+2,text,len);
+	return len+2;
+}
+
+uint16_t text_set(struct data_t *data) {
+	uint8_t xx;
+	char buf[4];
+
+	/* Source node */
+	xx = get_node_src(data);
+	itoa(xx,buf,10);
+	uart_putstr(buf);
+	uart_putstr_P(PSTR(","));
+	/* Source device */
+	xx = get_device_src(data);
+	itoa(xx,buf,10);
+	uart_putstr(buf);
+	uart_putstr_P(PSTR(","));
+	/* Data type */
+	xx = get_data_type(data);
+	itoa(xx,buf,10);
+	uart_putstr(buf);
+	uart_putstr_P(PSTR(","));
+	/* Datas */
+	/* XXX */
+
+	uart_putstr_P(PSTR("\r\n"));
 }
 
 void timer1_init() {
@@ -45,9 +124,10 @@ void led_init() {
 	set_output(LED2);
 }
 
-void led_set(int16_t value) {
+void led_set(struct data_t *data) {
 	uart_putstr_P(PSTR("led_set()\r\n"));
-	if (value == 0) {
+	if (get_data_type(data)!='I') return;
+	if (get_data_int16(data) == 0) {
 		uart_putstr_P(PSTR("clr_led()\r\n"));
 		clr_output(LED1);
 	} else {
@@ -56,9 +136,10 @@ void led_set(int16_t value) {
 	}
 }
 
-int16_t led_get() {
+int8_t led_get(struct data_t *data) {
 	uart_putstr_P(PSTR("led_get()\r\n"));
-	return get_output(LED1);
+	set_data_int16(data,get_output(LED1));
+	return 3;
 }
 
 /* Button */
@@ -70,22 +151,25 @@ void button_init(void* cfg) {
 }
 
 ISR (PCINT2_vect) {
-	wake_me_up = 3;
+	uart_putstr_P(PSTR("ISR\r\n"));
+	wake_me_up = 2;
 }
 
-int16_t button_read() {
+int8_t button_read(struct data_t *data) {
 	uart_putstr_P(PSTR("button read\r\n"));
-	return get_input(BUTTON1);
+	set_data_int16(data,get_input(BUTTON1));
+	return 3;
 }
 
 // XXX: Theses structures belong to PROGMEM ...
 const lm35_cfg_s lm35_cfg = {2};
 
 const application_t applications[4] = {
- {lm35_init,lm35_read,NULL,(void*)&lm35_cfg},
+// {lm35_init,lm35_read,NULL,(void*)&lm35_cfg},
  {NULL,const_read,NULL,NULL},
  {NULL,led_get,led_set,NULL},
  {button_init,button_read,NULL,NULL},
+ {NULL,text_get,text_set,NULL},
 };
 
 /* Initialise board */
@@ -123,68 +207,6 @@ void bugone_init() {
 	clr_output(LED2);
 }
 
-/* Send data from local devices to other nodes/devices
-   according to peering configured in eeprom */
-void send_data_to_peers() {
-	uint8_t i,j;
-	uint8_t nb_peers_nodes,node_dst,nb_devices,device_src,device_dst;
-	uint8_t *peers_ptr;
-	struct ctx_t ctx;
-	char buf[28];
-	int16_t value;
-
-	peers_ptr=(uint8_t*)9;
-	nb_peers_nodes=eeprom_read_byte((const void*)peers_ptr);
-	peers_ptr++;
-	for (i=0 ; i < nb_peers_nodes ; i++) {
-		node_dst = eeprom_read_byte((const void*)peers_ptr);
-		peers_ptr++;
-		start_value(&ctx,node_dst,buf);
-		nb_devices = eeprom_read_byte((const void*)peers_ptr);
-		peers_ptr++;
-		for (j=0 ; j < nb_devices; j++) {
-			device_src = eeprom_read_byte((const void*)peers_ptr);
-			peers_ptr++;
-			device_dst = eeprom_read_byte((const void*)peers_ptr);
-			peers_ptr++;
-	    		uart_putstr_P(PSTR("#"));
-
-			if (applications[device_src].get == NULL) { continue; }
-			value=applications[device_src].get();
-			add_value(&ctx,value,-1,0);
-		}
-		end_value(&ctx);
-	}
-}
-
-/* Send data for a specific device of local node */
-void send_data_to_peers_for_device(uint8_t for_device) {
-	uint8_t i,j;
-	uint8_t nb_peers_nodes,node_dst,nb_devices,device_src,device_dst;
-	uint8_t *peers_ptr;
-
-	peers_ptr=(uint8_t*)9;
-	nb_peers_nodes=eeprom_read_byte((const void*)peers_ptr);
-	peers_ptr++;
-	for (i=0 ; i < nb_peers_nodes ; i++) {
-		node_dst = eeprom_read_byte((const void*)peers_ptr);
-		peers_ptr++;
-		nb_devices = eeprom_read_byte((const void*)peers_ptr);
-		peers_ptr++;
-		for (j=0 ; j < nb_devices; j++) {
-			device_src = eeprom_read_byte((const void*)peers_ptr);
-			peers_ptr++;
-			if (device_src == for_device) {
-				device_dst = eeprom_read_byte((const void*)peers_ptr);
-				application_t* app=get_app(wake_me_up);
-				send_value(2,app->get(),0,0);
-			}
-			peers_ptr++;
-	    		uart_putstr_P(PSTR("#"));
-		}
-	}
-}
-
 int main ( void )
 {
   uint8_t *bufcontents;
@@ -193,7 +215,6 @@ int main ( void )
   uint8_t seconds = 0;
   uint8_t i;
   char buf[28];
-  struct ctx_t ctx;
 
   bugone_init();
 
@@ -213,8 +234,25 @@ int main ( void )
 	    	uart_putstr_P(PSTR("."));
 		// Every minutes
 		if (seconds > 20) {
+			struct data_t data;
+			int8_t len;
 	        	uart_putstr_P(PSTR("\r\n"));
-			send_data_to_peers();
+			data.remaining_len=26;
+			data.buf=buf;
+			data.packet=buf;
+			for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
+	    			uart_putstr_P(PSTR("#"));
+				if (applications[i].get == NULL) { continue; }
+				set_devices(&data,i,42);
+				data.buf+=2;
+				data.remaining_len-=2;
+				len=applications[i].get(&data);
+				if (len > 0) {
+					data.remaining_len-=len;
+					data.buf+=len;
+				}
+			}
+			send(0xFF,6,buf,26);
 			seconds=0;
 		}
 
@@ -223,7 +261,7 @@ int main ( void )
 
 	// Asynchronous events
 	if (wake_me_up > 0) {
-		send_data_to_peers_for_device(wake_me_up);
+		//send_data_to_peers_for_device(wake_me_up);
 		wake_me_up = 0;
 	}
  }
