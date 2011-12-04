@@ -235,7 +235,18 @@ int main ( void )
 
 	// Asynchronous events
 	if (wake_me_up > 0) {
-		//send_data_to_peers_for_device(wake_me_up);
+		struct data_t data;
+		int8_t len;
+	        uart_putstr_P(PSTR("\r\n"));
+		data.remaining_len=26;
+		data.buf=buf;
+		data.packet=buf;
+		set_devices(&data,wake_me_up,42);
+		data.buf+=2;
+		data.remaining_len-=2;
+		len=applications[wake_me_up].get(&data);
+		send(0xFF,6,buf,26);
+
 		wake_me_up = 0;
 	}
  }
