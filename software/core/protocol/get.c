@@ -23,7 +23,7 @@ void recv_get(char* payload) {
 
 	application_t* app=get_app(sensor);
 	//value=app->get();
-	send_value(network->src,value,1,2);
+	//send_value(network->src,value,1,2);
 }
 
 void send_get(uint8_t dst, uint8_t sensor) {
