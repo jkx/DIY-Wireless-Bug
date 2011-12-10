@@ -36,11 +36,15 @@ offs = 0x1D36
 
 
 
+#define TCNT1_VAL 65536 - (F_CPU / 256)
+
+
 int cnt;
 int old_cnt;
 
 
-SIGNAL(SIG_INTERRUPT1) 
+
+ISR(INT1_vect)
 {
   cnt ++;
 }
@@ -50,7 +54,7 @@ SIGNAL(SIG_INTERRUPT1)
 ISR(TIMER1_OVF_vect)
 {
   old_cnt = cnt;
-  TCNT1=34286; // set initial value to remove time error (16bit counter register)
+  TCNT1=TCNT1_VAL; // set initial value to remove time error (16bit counter register)
   cnt = 0;
 }
 
@@ -72,7 +76,7 @@ void init_hh10d()
   // setup timer1
   TIMSK1=0x01; // enabled global and timer overflow interrupt;
   TCCR1A = 0x00; // normal operation page 148 (mode0);
-  TCNT1= 34286; // set initial value to remove time error (16bit counter register)
+  TCNT1= TCNT1_VAL; // set initial value to remove time error (16bit counter register)
   sbi(TCCR1B,CS12); // prescaler set to /256
   cbi(TCCR1B,CS11);
   cbi(TCCR1B,CS10);
@@ -105,9 +109,9 @@ int main ( void )
     toggle_output(LED2);
     _delay_ms(1000);
 
+    RH = (0x1E68 - (double) old_cnt) * 0x018B / 4096;  
+    //RH = (0x1D36 - (double) old_cnt) * 0x016C / 4096;
 
-    RH = (0x1D36 - (double) old_cnt) * 0x016C / 4096;
-  
     sprintf(buf,"RH:%0.2f",RH);
     uart_putstr(buf);
 

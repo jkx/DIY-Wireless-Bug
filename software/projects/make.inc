@@ -14,7 +14,7 @@ endif
 
 ifeq ($(BOARD),arduino)
 	MCU=atmega328p
-	DUDE_OPT=-c arduino -p m328p -P$(PORT) -b57600
+	DUDE_OPT=-c arduino -p m328p -P$(PORT) -b57600 -V
 endif
 
 

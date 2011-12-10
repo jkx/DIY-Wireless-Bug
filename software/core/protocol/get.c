@@ -14,21 +14,34 @@ struct set_t {
 };
 
 void recv_get(char* payload) {
-	uint8_t sensor;
-	int16_t value;
+	uint8_t device_src,device_dst;
 	struct network_t* network=(struct network_t*)payload;
-	application_t* apps;
+	char buf[28];
+	uint8_t len;
+	application_t* app;
+	struct data_t data;
 
-	sensor=*(uint8_t*)(network->payload);
+	data.buf=buf;
+	data.packet=buf;
+	data.remaining_len=sizeof(buf);
 
-	application_t* app=get_app(sensor);
-	//value=app->get();
-	//send_value(network->src,value,1,2);
+	while ((device_src != 0xFF) && (device_dst != 0xFF)) {
+		app=get_app(device_dst);
+		set_devices();
+		len=app->get(&data);
+		if (len > 0) {
+			data.remaining_len-=len;
+		}
+	}
+	send(network->src,VALUE,buf,26);
 }
 
-void send_get(uint8_t dst, uint8_t sensor) {
+void send_get(uint8_t dst, uint8_t device) {
 	uart_putstr_P(PSTR("send_get()\r\n"));
-	send(dst,GET,(char*)&sensor,1);
+	char buf[2];
+	buf[0]=0xFF;
+	buf[1]=device;
+	send(dst,GET,buf,sizeof(buf));
 }
 
 void send_set(uint8_t dst, uint8_t sensor, int16_t value) {
