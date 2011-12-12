@@ -1,15 +1,6 @@
 #ifndef APPS_H
 #define APPS_H
 
-#if 0
-typedef struct {
-	void (*init)(void*);
-	int16_t (*get)(void);
-	void (*set)(int16_t);
-	void *cfg;
-} application_t;
-#endif
-
 struct data_t {
 	char *packet;
 	char *buf;
