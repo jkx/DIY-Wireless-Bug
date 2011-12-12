@@ -27,7 +27,7 @@ void recv_get(char* payload) {
 
 	while ((device_src != 0xFF) && (device_dst != 0xFF)) {
 		app=get_app(device_dst);
-		set_devices();
+		set_devices(&data,device_dst,device_src);
 		len=app->get(&data);
 		if (len > 0) {
 			data.remaining_len-=len;
@@ -44,22 +44,27 @@ void send_get(uint8_t dst, uint8_t device) {
 	send(dst,GET,buf,sizeof(buf));
 }
 
-void send_set(uint8_t dst, uint8_t sensor, int16_t value) {
+void send_set(uint8_t dst, uint8_t device, int16_t value) {
 	uart_putstr_P(PSTR("send_set()\r\n"));
-	struct set_t set;
-	set.sensor=sensor;
-	set.value=value;
-	send(dst,SET,(char*)&set,sizeof(struct set_t));
+	char buf[28];
+	struct data_t data;
+	data.buf=buf;
+	data.packet=buf;
+	set_device(&data,0xff,device);
+	buf+=2;
+	set_data_int16(&data,value);
+	send(dst,SET,data.packet,5);
 }
 
 void recv_set(char* payload) {
 	struct network_t* network=(struct network_t*)payload;
-	application_t* apps;
+	uint8_t device_src,device_dst;
+	application_t* app;
+	struct data_t data;
 	uart_putstr_P(PSTR("recv_set()\r\n"));
 
-	struct set_t* set;
-	set=(struct set_t*)(network->payload);
-	application_t* app=get_app(set->sensor);
-	if (app != NULL)
-		app->set(set->value);
+	while ((device_src != 0xFF) && (device_dst != 0xFF)) {
+		app=get_app(device_dst);
+		app->set(&data);
+	}
 }
