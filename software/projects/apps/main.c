@@ -17,21 +17,8 @@
 #include "value.h"
 #include "lm35.h"
 
-uint8_t get_device_src(struct data_t *data) {
-	return data->buf[-2];
-}
-
-uint8_t get_device_dst(struct data_t *data) {
-	return data->buf[-1];
-}
-
 uint8_t get_node_src(struct data_t *data) {
 	return data->packet[0];
-}
-
-void set_devices(struct data_t *data, uint8_t device_src, uint8_t device_dst) {
-	data->buf[0] = device_src;
-	data->buf[1] = device_dst;
 }
 
 void delay_1s() {

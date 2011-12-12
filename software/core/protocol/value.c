@@ -8,6 +8,19 @@
 #include "apps.h"
 #include "value.h"
 
+void set_devices(struct data_t *data, uint8_t device_src, uint8_t device_dst) {
+	data->buf[0] = device_src;
+	data->buf[1] = device_dst;
+}
+
+uint8_t get_device_src(struct data_t *data) {
+	return data->buf[-2];
+}
+
+uint8_t get_device_dst(struct data_t *data) {
+	return data->buf[-1];
+}
+
 uint8_t get_data_type(struct data_t *data) {
 	return data->buf[0];
 }

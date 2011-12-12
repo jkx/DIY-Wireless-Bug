@@ -50,8 +50,8 @@ void send_set(uint8_t dst, uint8_t device, int16_t value) {
 	struct data_t data;
 	data.buf=buf;
 	data.packet=buf;
-	set_device(&data,0xff,device);
-	buf+=2;
+	set_devices(&data,0xff,device);
+	data.buf+=2;
 	set_data_int16(&data,value);
 	send(dst,SET,data.packet,5);
 }
