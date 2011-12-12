@@ -46,7 +46,8 @@ else
 endif
 
 wrfuses:
-	avrdude $(DUDE_OPT) lfuse:w:0xe2:m -U hfuse:w:0xd7:m
+	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m
+
 reset:
 	avrdude $(DUDE_OPT)
 
