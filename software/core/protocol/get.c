@@ -8,11 +8,6 @@
 #include "uart.h"
 #include "apps.h"
 
-struct set_t {
-	uint8_t sensor;
-	int16_t value;
-};
-
 void recv_get(char* payload) {
 	uint8_t device_src,device_dst;
 	struct network_t* network=(struct network_t*)payload;
