@@ -29,6 +29,7 @@ void delay_1s() {
 }
 
 volatile uint8_t wake_me_up=0;
+volatile uint8_t seconds = 0;
 
 int8_t const_read(struct data_t *data) {
 	uart_putstr_P(PSTR("const_read()\r\n"));
@@ -73,8 +74,18 @@ uint16_t text_set(struct data_t *data) {
 }
 
 void timer1_init() {
+	// Set interrupt CTC mode. Every second (prescaler 1024 at 8MHz)
+	TCCR1B |= (1 << WGM12);
+  	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt 
+	OCR1A = 7812;
 	// Set timer 1 prescaler
 	TCCR1B |= ((1 << CS10) | (1 << CS12)); // Set up timer at Fcpu/1024
+}
+
+ISR(TIMER1_COMPA_vect) {
+	seconds++;
+	toggle_output(LED2);
+    	uart_putc('.');
 }
 
 /* Init on board LEDs */
@@ -173,7 +184,6 @@ int main ( void )
   uint8_t *bufcontents;
   uint16_t ticker = 0;
   int16_t value;
-  uint8_t seconds = 0;
   uint8_t i;
   char buf[28];
 
@@ -187,37 +197,28 @@ int main ( void )
 		recv(bufcontents);
 	}
 
-	// Every second
-	if (TCNT1 >= 7812) {
-		toggle_output(LED2);
-		seconds++;
-
-	    	uart_putstr_P(PSTR("."));
-		// Every minutes
-		if (seconds > 20) {
-			struct data_t data;
-			int8_t len;
-	        	uart_putstr_P(PSTR("\r\n"));
-			data.remaining_len=26;
-			data.buf=buf;
-			data.packet=buf;
-			for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
-	    			uart_putstr_P(PSTR("#"));
-				if (applications[i].get == NULL) { continue; }
-				set_devices(&data,i,42);
-				data.buf+=2;
-				data.remaining_len-=2;
-				len=applications[i].get(&data);
-				if (len > 0) {
-					data.remaining_len-=len;
-					data.buf+=len;
-				}
+	// Every minutes
+	if (seconds > 20) {
+		struct data_t data;
+		int8_t len;
+        	uart_putstr_P(PSTR("\r\n"));
+		data.remaining_len=26;
+		data.buf=buf;
+		data.packet=buf;
+		for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
+    			uart_putstr_P(PSTR("#"));
+			if (applications[i].get == NULL) { continue; }
+			set_devices(&data,i,42);
+			data.buf+=2;
+			data.remaining_len-=2;
+			len=applications[i].get(&data);
+			if (len > 0) {
+				data.remaining_len-=len;
+				data.buf+=len;
 			}
-			send(0xFF,6,buf,26);
-			seconds=0;
 		}
-
-		TCNT1 = 0;
+		send(0xFF,6,buf,26);
+		seconds=0;
 	}
 
 	// Asynchronous events
