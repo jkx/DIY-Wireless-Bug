@@ -49,7 +49,7 @@
 
 //for uart debugging
 #if RFM12_UART_DEBUG
-	#include "test-m8/uart.h"
+	#include "uart.h"
 #endif
 
 
