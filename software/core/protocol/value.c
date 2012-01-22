@@ -26,7 +26,7 @@ uint8_t get_data_type(struct data_t *data) {
 }
 
 uint8_t set_data_int16(struct data_t *data, int16_t value) {
-	char buf[4];
+	char buf[5];
 	itoa(value,buf,10);
 	uart_putstr(buf);
 
