@@ -48,6 +48,10 @@ endif
 wrfuses:
 	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m
 
+rdfuses:
+	echo "dump lfuse\ndump hfuse\ndump efuse" | avrdude $(DUDE_OPT) -qq -t
+
+
 reset:
 	avrdude $(DUDE_OPT)
 
