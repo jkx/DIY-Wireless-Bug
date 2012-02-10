@@ -46,7 +46,9 @@ else
 endif
 
 wrfuses:
+	# d7 = no watchdog
 	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m
+	#avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xc7:m
 
 rdfuses:
 	echo "dump lfuse\ndump hfuse\ndump efuse" | avrdude $(DUDE_OPT) -qq -t
