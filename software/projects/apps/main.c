@@ -125,11 +125,11 @@ int8_t button_read(struct data_t *data) {
 // XXX: Theses structures belong to PROGMEM ...
 const lm35_cfg_s lm35_cfg = {3};
 
-const application_t applications[4] = {
+const application_t applications[] = {
  {NULL,const_read,NULL,NULL},
  {NULL,led_get,led_set,NULL},
  {button_init,button_read,NULL,NULL},
-// {NULL,text_get,text_set,NULL},
+ //{NULL,text_get,text_set,NULL},
  {lm35_init,lm35_read,NULL,(void*)&lm35_cfg},
 };
 

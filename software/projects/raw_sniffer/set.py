@@ -11,4 +11,4 @@ if len(sys.argv) != 2:
 
 sniffer = rfm12.Sniffer()
 
-bugOne.setValue(0x16, 0, 2, int(sys.argv[1]), sniffer)
+bugOne.setValue(0x16, 0, 1, int(sys.argv[1]), sniffer)
