@@ -34,7 +34,7 @@ def getPacketData(message):
 
 def readValues(data):
 	values = []
-	while len(data):
+	while len(data) > 3:
 		srcDevice = ord(data[0])
 		destDevice = ord(data[1])
 		valueType = data[2]
@@ -51,6 +51,17 @@ def readValues(data):
 		values.append((srcDevice, destDevice, value))
 	return values
 
+def writeValues(values):
+	data = ""
+	for (srcDeviceId, destDeviceId, value) in values:
+		data += chr(srcDeviceId)
+		data += chr(destDeviceId)
+		if type(value) is int:
+			data += 'I' + writeInteger(value)
+		elif type(value) is str:
+			data += 'S' + chr(len(value)) + value
+	return data
+
 ### Send packet ###
 
 def hello(sniffer):
@@ -61,6 +72,10 @@ def ping(destNodeId, sniffer):
 
 def pong(destNodeId, sniffer):
 	sniffer.send(buildPacket(destNodeId, PACKET_PONG))
+
+def setValue(destNodeId, srcDeviceId, destDeviceId, value, sniffer):
+	data = writeValues([(srcDeviceId, destDeviceId, value)])
+	sniffer.send(buildPacket(destNodeId, PACKET_SET, data=data))
 
 ### TOOLS ###
 
