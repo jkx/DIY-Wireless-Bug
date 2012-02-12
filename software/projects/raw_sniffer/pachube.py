@@ -21,7 +21,7 @@ import sys, time
 log = open("data.log", "a+")
 log2 = open("messages.log", "a+")
 try:
-	sniffer = rfm12.Sniffer()
+	sniffer = rfm12.SnifferSerial()
 	register = [(0x16, 0, 15809, 0), (0x16, 1, 15809, 1)]
 	while True:
 		message = sniffer.waitForMessage()

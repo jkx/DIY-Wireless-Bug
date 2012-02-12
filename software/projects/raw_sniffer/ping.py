@@ -9,7 +9,7 @@ if len(sys.argv) != 2:
 	print >>sys.stderr, "usage:", sys.argv[0], "<device id (int)>"
 	exit(1)
 
-sniffer = rfm12.Sniffer()
+sniffer = rfm12.SnifferSerial()
 
 destDeviceId = int(sys.argv[1])
 print "Ping", hex(destDeviceId)
