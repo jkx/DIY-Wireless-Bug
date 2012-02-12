@@ -33,3 +33,24 @@ class SnifferSerial:
 		self.port.write(chr(len(message)) + message)
 		self.port.flush()
 
+import socket
+
+class SnifferEthernet:
+	port = 1234
+
+	def __init__(self, bugone):
+		self.socket = socket.socket( socket.AF_INET, socket.SOCK_DGRAM )
+		self.bugone = bugone
+
+	def close(self):
+		self.socket.close()
+
+	def waitForMessage(self):
+		self.socket.bind((self.bugone,self.port))
+		data, adrr = self.socket.recvfrom(256)
+		return data
+
+	def send(self, message):
+		if len(message) > 255:
+			raise Exception("Message is too long")
+		sock.sendto(message,(self.bugone,self.port))
