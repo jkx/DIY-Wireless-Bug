@@ -18,6 +18,10 @@
 #include <avr/wdt.h>
 
 
+#include <rfm12/include/rfm12_core.h>
+#include <rfm12/include/rfm12_hw.h>
+
+
 SIGNAL(WDT_vect) {
   drive(LED1);
   drive(LED2);
@@ -84,13 +88,11 @@ int main ( void )
 
   uart_init();
 
-  /*
   uart_putstr_P(PSTR("Firmware version "));
   uart_putstr_P(PSTR(FWVERSION));
   uart_putstr_P(PSTR("\r\n"));
-  */
 
-  config_init();
+  //config_init();
 
   /*
   uart_putstr_P(PSTR("Node address : "));
@@ -100,21 +102,16 @@ int main ( void )
   */
 
   _delay_ms(250);
-  rfm12_init();
+  //rfm12_init();
   _delay_ms(250);
 
 
   _delay_ms(1000);
   clr_output(LED2);
  
-
-  #include <rfm12/include/rfm12_core.h>
-  #include <rfm12/include/rfm12_hw.h>
-
   // put the RFM is sleep mode
   //rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
-  rfm12_data(0x8205);
-
+  //rfm12_data(0x8205);
 
   sei();
   while (1) {
