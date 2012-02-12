@@ -13,8 +13,11 @@ sniffer = rfm12.Sniffer()
 
 destDeviceId = int(sys.argv[1])
 print "Ping", hex(destDeviceId)
+
 bugOne.ping(destDeviceId, sniffer)
 message = sniffer.waitForMessage()
+
+
 
 if message and bugOne.getPacketType(message) == bugOne.PACKET_PONG:
 	print "Pong"

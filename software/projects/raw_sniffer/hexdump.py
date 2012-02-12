@@ -4,7 +4,12 @@
 import rfm12
 import bugOne
 
-sniffer = rfm12.Sniffer()
+import sys
+device = "/dev/ttyUSB0"
+if len(sys.argv) == 2:
+	device = sys.argv[1]
+
+sniffer = rfm12.Sniffer(device)
 
 bugOne.ping(0x16, sniffer)
 
