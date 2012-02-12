@@ -42,23 +42,22 @@ int main(void) {
 			rfm12_rx_clear();
 		}
 
-		#if !(RFM12_TRANSMIT_ONLY)
-		if (uart_getc_nb(&c) == 1) {
+		if (size != 0 && size == count) {
+			if (rfm12_tx(size, 0 /*type*/, tx_buffer) == RFM12_TX_ENQUEUED) {
+				toggle_output(LED1);
+				size = count = 0;
+			}
+		}
+
+		if (uart_getc_nb(&c) > 0) {
 			if (size == 0) {
 				size = c;
 				count = 0;
 			} else {
 				tx_buffer[count] = c;
-				if (count == size) {
-					rfm12_tx(size, 0 /*type*/, tx_buffer);
-					toggle_output(LED1);
-					size = count = 0;
-				} else {
-					count++;
-				}
+				count++;
 			}
 		}
-		#endif
 
 		rfm12_tick();
 	}
