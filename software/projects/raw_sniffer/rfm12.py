@@ -30,7 +30,6 @@ class Sniffer:
 	def send(self, message):
 		if len(message) > 255:
 			raise Exception("Message is too long")
-		self.port.write(chr(len(message)))
-		self.port.write(message)
+		self.port.write(chr(len(message)) + message)
 		self.port.flush()
 

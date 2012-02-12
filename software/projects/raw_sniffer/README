@@ -1,0 +1,3 @@
+use make && make load to flash sniffer.c one your bugOne.
+
+Use python commands to interact with other bugOne cards.
