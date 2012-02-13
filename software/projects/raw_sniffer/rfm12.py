@@ -7,7 +7,7 @@ import serial
 class SnifferSerial:
 
 	def __init__(self, device="/dev/ttyUSB0", baudrate=38400):
-		self.port = serial.Serial(device, baudrate)
+		self.port = serial.Serial(device, baudrate, timeout=1)
 
 	def close(self):
 		if self.port:
@@ -15,8 +15,13 @@ class SnifferSerial:
 
 	# return None on error, message data else
 	def waitForMessage(self):
-		size = ord(self.port.read())
+		buf = self.port.read(1)
+		if (len(buf) != 1):
+			return None
+		size = ord(buf)
 		data = self.port.read(size)
+		if (len(data) != size):
+			return None
 		checksum = ord(self.port.read())
 		c = 0
 		for i in data:
