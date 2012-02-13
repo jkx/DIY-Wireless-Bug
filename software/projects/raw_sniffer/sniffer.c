@@ -10,6 +10,10 @@
 #include "rfm12.h"
 #include "uart.h"
 
+#if RFM12_UART_DEBUG
+#error "sniffer over serial isn't compatible with rfm12 debug over uart"
+#endif
+
 uint8_t size = 0, count = 0;
 
 // We use timer 0 to timeout on uart operation
