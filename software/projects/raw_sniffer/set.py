@@ -9,6 +9,6 @@ if len(sys.argv) != 2:
 	print >>sys.stderr, "usage:", sys.argv[0], "<value>"
 	exit(1)
 
-sniffer = rfm12.Sniffer()
+sniffer = rfm12.SnifferSerial()
 
 bugOne.setValue(0x16, 0, 1, int(sys.argv[1]), sniffer)

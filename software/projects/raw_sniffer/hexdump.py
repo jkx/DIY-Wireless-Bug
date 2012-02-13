@@ -9,9 +9,9 @@ device = "/dev/ttyUSB0"
 if len(sys.argv) == 2:
 	device = sys.argv[1]
 
-sniffer = rfm12.Sniffer(device)
+sniffer = rfm12.SnifferSerial(device)
 
-bugOne.ping(0x16, sniffer)
+bugOne.ping(0x1, sniffer)
 
 while True:
 	message = sniffer.waitForMessage()
@@ -35,5 +35,6 @@ while True:
 		else:
 			print [hex(ord(i)) for i in bugOne.getPacketData(message)]
 	else:
-		print "Wrong checksum"
+		sys.stdout.write(".")
+		sys.stdout.flush()
 
