@@ -10,14 +10,30 @@
 #include "rfm12.h"
 #include "uart.h"
 
+uint8_t size = 0, count = 0;
+
+// We use timer 0 to timeout on uart operation
+// We reset everything of overflow => timeout is set to 0.03s
+void timer0_init() {
+	// Set timer 0 prescaler
+	TCCR0B |= ((1 << CS00) | (1 << CS02)); // Set up timer at Fcpu/1024
+	// Enable Overflow Interrupt Enable
+	TIMSK0|=(1<<TOIE0);
+}
+
+ISR(TIMER0_OVF_vect) {
+	size = 0;
+	count =0;
+}
+
 int main(void) {
 	uint8_t *rx_buffer;
 	uint8_t  tx_buffer[256]; // Not RFM12_TX_BUFFER_SIZE since we don't know what will be sent on uart
 	uint8_t c;
-	uint8_t size = 0, count = 0;
 
 	uart_init();
 	rfm12_init();
+	timer0_init();
 
 	sei();
 	drive(LED1);
@@ -33,6 +49,7 @@ int main(void) {
 			uint8_t checksum = 0x00;
 			uart_putc(length);
 			while (length--) {
+				TCNT0 = 0;
 				uint8_t data = *rx_buffer++;
 				uart_putc(data);
 				checksum ^= data;
@@ -50,6 +67,7 @@ int main(void) {
 		}
 
 		if (uart_getc_nb(&c) > 0) {
+			TCNT0 = 0;
 			if (size == 0) {
 				size = c;
 				count = 0;
