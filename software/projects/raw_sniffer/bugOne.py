@@ -77,6 +77,10 @@ def setValue(destNodeId, srcDeviceId, destDeviceId, value, sniffer):
 	data = writeValues([(srcDeviceId, destDeviceId, value)])
 	sniffer.send(buildPacket(destNodeId, PACKET_SET, data=data))
 
+def getValue(destNodeId, srcDeviceId, destDeviceId, sniffer):
+	data = writeValues([(srcDeviceId, desDeviceId)])
+	sniffer.send(buildPacket(destNodeId, PACKET_GET, data=data))
+
 ### TOOLS ###
 
 # return packet formatted according bugOne protocol (do not send)
