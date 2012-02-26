@@ -1,9 +1,10 @@
+#include "bugOne.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
 #include <util/delay.h>
+#include <avr/pgmspace.h>
 
-#include "bugOne.h"
 #include "apps.h"
 #include "config.h"
 

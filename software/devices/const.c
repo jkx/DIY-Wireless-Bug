@@ -1,3 +1,5 @@
+#include "bugOne.h"
+#include <avr/pgmspace.h>
 #include "const.h"
 
 int8_t const_read(struct data_t *data) {

@@ -3,6 +3,6 @@
 
 void led_init();
 void led_set(struct data_t *data);
-void led_get(struct data_t *data);
+int8_t led_get(struct data_t *data);
 
 #endif

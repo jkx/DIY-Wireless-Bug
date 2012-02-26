@@ -1,3 +1,7 @@
+#include "bugOne.h"
+#include <avr/io.h>
+#include <avr/pgmspace.h>
+#include "avr_compat.h"
 #include "led.h"
 
 /* Init on board LEDs */

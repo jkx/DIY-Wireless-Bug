@@ -1,4 +1,7 @@
+#include "bugOne.h"
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include "avr_compat.h"
 #include "button.h"
 
 extern uint8_t wake_me_up;
