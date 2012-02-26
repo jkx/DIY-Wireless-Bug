@@ -1,9 +1,18 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
+#include <util/delay.h>
+
 #include "bugOne.h"
 #include "apps.h"
 #include "config.h"
+
+void delay_1s() {
+    _delay_ms(250);
+    _delay_ms(250);
+    _delay_ms(250);
+    _delay_ms(250);
+}
 
 /* Initialise board */
 void bugone_init(application_t* applications) {
