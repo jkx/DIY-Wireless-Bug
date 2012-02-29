@@ -62,6 +62,13 @@ def writeValues(values):
 			data += 'S' + chr(len(value)) + value
 	return data
 
+def writeDevices(devices):
+	data = ""
+	for (srcDeviceId, destDeviceId) in devices:
+		data += chr(srcDeviceId)
+		data += chr(destDeviceId)
+	return data
+
 ### Send packet ###
 
 def hello(sniffer):
@@ -74,11 +81,11 @@ def pong(destNodeId, sniffer):
 	sniffer.send(buildPacket(destNodeId, PACKET_PONG))
 
 def setValue(destNodeId, srcDeviceId, destDeviceId, value, sniffer):
-	data = writeValues([(srcDeviceId, destDeviceId, value)])
+	data = writeValues([(srcDeviceId, destDeviceId, value),(0xFF,0xFF,0)])
 	sniffer.send(buildPacket(destNodeId, PACKET_SET, data=data))
 
 def getValue(destNodeId, srcDeviceId, destDeviceId, sniffer):
-	data = writeValues([(srcDeviceId, desDeviceId)])
+	data = writeDevices([(srcDeviceId, destDeviceId),(0xFF,0xFF)])
 	sniffer.send(buildPacket(destNodeId, PACKET_GET, data=data))
 
 ### TOOLS ###

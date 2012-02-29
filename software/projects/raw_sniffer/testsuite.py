@@ -25,10 +25,25 @@ def test_ping(sniffer, deviceid):
 #
 def test_set_led1(sniffer, deviceid):
 	print "Turn on led 1"
-	bugOne.setValue(deviceid, 0, 1, int(sys.argv[1]), sniffer)
+	bugOne.setValue(deviceid, 0, 1, value=1, sniffer=sniffer)
 
 	while True:
 		answer = raw_input("led1 in on ? (y/n) ")
+
+		if (answer.lower() == 'y'):
+			return True
+		elif (answer.lower() == 'n'):
+			return False
+
+#
+# Turn off led 1 on tested bugone
+#
+def test_clr_led1(sniffer, deviceid):
+	print "Turn off led 1"
+	bugOne.setValue(deviceid, 0, 1, value=0, sniffer=sniffer)
+
+	while True:
+		answer = raw_input("led1 in off ? (y/n) ")
 
 		if (answer.lower() == 'y'):
 			return True
@@ -40,12 +55,22 @@ def test_set_led1(sniffer, deviceid):
 #
 def test_get_const(sniffer, deviceid):
 	print "Get value device 1"
-	value = bugOne.getValue(deviceid, 0, 1, int(sys.argv[1]), sniffer)
+	value = bugOne.getValue(deviceid, 0, 0, sniffer)
 
 	if value == 42:
 		return True
 	return False
 
+#
+# Get state of the led
+#
+def test_get_led1(sniffer, deviceid):
+	print "Get state led 1"
+	value = bugOne.getValue(deviceid, 0, 0, sniffer)
+
+	if value == 1:
+		return True
+	return False
 
 print """
 bugOne test suite.
@@ -62,7 +87,7 @@ destDeviceId = int(sys.argv[1])
 
 print "Running testsuite with device %s" % destDeviceId
 
-tests = [ test_ping, test_set_led1 ]
+tests = [ test_ping, test_get_const, test_set_led1, test_get_led1, test_clr_led1 ]
 nb_tests_ok=0
 nb_tests_ko=0
 
