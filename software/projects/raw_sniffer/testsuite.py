@@ -56,6 +56,7 @@ def test_clr_led1(sniffer, deviceid):
 def test_get_const(sniffer, deviceid):
 	print "Get value device 1"
 	value = bugOne.getValue(deviceid, 0, 0, sniffer)
+	print "value is %s" % value
 
 	if value == 42:
 		return True
@@ -66,7 +67,8 @@ def test_get_const(sniffer, deviceid):
 #
 def test_get_led1(sniffer, deviceid):
 	print "Get state led 1"
-	value = bugOne.getValue(deviceid, 0, 0, sniffer)
+	value = bugOne.getValue(deviceid, 0, 1, sniffer)
+	print "state is %s" % value
 
 	if value == 1:
 		return True
