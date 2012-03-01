@@ -87,6 +87,11 @@ def setValue(destNodeId, srcDeviceId, destDeviceId, value, sniffer):
 def getValue(destNodeId, srcDeviceId, destDeviceId, sniffer):
 	data = writeDevices([(srcDeviceId, destDeviceId),(0xFF,0xFF)])
 	sniffer.send(buildPacket(destNodeId, PACKET_GET, data=data))
+	message = sniffer.waitForMessage()
+	if message and getPacketType(message) == PACKET_VALUES:
+		values = readValues(getPacketData(message))
+		return values[0][2]
+	return None
 
 ### TOOLS ###
 
