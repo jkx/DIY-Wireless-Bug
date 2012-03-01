@@ -18,9 +18,9 @@ ISR (PCINT2_vect) {
 	wake_me_up = 2;
 }
 
-int8_t button_read(struct data_t *data) {
+int8_t button_read(struct packet_t *packet) {
 	uart_putstr_P(PSTR("button read\r\n"));
-	set_data_int16(data,get_input(BUTTON1));
+	set_data_int16(packet,get_input(BUTTON1));
 	return 3;
 }
 

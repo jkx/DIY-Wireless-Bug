@@ -6,6 +6,6 @@
 
 #define BUGONE_PACKET_SIZE 32
 
-void bugone_init(application_t* applications);
+void bugone_init(const application_t* applications);
 
 #endif

@@ -8,27 +8,22 @@
 #include "uart.h"
 #include "apps.h"
 
-void recv_get(char* payload) {
+void recv_get(struct packet_t *packet) {
 	uint8_t device_src,device_dst;
-	struct network_t* network=(struct network_t*)payload;
-	char buf[28];
 	uint8_t len;
 	application_t* app;
-	struct data_t data;
 
-	data.buf=buf;
-	data.packet=buf;
-	data.remaining_len=sizeof(buf);
+	struct packet_t *send_packet = get_tx_packet();
 
-	while ((device_src != 0xFF) && (device_dst != 0xFF)) {
+	while (get_devices(packet,&device_src,&device_dst)) {
 		app=get_app(device_dst);
-		set_devices(&data,device_dst,device_src);
-		len=app->get(&data);
-		if (len > 0) {
-			data.remaining_len-=len;
-		}
+		set_devices(send_packet,device_dst,device_src);
+		len=app->get(send_packet);
+	//	if (len > 0) {
+	//		data.remaining_len-=len;
+	//	}
 	}
-	send(network->src,VALUE,buf,26);
+	send(packet->network->src,VALUE,send_packet);
 }
 
 void send_get(uint8_t dst, uint8_t device) {
@@ -36,30 +31,26 @@ void send_get(uint8_t dst, uint8_t device) {
 	char buf[2];
 	buf[0]=0xFF;
 	buf[1]=device;
-	send(dst,GET,buf,sizeof(buf));
+	//send(dst,GET,buf,sizeof(buf));
 }
 
 void send_set(uint8_t dst, uint8_t device, int16_t value) {
 	uart_putstr_P(PSTR("send_set()\r\n"));
-	char buf[28];
-	struct data_t data;
-	data.buf=buf;
-	data.packet=buf;
-	set_devices(&data,0xff,device);
-	data.buf+=2;
-	set_data_int16(&data,value);
-	send(dst,SET,data.packet,5);
+	struct packet_t *packet=get_tx_packet();
+	set_devices(packet,0xff,device);
+	set_data_int16(packet,value);
+	send(dst,SET,packet);
 }
 
-void recv_set(char* payload) {
-	struct network_t* network=(struct network_t*)payload;
+void recv_set(struct packet_t *packet) {
 	uint8_t device_src,device_dst;
 	application_t* app;
-	struct data_t data;
 	uart_putstr_P(PSTR("recv_set()\r\n"));
 
-	while ((device_src != 0xFF) && (device_dst != 0xFF)) {
+	while (get_devices(packet,&device_src,&device_dst)) {
 		app=get_app(device_dst);
-		app->set(&data);
+		if (app == NULL) continue; 
+		if (app->set == NULL) continue;
+		app->set(packet);
 	}
 }

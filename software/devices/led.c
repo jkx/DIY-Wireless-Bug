@@ -11,12 +11,18 @@ void led_init() {
 
 	set_output(LED1);
 	set_output(LED2);
+
+	delay_1s();
+
+	clr_output(LED1);
+	clr_output(LED2);
 }
 
-void led_set(struct data_t *data) {
+void led_set(struct packet_t *packet) {
 	uart_putstr_P(PSTR("led_set()\r\n"));
-	if (get_data_type(data)!='I') return;
-	if (get_data_int16(data) == 0) {
+	// XXX : WTF ??? if (get_data_type(packet)!=0x49) { uart_putstr_P(PSTR("not an integer")); return; }
+	uart_putc(get_data_type(packet));
+	if (get_data_int16(packet) == 0) {
 		uart_putstr_P(PSTR("clr_led()\r\n"));
 		clr_output(LED1);
 	} else {
@@ -25,8 +31,8 @@ void led_set(struct data_t *data) {
 	}
 }
 
-int8_t led_get(struct data_t *data) {
+int8_t led_get(struct packet_t *packet) {
 	uart_putstr_P(PSTR("led_get()\r\n"));
-	return set_data_int16(data,get_output(LED1));
+	return set_data_int16(packet,get_output(LED1));
 }
 

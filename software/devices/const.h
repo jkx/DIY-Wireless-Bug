@@ -3,6 +3,6 @@
 
 /* This device return a constant value (42) */
 
-int8_t const_read(struct data_t *data);
+int8_t const_read(struct packet_t *packet);
 
 #endif

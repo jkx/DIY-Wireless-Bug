@@ -23,8 +23,13 @@ struct network_t {
 	uint8_t	hop;
 	uint8_t	type;
 	uint16_t count;
-	char payload[26];
 };
+
+struct packet_t {
+	struct network_t* network;
+	char* payload;
+};
+
 
 struct route_t {
 	uint8_t dst;
@@ -32,7 +37,8 @@ struct route_t {
 	uint8_t cost;
 };
 
-void send(uint8_t dst, uint8_t type, char* payload, uint8_t size);
+struct packet_t *get_tx_packet();
+void send(uint8_t dst, uint8_t type, struct packet_t *packet);
 uint8_t recv(char* payload);
 
 #include "config.h"

@@ -8,60 +8,75 @@
 
 #include "uart.h"
 
+#include "bugOne.h"
+
 static uint16_t counter = 0;
+
+static struct packet_t packet;
 
 #define DEBUG
 
-void send(uint8_t dst, uint8_t type, char* payload, uint8_t size) {
-	struct network_t network;
+void send(uint8_t dst, uint8_t type, struct packet_t *packet) {
 	counter++;
-	network.src=config.address;
-	network.dst=dst;
-	network.hop=0;
-	network.type=type;
-	network.count=counter;
-	memcpy(network.payload,payload,size);
+	packet->network->src=config.address;
+	packet->network->dst=dst;
+	packet->network->hop=0;
+	packet->network->type=type;
+	packet->network->count=counter;
+	//memcpy(network.payload,payload,size);
 #ifdef DEBUG
 	uart_putstr_P(PSTR("Sending\r\n"));
-	uart_hexdump((char*)&network,32);
+	uart_hexdump((char*)packet->network,BUGONE_PACKET_SIZE);
 #endif
-	rfm12_tx(32,0,(char*)&network);
+	rfm12_start_tx(0,BUGONE_PACKET_SIZE);
 }
 
-uint8_t recv(char* payload) {
-	struct network_t* network=(struct network_t*)payload;
+struct packet_t *get_tx_packet() {
+	memset(rf_tx_buffer.buffer,0,sizeof(rf_tx_buffer.buffer));
+	packet.network=(struct network_t*)rf_tx_buffer.buffer;
+	packet.payload=rf_tx_buffer.buffer+sizeof(struct network_t);
+	return &packet;
+}
 
+uint8_t recv(char* buf) {
 #ifdef DEBUG
 	uart_putstr_P(PSTR("Receiving\r\n"));
-	uart_hexdump((char*)network,32);
+	uart_hexdump(buf,BUGONE_PACKET_SIZE);
 #endif
+	/* Now, we manipulate a packet_t structure to access received packet */
+	struct packet_t packet;
+	packet.network=(struct network_t*)buf;
+	packet.payload=buf+sizeof(struct network_t);
 
-	if ((network->dst != config.address) && (network->hop!=config.address)) {
+	if ((packet.network->dst != config.address) && (packet.network->hop!=config.address)) {
 		// This is not for us
 		rfm12_rx_clear();
 		return 0;
 	}
-	if ((network->dst != config.address) && (network->hop==config.address)) {
+	if ((packet.network->dst != config.address) && (packet.network->hop==config.address)) {
 		// Forward this packet
-		network->hop=0;
-		rfm12_tx(32,0,payload);
+		packet.network->hop=0;
+		rfm12_tx(BUGONE_PACKET_SIZE,0,buf);
 	}
-	if (network->type==HELLO) {
+	if (packet.network->type==HELLO) {
 		// TODO
 	}
-	if (network->type==PING) {
-		recv_ping(payload);
+	if (packet.network->type==PING) {
+		recv_ping(packet.payload);
 	}
-	if (network->type==PONG) {
+	if (packet.network->type==PONG) {
 		recv_pong();
 	}
-	if (network->type==GET) {
-		recv_get(payload);
+	if (packet.network->type==GET) {
+		recv_get(&packet);
 	}
-	if (network->type==SET) {
-		recv_set(payload);
+	if (packet.network->type==SET) {
+		recv_set(&packet);
 	}
-	payload=network->payload;
 	rfm12_rx_clear();
-	return network->type;
+	return 0;
+}
+
+uint8_t get_remaining_length(struct packet_t packet) {
+	return (char*)packet.network+BUGONE_PACKET_SIZE-packet.payload;
 }

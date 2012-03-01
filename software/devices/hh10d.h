@@ -5,6 +5,6 @@
 
 void hh10d_init(void*);
 void hh10d_freq(void);
-int8_t hh10d_read(struct data_t *data);
+int8_t hh10d_read(struct packet_t *packet);
 
 #endif

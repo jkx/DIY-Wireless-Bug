@@ -16,16 +16,15 @@ void delay_1s() {
 }
 
 /* Initialise board */
-void bugone_init(application_t* applications) {
+void bugone_init(const application_t* applications) {
 	char buf[16];
 	uint8_t i;
 
 	led_init();
-  	delay_1s();
 	uart_init();
 	rfm12_init();
 	config_init();
-	set_apps(applications,sizeof(applications)/sizeof(*applications));
+	set_apps(applications,2);
 
 	uart_putstr_P(PSTR("Firmware version "));
 	uart_putstr_P(PSTR(FWVERSION));

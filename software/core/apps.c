@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdlib.h>
+#include <avr/pgmspace.h>
 #include "apps.h"
 
 static application_t* _apps;
@@ -10,9 +11,9 @@ void set_apps(application_t* apps, uint8_t size) {
 	_size = size;
 }
 
-application_t* get_app(uint8_t sensor) {
-	if (sensor <= _size) 
-		return &_apps[sensor];
+application_t* get_app(uint8_t device) {
+	if (device <= _size) 
+		return &_apps[device];
 	else
 		return NULL;
 }

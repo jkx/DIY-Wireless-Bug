@@ -15,14 +15,10 @@
 
 #include "apps.h"
 #include "value.h"
-#include "hh10d.h"
+//#include "hh10d.h"
 #include "led.h"
 #include "const.h"
-#include "button.h"
-
-uint8_t get_node_src(struct data_t *data) {
-	return data->packet[0];
-}
+//#include "button.h"
 
 volatile uint8_t wake_me_up=0;
 volatile uint8_t seconds = 0;
@@ -45,12 +41,11 @@ ISR(TIMER1_COMPA_vect) {
 
 // XXX: Theses structures belong to PROGMEM ...
 
-const application_t applications[4] = {
+const application_t applications[] = {
  {NULL,const_read,NULL,NULL},
  {NULL,led_get,led_set,NULL},
- {button_init,button_read,NULL,NULL},
-// {NULL,text_get,text_set,NULL},
- {hh10d_init,hh10d_read,NULL,NULL},
+ //{button_init,button_read,NULL,NULL},
+ //{hh10d_init,hh10d_read,NULL,NULL},
 };
 
 int main ( void )
@@ -73,41 +68,31 @@ int main ( void )
 
 	// Every minutes
 	if (seconds > 20) {
-		struct data_t data;
+		struct packet_t *packet = get_tx_packet();
 		int8_t len;
         	uart_putstr_P(PSTR("\r\n"));
-		data.remaining_len=26;
-		data.buf=buf;
-		data.packet=buf;
 		for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
     			uart_putstr_P(PSTR("#"));
 			if (applications[i].get == NULL) { continue; }
-			set_devices(&data,i,42);
-			data.buf+=2;
-			data.remaining_len-=2;
-			len=applications[i].get(&data);
+			set_devices(packet,i,42);
+			len=applications[i].get(packet);
 			if (len > 0) {
-				data.remaining_len-=len;
-				data.buf+=len;
+				//data.remaining_len-=len;
+				//data.buf+=len;
 			}
 		}
-		send(0xFF,6,buf,26);
+		send(0xFF,6,packet);
 		seconds=0;
 	}
 
 	// Asynchronous events
 	if (wake_me_up > 0) {
-		struct data_t data;
+		struct packet_t *packet;
 		int8_t len;
 	        uart_putstr_P(PSTR("\r\n"));
-		data.remaining_len=26;
-		data.buf=buf;
-		data.packet=buf;
-		set_devices(&data,wake_me_up,42);
-		data.buf+=2;
-		data.remaining_len-=2;
-		len=applications[wake_me_up].get(&data);
-		send(0xFF,6,buf,26);
+		set_devices(packet,wake_me_up,42);
+		len=applications[wake_me_up].get(&packet);
+		send(0xFF,6,buf);
 
 		wake_me_up = 0;
 	}

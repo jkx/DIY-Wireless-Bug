@@ -55,7 +55,7 @@ void hh10d_init(void *cfg) {
 	EIMSK |= (1 << INT1);
 }
 
-int8_t hh10d_read(struct data_t *data) {
+int8_t hh10d_read(struct packet_t *packet) {
     int RH;
     char buf[6];
 
@@ -72,6 +72,6 @@ int8_t hh10d_read(struct data_t *data) {
     uart_putstr_P(PSTR("\r\n"));
 #endif
 
-    if (data->remaining_len < 2) return -1;
-    return set_data_int16(data,RH);
+    if (get_remaining_length(packet) < 2) return -1;
+    return set_data_int16(packet,RH);
 }
