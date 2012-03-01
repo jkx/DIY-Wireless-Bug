@@ -29,7 +29,7 @@ CC=avr-gcc
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS=-I../../boards/$(BOARD) -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os
+CFLAGS=-I../../boards/$(BOARD) -I../../devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os
 
 
 
@@ -105,7 +105,10 @@ $(BOARD)/uart.o:
 $(BOARD)/rfm12.o:
 	$(CC) $(CFLAGS) -c $(CORE)/rfm12.c -o $(BOARD)/rfm12.o
 
-base: $(BOARD)/network.o $(BOARD)/ping.o $(BOARD)/get.o $(BOARD)/apps.o $(BOARD)/value.o $(BOARD)/config.o $(BOARD)/uart.o $(BOARD)/rfm12.o
+$(BOARD)/bugOne.o:
+	$(CC) $(CFLAGS) -c $(CORE)/bugOne.c -o $(BOARD)/bugOne.o
+
+base: $(BOARD)/network.o $(BOARD)/ping.o $(BOARD)/get.o $(BOARD)/apps.o $(BOARD)/value.o $(BOARD)/config.o $(BOARD)/uart.o $(BOARD)/rfm12.o $(BOARD)/bugOne.o
 
 
 
