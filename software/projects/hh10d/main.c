@@ -74,7 +74,7 @@ int main ( void )
 		for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
     			uart_putstr_P(PSTR("#"));
 			if (applications[i].get == NULL) { continue; }
-			set_devices(packet,i,42);
+			set_devices(packet,i,0x29);
 			len=applications[i].get(packet);
 			if (len > 0) {
 				//data.remaining_len-=len;
@@ -87,12 +87,12 @@ int main ( void )
 
 	// Asynchronous events
 	if (wake_me_up > 0) {
-		struct packet_t *packet;
+		struct packet_t *packet = get_tx_packet();
 		int8_t len;
 	        uart_putstr_P(PSTR("\r\n"));
 		set_devices(packet,wake_me_up,42);
-		len=applications[wake_me_up].get(&packet);
-		send(0xFF,6,buf);
+		len=applications[wake_me_up].get(packet);
+		send(0xFF,VALUE,packet);
 
 		wake_me_up = 0;
 	}
