@@ -14,8 +14,11 @@ struct hello_t {
 	uint8_t	cost;
 };
 
-struct {
-} ping;
+struct pong_t {
+	uint8_t version;
+	uint8_t devices;
+	uint32_t uptime;
+};
 
 struct network_t {
 	uint8_t	src;

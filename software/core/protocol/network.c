@@ -62,7 +62,7 @@ uint8_t recv(char* buf) {
 		// TODO
 	}
 	if (packet.network->type==PING) {
-		recv_ping(packet.payload);
+		recv_ping(&packet);
 	}
 	if (packet.network->type==PONG) {
 		recv_pong();

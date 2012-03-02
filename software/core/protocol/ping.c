@@ -9,7 +9,10 @@
 
 void recv_ping(struct packet_t* packet) {
 	struct packet_t *send_packet=get_tx_packet();
-	memcpy(send_packet->payload,"pong",4);
+	struct pong_t *pong=(struct pong_t*)send_packet->payload;
+	pong->version=FWVERSION;
+	pong->devices=2;
+	pong->uptime=0xBABE;
 	send(packet->network->src,PONG,send_packet);
 }
 

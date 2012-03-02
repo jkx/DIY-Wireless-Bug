@@ -27,7 +27,7 @@ void bugone_init(const application_t* applications) {
 	set_apps(applications,2);
 
 	uart_putstr_P(PSTR("Firmware version "));
-	uart_putstr_P(PSTR(FWVERSION));
+	uart_putstr_P(PSTR(FWVERSION_STR));
 	uart_putstr_P(PSTR("\r\n"));
 
 	uart_putstr_P(PSTR("Node address : "));

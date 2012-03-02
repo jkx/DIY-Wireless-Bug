@@ -1,7 +1,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define FWVERSION "0.0.1"
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
+#define FWVERSION 1
+#define FWVERSION_STR "" STR(FWVERSION)
 
 void config_init();
 
