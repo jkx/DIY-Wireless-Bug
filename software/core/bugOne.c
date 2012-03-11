@@ -16,7 +16,7 @@ void delay_1s() {
 }
 
 /* Initialise board */
-void bugone_init(const application_t* applications, uint8_t nb_devices) {
+void bugone_init(application_t* applications, uint8_t nb_devices) {
 	char buf[16];
 	uint8_t i;
 

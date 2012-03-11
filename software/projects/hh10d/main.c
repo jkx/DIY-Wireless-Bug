@@ -15,7 +15,7 @@
 
 #include "apps.h"
 #include "value.h"
-//#include "hh10d.h"
+#include "hh10d.h"
 #include "led.h"
 #include "const.h"
 //#include "button.h"
@@ -41,11 +41,11 @@ ISR(TIMER1_COMPA_vect) {
 
 // XXX: Theses structures belong to PROGMEM ...
 
-const application_t applications[] = {
+application_t applications[] = {
  {NULL,const_read,NULL,NULL},
  {NULL,led_get,led_set,NULL},
  //{button_init,button_read,NULL,NULL},
- //{hh10d_init,hh10d_read,NULL,NULL},
+ {hh10d_init,hh10d_read,NULL,NULL},
 };
 
 int main ( void )
@@ -56,7 +56,7 @@ int main ( void )
   uint8_t i;
   char buf[28];
 
-  bugone_init(applications,2);
+  bugone_init(applications,3);
 
   while (1) {
   	// RFM12 managment
