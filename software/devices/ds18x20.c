@@ -57,7 +57,7 @@ void ds18x20_init(void *cfg) {
 
 }
 
-int8_t ds18x20_read(struct data_t *data) {
+int8_t ds18x20_read(struct packet_t *packet) {
 	uart_putstr_P(PSTR("ds18x20 read\r\n"));
 	return 0;
 }
