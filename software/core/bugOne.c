@@ -16,7 +16,7 @@ void delay_1s() {
 }
 
 /* Initialise board */
-void bugone_init(const application_t* applications) {
+void bugone_init(const application_t* applications, uint8_t nb_devices) {
 	char buf[16];
 	uint8_t i;
 
@@ -24,7 +24,7 @@ void bugone_init(const application_t* applications) {
 	uart_init();
 	rfm12_init();
 	config_init();
-	set_apps(applications,2);
+	set_apps(applications,nb_devices);
 
 	uart_putstr_P(PSTR("Firmware version "));
 	uart_putstr_P(PSTR(FWVERSION_STR));
@@ -35,7 +35,7 @@ void bugone_init(const application_t* applications) {
 	uart_putstr(buf);
 	uart_putstr_P(PSTR("\r\n"));
 
-	for (i=0 ; i < (sizeof(applications)/sizeof(*applications)); i++) {
+	for (i=0 ; i < nb_devices; i++) {
 		if (applications[i].init == NULL) { continue; }
 		applications[i].init(applications[i].cfg);
 	}

@@ -56,7 +56,7 @@ int main ( void )
   uint8_t i;
   char buf[28];
 
-  bugone_init(applications);
+  bugone_init(applications,2);
 
   while (1) {
   	// RFM12 managment
