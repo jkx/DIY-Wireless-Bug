@@ -2,18 +2,19 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include "uart.h"
+#include "lm35.h"
 
 // Lecture d'un LM35 branché sur PC0
 
 #define DEBUG
 
-uint16_t adc_init() {
+uint16_t adc_init(uint8_t pin) {
 	ADCSRA |= (1 << ADEN) |  // Analog-Digital enable bit
 	          (1 << ADPS1)|  // set prescaler to 8 (clock / 8)
                   (1 << ADPS0);  // set prescaler to 8 (doc Atmega168 23.8.2 p.258)
 		     
 	ADMUX = (1 << REFS0) | 	// Using AVcc as reference
-		(2);		// Input is ADC2 (PC2)
+		(pin);		// Input is ADC2 (PC2)
 }
 
 uint16_t adc_read() {
@@ -35,11 +36,11 @@ uint16_t adc_read() {
 	return result;
 }
 
-void lm35_init() {
-	adc_init();
+void lm35_init(void *lm35_cfg) {
+	adc_init(((lm35_cfg_s*)lm35_cfg)->adc_pin);
 }
 
-int16_t lm35_read() {
+int8_t lm35_read(struct packet_t *packet) {
 	uint16_t voltage;
 	uint16_t temperature;
 	float tmp;
@@ -63,5 +64,5 @@ int16_t lm35_read() {
 	uart_putstr_P(PSTR("\r\n"));
 #endif
 
-	return temperature;
+	return set_data_int16(packet, temperature);
 }

@@ -14,62 +14,39 @@
 
 #include "value.h"
 
-void delay_1s() {
-    _delay_ms(250);
-    _delay_ms(250);
-    _delay_ms(250);
-    _delay_ms(250);
-}
+#include "led.h"
+#include "const.h"
+#include "lm35.h"
+
+volatile uint8_t wake_me_up=0;
+volatile uint8_t seconds = 0;
 
 void timer1_init() {
 	// Set timer 1 prescaler
 	TCCR1B |= ((1 << CS10) | (1 << CS12)); // Set up timer at Fcpu/1024
 }
 
+// XXX: Theses structures belong to PROGMEM ...
+const lm35_cfg_s lm35_cfg = {3};
+
+application_t applications[] = {
+ {NULL,const_read,NULL,NULL},
+ {NULL,led_get,led_set,NULL},
+ //{button_init,button_read,NULL,NULL},
+ {lm35_init,lm35_read,NULL,(void*)&lm35_cfg},
+};
+
 int main ( void )
 {
   uint8_t *bufcontents;
-  uint16_t ticker = 0;
+  uint8_t i;
   char buf[16];
 
   uint16_t temperature;
 
-  drive(LED1);
-  drive(LED2);
-
-  set_output(LED1);
-  set_output(LED2);
-	
-  uart_init();
-  timer1_init();
-  lm35_init();
-
-  delay_1s();
-  
-  uart_putstr_P(PSTR("Firmware version "));
-  uart_putstr_P(PSTR(FWVERSION));
-  uart_putstr_P(PSTR("\r\n"));
-
-  config_init();
-
-  uart_putstr_P(PSTR("Node address : "));
-  itoa(config.address,buf,10);
-  uart_putstr(buf);
-  uart_putstr_P(PSTR("\r\n"));
-
-  _delay_ms(250);
-  rfm12_init();
-  _delay_ms(250);
-
-  sei();
-
-  clr_output(LED1);
-  clr_output(LED2);
-
-  uart_putstr_P(PSTR("AVR init complete\r\n"));
+  bugone_init(applications,3);
 
   while (1) {
-
   	// RFM12 managment
 	rfm12_tick();
 	if (rfm12_rx_status() == STATUS_COMPLETE) {
@@ -77,16 +54,35 @@ int main ( void )
 		recv(bufcontents);
 	}
 
-	// Every second
-	if (TCNT1 >= 7812) {
-		toggle_output(LED2);
+	// Every minutes
+	if (seconds > 20) {
+		struct packet_t *packet = get_tx_packet();
+		int8_t len;
+        	uart_putstr_P(PSTR("\r\n"));
+		for (i=0 ; i < (sizeof(applications)/sizeof(*applications)) ; i++) {
+    			uart_putstr_P(PSTR("#"));
+			if (applications[i].get == NULL) { continue; }
+			set_devices(packet,i,0x29);
+			len=applications[i].get(packet);
+			if (len > 0) {
+				//data.remaining_len-=len;
+				//data.buf+=len;
+			}
+		}
+		send(0xFF,6,packet);
+		seconds=0;
+	}
 
-		// Send temperature to node 0
-  		uart_putstr_P(PSTR("Send temperature\r\n"));
-		temperature = lm35_read();
-		send_value(0,temperature,-1,UNIT_CELSIUS);
+	// Asynchronous events
+	if (wake_me_up > 0) {
+		struct packet_t *packet = get_tx_packet();
+		int8_t len;
+	        uart_putstr_P(PSTR("\r\n"));
+		set_devices(packet,wake_me_up,42);
+		len=applications[wake_me_up].get(packet);
+		send(0xFF,VALUE,packet);
 
-		TCNT1 = 0;
+		wake_me_up = 0;
 	}
  }
 }
