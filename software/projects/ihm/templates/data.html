@@ -1,0 +1,4 @@
+{
+"label": "{{bugnet}}",
+"data": [{% for data in datas %}[{{data.timestamp|date:"U"}}000, {{data.data}}],{% endfor %} []]
+}

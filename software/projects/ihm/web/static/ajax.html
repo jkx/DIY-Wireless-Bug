@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Flot Examples</title>
+    <link href="layout.css" rel="stylesheet" type="text/css">
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
+ </head>
+    <body>
+    <h1>bugnet kerellou, node 1, device 1</h1>
+
+    <div id="placeholder" style="width:600px;height:300px;"></div>
+
+    <input class="dataUpdate" type="button" value="Poll for data">
+
+<script type="text/javascript">
+$(function () {
+    var options = {
+        lines: { show: true },
+        points: { show: true },
+        xaxis: { mode: "time" }
+    };
+    var data = [];
+    var placeholder = $("#placeholder");
+    
+    $.plot(placeholder, data, options);
+
+    
+    // fetch one series, adding to what we got
+    var alreadyFetched = {};
+    
+    // initiate a recurring data update
+    $("input.dataUpdate").click(function () {
+        // reset data
+        data = [];
+        alreadyFetched = {};
+        
+        $.plot(placeholder, data, options);
+
+        var iteration = 0;
+        
+        function fetchData() {
+            ++iteration;
+
+            function onDataReceived(series) {
+                // we get all the data in one go, if we only got partial
+                // data, we could merge it with what we already got
+                data = [ series ];
+                
+                $.plot($("#placeholder"), data, options);
+            }
+        
+            $.ajax({
+                // usually, we'll just call the same URL, a script
+                // connected to a database, but in this case we only
+                // have static example files so we need to modify the
+                // URL
+                url: "http://127.0.0.1:8000/bugone/kerellou/1/1",
+                type: 'GET',
+                dataType: 'json',
+                success: onDataReceived
+            });
+            
+            if (iteration < 5)
+                setTimeout(fetchData, 10000);
+            else {
+                data = [];
+                alreadyFetched = {};
+            }
+        }
+
+        setTimeout(fetchData, 100);
+    });
+});
+</script>
+
+ </body>
+</html>

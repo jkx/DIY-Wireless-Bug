@@ -1,0 +1,5 @@
+bugnet : {{bugnet}}
+
+{% for data in datas %}
+{{data.timestamp}} : {{data.data}} /
+{% endfor %}
