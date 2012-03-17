@@ -59,6 +59,7 @@ uint8_t set_data_int16(struct packet_t *packet, int16_t value) {
 	packet->payload[1]=value & 0x00FF;
 	packet->payload[2]=(value & 0xFF00) >> 8;
 
+	packet->payload+=3;
 	return 3;
 }
 
@@ -74,5 +75,6 @@ uint8_t set_data_string(struct packet_t *packet, char* str, uint8_t len) {
 	packet->payload[1]=len;
 	memcpy(packet->payload+2,str,len);
 
+        packet->payload+=len+2;
 	return len+2;
 }
