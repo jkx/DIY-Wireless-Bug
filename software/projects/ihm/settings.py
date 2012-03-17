@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-ROOT_URLCONF = 'bugone.urls'
+ROOT_URLCONF = 'ihm.urls'
 
 TEMPLATE_DIRS = (
     join(HSJDR_ROOT, "templates"),
