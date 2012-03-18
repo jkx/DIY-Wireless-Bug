@@ -1,25 +1,18 @@
+### PROJECT CONFIG ###
+BUGONE_PATH=../..
+BOARD=bugone
 
 PRG=dht11
+DEVICE_FILES=const.o led.o dht11.o
+FILES=main.o
 
-include ../make.inc
-
-
-
+include $(BUGONE_PATH)/projects/bugone.inc
 
 $(BOARD)/main.o:main.c
-	$(CC) $(CFLAGS) -c main.c -o $(BOARD)/main.o
 
-$(BOARD)/dht11.o:../../devices/dht11.c
+# CUSTOM RULE: -std=c99
+$(BOARD)/dht11.o: $(BUGONE_PATH)/devices/dht11.c $(BUGONE_PATH)/devices/dht11.h
 	$(CC) $(CFLAGS) -std=c99 -c ../../devices/dht11.c -o $(BOARD)/dht11.o
-
-$(BOARD)/led.o:../../devices/led.c
-	$(CC) $(CFLAGS) -c ../../devices/led.c -o $(BOARD)/led.o
-
-$(BOARD)/const.o:../../devices/const.c
-	$(CC) $(CFLAGS) -c ../../devices/const.c -o $(BOARD)/const.o
-
-$(BOARD)/$(PRG).elf:base $(BOARD)/uart.o $(BOARD)/main.o $(BOARD)/dht11.o $(BOARD)/led.o $(BOARD)/const.o
-	$(CC) $(CFLAGS) -o $(BOARD)/$(PRG).elf $(BOARD)/*.o
 
 
 
