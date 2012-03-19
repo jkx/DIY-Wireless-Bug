@@ -2,18 +2,26 @@
 <html>
  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Flot Examples</title>
-    <link href="layout.css" rel="stylesheet" type="text/css">
+    <title>bugnet {{bugnet}} graph</title>
+    <link href="/static/layout.css" rel="stylesheet" type="text/css">
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
-    <script language="javascript" type="text/javascript" src="jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="/static/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="/static/jquery.flot.js"></script>
  </head>
     <body>
-    <h1>bugnet kerellou, node 1, device 1</h1>
+    <h1>bugnet {{bugnet}}</h1>
 
     <div id="placeholder" style="width:600px;height:300px;"></div>
 
-    <input class="dataUpdate" type="button" value="Poll for data">
+    Node :
+    <select id="nodes_list">
+    {% for node in nodes %}
+        <option value={{node.node_id}}>{{node.node_id}}</option>
+    {% endfor %}
+    </select>
+    Device :
+    <select id="devices_list">
+    </select>
 
 <script type="text/javascript">
 $(function () {
@@ -24,15 +32,27 @@ $(function () {
     };
     var data = [];
     var placeholder = $("#placeholder");
-    
-    $.plot(placeholder, data, options);
 
+    $.plot(placeholder, data, options);
     
     // fetch one series, adding to what we got
     var alreadyFetched = {};
+
+    
+    function get_devices() {
+        node_id = document.getElementById('nodes_list').value;
+        $.ajax({
+            url: "http://127.0.0.1:8000/bugone/{{bugnet}}/"+node_id+"/",
+            type: 'GET',
+            success: function(options) {
+                $("select#devices_list").html(options);
+                draw();
+            }
+        });
+    };
     
     // initiate a recurring data update
-    $("input.dataUpdate").click(function () {
+    function draw() {
         // reset data
         data = [];
         alreadyFetched = {};
@@ -51,19 +71,22 @@ $(function () {
                 
                 $.plot($("#placeholder"), data, options);
             }
+
+            node_id = document.getElementById('nodes_list').value;
+            device_id = document.getElementById('devices_list').value;
         
             $.ajax({
                 // usually, we'll just call the same URL, a script
                 // connected to a database, but in this case we only
                 // have static example files so we need to modify the
                 // URL
-                url: "http://127.0.0.1:8000/bugone/kerellou/1/1",
+                url: "http://127.0.0.1:8000/bugone/{{bugnet}}/"+node_id+"/"+device_id,
                 type: 'GET',
                 dataType: 'json',
                 success: onDataReceived
             });
             
-            if (iteration < 5)
+            if (iteration < 1)
                 setTimeout(fetchData, 10000);
             else {
                 data = [];
@@ -72,7 +95,12 @@ $(function () {
         }
 
         setTimeout(fetchData, 100);
-    });
+    }
+
+    $("#nodes_list").change(get_devices);
+    $("#devices_list").change(draw);
+
+    get_devices();
 });
 </script>
 

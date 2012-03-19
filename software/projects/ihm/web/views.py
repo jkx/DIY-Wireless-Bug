@@ -8,29 +8,25 @@ from django.shortcuts import render_to_response
 
 from web.models import DeviceData
 from web.models import BugNet
+from web.models import BugNetDevice
 
 
-def index(request, bugnet, node_id, device_id):
-    #if request.is_ajax():
-    #    if format == 'xml':
-    #        mimetype = 'application/xml'
-    #    if format == 'json':
-    #        mimetype = 'application/javascript'
-    #    format = 'json'
-    #    mimetype = 'application/javascript'
-    #    data = serializers.serialize(format,
-    #        DeviceData.objects.filter(bugnet=BugNet.objects.filter(name=bugnet)),
-    #        fields=('timestamp','data'))
-    #    return HttpResponse(data, mimetype)
-    # If you want to prevent non XHR calls
-    #else:
-    #    return HttpResponse(status=400)
-
-    datas = DeviceData.objects.filter(bugnet=BugNet.objects.filter(name=bugnet))
-    return render_to_response("data.html", {'bugnet' : 'kerellou', 'datas':
+def data(request, bugnet, node_id, device_id):
+    datas = DeviceData.objects.filter(bugnet=BugNet.objects.filter(name=bugnet),node_id=node_id,device_id=device_id).order_by('timestamp').reverse()[:100]
+    return render_to_response("data.json", {'bugnet' : 'kerellou', 'datas':
         datas}, mimetype = 'application/javascript')
 
 
-def node(request, node_id):
-    response = "Node %s" % node_id
-    return HttpResponse(response)
+def devices(request, bugnet, node_id):
+    devices = BugNetDevice.objects.filter(
+                bugnet=BugNet.objects.filter(name=bugnet),node_id=node_id)
+    return render_to_response("devices.html", {'devices' : devices})
+
+
+def nodes(request, bugnet):
+    devices = BugNetDevice.objects.filter(
+                bugnet=BugNet.objects.filter(name=bugnet))
+    nodes = BugNetDevice.objects.filter(
+                bugnet=BugNet.objects.filter(name=bugnet)).values('node_id').annotate()
+    return render_to_response("bugnet.html",
+            {'bugnet' : bugnet, 'devices' : devices, 'nodes' : nodes})

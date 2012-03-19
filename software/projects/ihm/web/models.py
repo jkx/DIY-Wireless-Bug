@@ -23,6 +23,9 @@ class BugNetDevice(models.Model):
     node_id = models.IntegerField()
     device_id = models.IntegerField()
 
+    def __unicode__(self):
+        return self.device_description.name
+
 
 class DeviceData(models.Model):
     bugnet = models.ForeignKey(BugNet)
