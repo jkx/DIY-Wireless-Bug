@@ -1,17 +1,11 @@
+### PROJECT CONFIG ###
+BUGONE_PATH=../..
+BOARD=bugone
 
 PRG=test
+NO_RFM12=1
+FILES=main.o
 
-include ../make.inc
-
-
-
+include $(BUGONE_PATH)/projects/bugone.inc
 
 $(BOARD)/main.o:main.c
-	$(CC) $(CFLAGS) -c main.c -o $(BOARD)/main.o
-
-
-$(BOARD)/$(PRG).elf:$(BOARD)/uart.o $(BOARD)/main.o
-	$(CC) $(CFLAGS) -o $(BOARD)/$(PRG).elf $(BOARD)/*.o
-
-
-

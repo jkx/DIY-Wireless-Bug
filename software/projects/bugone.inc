@@ -33,6 +33,7 @@ ifeq ($(BOARD),veroboard)
 endif
 
 
+
 ### DEFAULT RULE ###
 all: $(BOARD) $(BOARD)/$(PRG).hex
 
@@ -56,7 +57,11 @@ CPP=avr-cpp
 OBJCOPY=avr-objcopy
 CFLAGS=-I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os
 
-OBJS=$(addprefix $(BOARD)/,$(BASE) $(DEVICE_FILES) $(FILES))
+ifeq ($(NO_RFM12), 1)
+	OBJS=$(addprefix $(BOARD)/, uart.o $(FILES))
+else
+	OBJS=$(addprefix $(BOARD)/, $(BASE) $(DEVICE_FILES) $(FILES))
+endif
 
 
 

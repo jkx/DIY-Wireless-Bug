@@ -14,5 +14,3 @@ $(BOARD)/main.o:main.c
 $(BOARD)/dht11.o: $(BUGONE_PATH)/devices/dht11.c $(BUGONE_PATH)/devices/dht11.h
 	$(CC) $(CFLAGS) -std=c99 -c ../../devices/dht11.c -o $(BOARD)/dht11.o
 
-
-
