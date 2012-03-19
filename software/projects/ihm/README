@@ -1,0 +1,10 @@
+To run the bugone IHM, you have to install django and django extension.
+
+- Set your databases settings in settings.py
+- Create databse schema with :
+ $ python manage.py syncdb
+- Start webserver with
+ $ python manage.py runserver
+- Using the django admin interface, describe your bugnet network
+- Start logging data with
+ $ python manage.py runjob log
