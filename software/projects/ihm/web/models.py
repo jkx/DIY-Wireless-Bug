@@ -10,6 +10,15 @@ class BugNet(models.Model):
         return self.name
 
 
+class BugNetNode(models.Model):
+    bugnet = models.ForeignKey(BugNet)
+    location = models.CharField(max_length=64)
+    node_id = models.IntegerField()
+
+    def __unicode__(self):
+        return "%s, %s" % (self.bugnet.name, self.location)
+
+
 class DeviceDescription(models.Model):
     name = models.CharField(max_length=32)
 
@@ -18,9 +27,8 @@ class DeviceDescription(models.Model):
 
 
 class BugNetDevice(models.Model):
-    bugnet = models.ForeignKey(BugNet)
+    node = models.ForeignKey(BugNetNode)
     device_description = models.ForeignKey(DeviceDescription)
-    node_id = models.IntegerField()
     device_id = models.IntegerField()
 
     def __unicode__(self):
