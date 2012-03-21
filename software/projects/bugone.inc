@@ -82,7 +82,7 @@ $(BOARD)/$(PRG).hex: $(BOARD)/$(PRG).elf
 	@$(OBJCOPY) -j .text -j .data -O ihex $(BOARD)/$(PRG).elf $(BOARD)/$(PRG).hex
 	@avr-size $(BOARD)/$(PRG).elf
 
-$(BOARD)/$(PRG).elf: $(OBJS)
+$(BOARD)/$(PRG).elf: $(BOARD) $(OBJS)
 	@echo -- $@ --
 	@$(CC) $(CFLAGS) -o $(BOARD)/$(PRG).elf $(OBJS)
 
@@ -93,7 +93,7 @@ $(BOARD)/$(PRG).elf: $(OBJS)
 reset:
 	avrdude $(DUDE_OPT)
 
-load: preconfig $(BOARD)/$(PRG).hex
+load: $(BOARD)/$(PRG).hex
 	avrdude $(DUDE_OPT) -U flash:w:$(BOARD)/$(PRG).hex
 
 
