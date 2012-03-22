@@ -13,12 +13,17 @@ class BugNetAdmin(admin.ModelAdmin):
     list_editable = ('location', 'contact')
 
 
-class BugNetNodeAdmin(admin.ModelAdmin):
-    list_display = ('bugnet', 'location', 'node_id')
-
-
 class BugNetDeviceAdmin(admin.ModelAdmin):
     list_display = ('node', 'device_description', 'device_id')
+
+
+class BugNetDeviceInline(admin.TabularInline):
+    model = BugNetDevice
+
+
+class BugNetNodeAdmin(admin.ModelAdmin):
+    list_display = ('bugnet', 'location', 'node_id')
+    inlines = [ BugNetDeviceInline ]
 
 
 class DeviceDataAdmin(admin.ModelAdmin):
