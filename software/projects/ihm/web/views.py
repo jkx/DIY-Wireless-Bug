@@ -14,7 +14,7 @@ from web.models import BugNetDevice
 
 def data(request, bugnet, node_id, device_id):
     datas = DeviceData.objects.filter(bugnet=BugNet.objects.filter(name=bugnet),node_id=node_id,device_id=device_id).order_by('timestamp').reverse()[:100]
-    return render_to_response("data.json", {'bugnet' : 'kerellou', 'datas':
+    return render_to_response("data.json", {'bugnet' : bugnet, 'datas':
         datas}, mimetype = 'application/javascript')
 
 
