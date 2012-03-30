@@ -31,7 +31,8 @@ void timer1_init() {
 void bugone_init(application_t* applications) {
 	char buf[16];
 	uint8_t i;
-        uint8_t nb_devices;
+        uint8_t nb_devices=0;
+        application_t *app=applications;
 
 	led_init();
 	uart_init();
@@ -82,55 +83,47 @@ ISR(TIMER1_COMPA_vect) {
     	uart_putc('.');
 }
 
-int main ( void )
-{
-  uint8_t *bufcontents;
-  uint8_t i;
-  uint8_t nb_devices=0;
-  application_t *app=applications;
+void bugone_loop() {
+    uint8_t *bufcontents;
+    uint8_t i;
 
-  bugone_init(applications);
+    // RFM12 managment
+    rfm12_tick();
+    if (rfm12_rx_status() == STATUS_COMPLETE) {
+        bufcontents=rfm12_rx_buffer();
+        recv(bufcontents);
+    }
 
-  while (1) {
-  	// RFM12 managment
-	rfm12_tick();
-	if (rfm12_rx_status() == STATUS_COMPLETE) {
-		bufcontents=rfm12_rx_buffer();
-		recv(bufcontents);
-	}
+    // Every minutes
+    if (seconds > 20) {
+        struct packet_t *packet = get_tx_packet();
+        application_t *application;
+        int8_t len;
+        uart_putstr_P(PSTR("\r\n"));
+        i=0;
+        while ( (application = get_app(i)) != NULL) {
+            i++;
+            uart_putstr_P(PSTR("#"));
+            if (application->get == NULL) { continue; }
+                set_devices(packet,i,0x29);
+                len=application->get(packet);
+                if (len > 0) {
+                    //data.remaining_len-=len;
+                    //data.buf+=len;
+                }
+        }
+        send(0xFF,6,packet);
+        seconds=0;
+    }
 
-	// Every minutes
-	if (seconds > 20) {
-		struct packet_t *packet = get_tx_packet();
-                application_t *application;
-		int8_t len;
-        	uart_putstr_P(PSTR("\r\n"));
-                i=0;
-                while ( (application = get_app(i)) != NULL) {
-                        i++;
-    			uart_putstr_P(PSTR("#"));
-			if (application->get == NULL) { continue; }
-			set_devices(packet,i,0x29);
-			len=application->get(packet);
-			if (len > 0) {
-				//data.remaining_len-=len;
-				//data.buf+=len;
-			}
-		}
-		send(0xFF,6,packet);
-		seconds=0;
-	}
-
-	// Asynchronous events
-	if (wake_me_up > 0) {
-		struct packet_t *packet = get_tx_packet();
-		int8_t len;
-	        uart_putstr_P(PSTR("\r\n"));
-		set_devices(packet,wake_me_up,42);
-		len=applications[wake_me_up].get(packet);
-		send(0xFF,VALUE,packet);
-
-		wake_me_up = 0;
-	}
- }
+    // Asynchronous events
+    if (wake_me_up > 0) {
+        struct packet_t *packet = get_tx_packet();
+        int8_t len;
+        uart_putstr_P(PSTR("\r\n"));
+        set_devices(packet,wake_me_up,42);
+        len=applications[wake_me_up].get(packet);
+        send(0xFF,VALUE,packet);
+        wake_me_up = 0;
+    }
 }

@@ -41,7 +41,7 @@ all: $(BOARD) $(BOARD)/$(PRG).hex
 
 ### CONSTANTS ###
 CORE=$(BUGONE_PATH)/core
-BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o
+BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o bugone_main.o
 
 ifndef DEVICE_FILES
 	DEVICE_FILES=
@@ -135,5 +135,6 @@ $(BOARD)/get.o:     $(CORE)/protocol/get.c
 $(BOARD)/network.o: $(CORE)/protocol/network.c $(CORE)/protocol/network.h
 $(BOARD)/ping.o:    $(CORE)/protocol/ping.c $(CORE)/protocol/ping.h
 $(BOARD)/value.o:   $(CORE)/protocol/value.c $(CORE)/protocol/value.h
+$(BOARD)/bugone_main.o:   $(CORE)/bugone_main.c
 
 $(addprefix $(BOARD)/,$(DEVICE_FILES)): $(BOARD)/%.o: $(BUGONE_PATH)/devices/%.c $(BUGONE_PATH)/devices/%.h
