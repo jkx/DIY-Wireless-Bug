@@ -28,15 +28,24 @@ void timer1_init() {
 }
 
 /* Initialise board */
-void bugone_init(application_t* applications, uint8_t nb_devices) {
+void bugone_init(application_t* applications) {
 	char buf[16];
 	uint8_t i;
+        uint8_t nb_devices;
 
 	led_init();
 	uart_init();
 	rfm12_init();
 	config_init();
-	set_apps(applications,nb_devices);
+	/* Count how many devices are declared */
+        while (!((app->init == NULL) && 
+              (app->get == NULL) && 
+              (app->set == NULL) && 
+              (app->cfg == NULL))) { 
+            nb_devices++;
+            app++;
+        }
+        set_apps(applications,nb_devices);
 
 	uart_putstr_P(PSTR("Firmware version "));
 	uart_putstr_P(PSTR(FWVERSION_STR));
@@ -80,16 +89,7 @@ int main ( void )
   uint8_t nb_devices=0;
   application_t *app=applications;
 
-  /* Count how many devices are declared */
-  while (!((app->init == NULL) && 
-              (app->get == NULL) && 
-              (app->set == NULL) && 
-              (app->cfg == NULL))) { 
-      nb_devices++;
-      app++;
-  }
-
-  bugone_init(applications,nb_devices);
+  bugone_init(applications);
 
   while (1) {
   	// RFM12 managment
