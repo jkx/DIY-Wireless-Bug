@@ -43,8 +43,14 @@ int main(void) {
 	drive(LED1);
 	drive(LED2);
 
-	clr_output(LED1);
+        set_output(LED1);
+        _delay_ms(250);
+        set_output(LED2);
+        _delay_ms(250);
+        _delay_ms(250);
 	clr_output(LED2);
+        _delay_ms(250);
+	clr_output(LED1);
 
 	while (1) {
 		if (rfm12_rx_status() == STATUS_COMPLETE) {
