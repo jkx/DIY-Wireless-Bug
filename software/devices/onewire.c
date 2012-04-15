@@ -10,6 +10,7 @@ modified by Martin Thomas (mthomas(at)rhrk.uni-kl.de)
           via ow_command_skip_last_recovery
 */
 
+#include "board.h"
 
 #include <avr/io.h>
 #include <util/delay.h>

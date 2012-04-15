@@ -36,17 +36,21 @@ changelog:
 // for 10ms delay in copy scratchpad
 #include <util/delay.h>
 #endif /* DS18X20_EEPROMSUPPORT */
+#include "board.h"
+#include <util/delay.h>
+#include "value.h"
 
 /* ds18x20 */
 void ds18x20_init(void *cfg) {
-	uint8_t diff,id;
+	uint8_t diff;
+        uint8_t id[OW_ROMCODE_SIZE];
 
 	uart_putstr_P(PSTR("ds18x20 init\r\n"));
 
 	ow_reset();
 
 	diff=OW_SEARCH_FIRST;
-	DS18X20_find_sensor(&diff, &id);
+	DS18X20_find_sensor(&diff, id);
 
 	if( diff == OW_PRESENCE_ERR ) {
 		uart_putstr_P(PSTR("No Sensor found\r\n"));
@@ -58,8 +62,16 @@ void ds18x20_init(void *cfg) {
 }
 
 int8_t ds18x20_read(struct packet_t *packet) {
+        uint16_t temperature;
+
 	uart_putstr_P(PSTR("ds18x20 read\r\n"));
-	return 0;
+
+        // XXX : work with only 1 sensor
+        DS18X20_start_meas(DS18X20_POWER_EXTERN,NULL);
+        _delay_ms(DS18B20_TCONV_12BIT);   
+        DS18X20_read_decicelsius_single(DS18B20_FAMILY_CODE, &temperature);
+
+	return set_data_int16(packet, temperature);
 }
 
 
