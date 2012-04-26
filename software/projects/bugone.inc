@@ -41,7 +41,9 @@ all: $(BOARD) $(BOARD)/$(PRG).hex
 
 ### CONSTANTS ###
 CORE=$(BUGONE_PATH)/core
-BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o bugone_main.o
+ifndef BASE
+	BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o bugone_main.o
+endif
 
 ifndef DEVICE_FILES
 	DEVICE_FILES=
@@ -55,7 +57,8 @@ CC=avr-gcc
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS=-I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os
+CFLAGS=-I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DF_CPU=8000000
+LDFLAGS=-mmcu=$(MCU)
 
 ifeq ($(NO_RFM12), 1)
 	OBJS=$(addprefix $(BOARD)/, uart.o $(FILES))
@@ -84,7 +87,7 @@ $(BOARD)/$(PRG).hex: $(BOARD)/$(PRG).elf
 
 $(BOARD)/$(PRG).elf: $(BOARD) $(OBJS)
 	@echo -- $@ --
-	@$(CC) $(CFLAGS) -o $(BOARD)/$(PRG).elf $(OBJS)
+	@$(CC) $(LDFLAGS) -o $(BOARD)/$(PRG).elf $(OBJS)
 
 
 
