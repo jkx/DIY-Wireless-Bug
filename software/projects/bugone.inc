@@ -100,6 +100,13 @@ load: $(BOARD)/$(PRG).hex
 	avrdude $(DUDE_OPT) -U flash:w:$(BOARD)/$(PRG).hex
 
 
+sload: $(BOARD)/$(PRG).hex
+	 avrdude -V -c arduino -P /dev/ttyUSB0 -p atmega168 -b 38400 -U flash:w:$(BOARD)/$(PRG).hex
+
+
+
+
+
 
 ### RULES (DEVICE ID) ###
 
@@ -125,6 +132,9 @@ wrfuses:
 	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m
 	#avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xc7:m
 
+optifuses:
+	# 0x04 = bootloader
+	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m -U efuse:w:0x04:m 
 
 
 ### DEPENDENCIES ###
