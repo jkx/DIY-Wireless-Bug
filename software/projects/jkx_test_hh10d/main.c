@@ -1,16 +1,16 @@
 
-/* 
+/*
 
 This is a really minimal skel : no wireless, just LEDs en UART.
 
 I2C>[0xa2 0x0a [0xa3 r:4
 NACK
 I2C START BIT
-WRITE: 0xA2 ACK 
-WRITE: 0x0A ACK 
+WRITE: 0xA2 ACK
+WRITE: 0x0A ACK
 I2C START BIT
-WRITE: 0xA3 ACK 
-READ: 0x01  ACK 0x6C  ACK 0x1D  ACK 0x36 
+WRITE: 0xA3 ACK
+READ: 0x01  ACK 0x6C  ACK 0x1D  ACK 0x36
 
 ==
 sens = 0x016C
@@ -84,7 +84,6 @@ void init_hh10d()
 
 
 
-
 int main ( void )
 {
   char buf[20];
@@ -97,7 +96,7 @@ int main ( void )
 
   set_output(LED1);
   set_output(LED2);
-	
+
   uart_init();
   init_hh10d();
   sei();
@@ -109,14 +108,14 @@ int main ( void )
     toggle_output(LED2);
     _delay_ms(1000);
 
-    RH = (0x1E68 - (double) old_cnt) * 0x018B / 4096;  
-    //RH = (0x1D36 - (double) old_cnt) * 0x016C / 4096;
+    //RH = (0x1E68 - (double) old_cnt) * 0x018B / 4096;
+    RH = (0x1D36 - (double) old_cnt) * 0x016C / 4096;
 
     sprintf(buf,"RH:%0.2f",RH);
     uart_putstr(buf);
 
 
-    sprintf(buf,"[%d]\n",old_cnt);
+    sprintf(buf,"[%d]\r\n",old_cnt);
     uart_putstr(buf);
   }
 }
