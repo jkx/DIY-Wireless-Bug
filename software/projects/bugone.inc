@@ -53,6 +53,8 @@ ifndef FILES
 	FILES=
 endif
 
+# enable floating point printf or not ?
+# CC=avr-gcc -Wl,-u,vfprintf -lprintf_flt
 CC=avr-gcc
 AS=avr-as
 CPP=avr-cpp
@@ -134,7 +136,7 @@ wrfuses:
 
 optifuses:
 	# 0x04 = bootloader
-	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m -U efuse:w:0x04:m 
+	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m -U efuse:w:0x04:m
 
 
 ### DEPENDENCIES ###
