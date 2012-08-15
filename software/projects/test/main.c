@@ -11,15 +11,13 @@
 #include "config.h"
 
 // include devices
-#include "const.h"
 #include "led.h"
 #include "bandgap.h"
 
 
 application_t applications[] = {
- {NULL,const_read,NULL,NULL},
- {NULL,led_get,led_set,NULL},
  {bandgap_init,bandgap_get,NULL,NULL},
+ {NULL,led_get,led_set,NULL},
  {NULL,NULL,NULL,NULL}
 };
 
