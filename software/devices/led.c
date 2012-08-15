@@ -1,3 +1,11 @@
+/* 
+   bugOne onboard led driver
+   =========================
+   JKX : in normal operation LED1 should be ON
+
+*/
+
+
 #include "bugOne.h"
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -13,8 +21,6 @@ void led_init() {
 	set_output(LED2);
 
 	delay_1s();
-
-	clr_output(LED1);
 	clr_output(LED2);
 }
 
