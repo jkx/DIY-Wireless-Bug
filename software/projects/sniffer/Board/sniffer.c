@@ -10,6 +10,7 @@
 #include "rfm12.h"
 #include "uart.h"
 
+
 #if RFM12_UART_DEBUG
 #error "sniffer over serial isn't compatible with rfm12 debug over uart"
 #endif
@@ -44,13 +45,9 @@ int main(void) {
 	drive(LED2);
 
         set_output(LED1);
-        _delay_ms(250);
         set_output(LED2);
         _delay_ms(250);
-        _delay_ms(250);
 	clr_output(LED2);
-        _delay_ms(250);
-	clr_output(LED1);
 
 	while (1) {
 		if (rfm12_rx_status() == STATUS_COMPLETE) {
