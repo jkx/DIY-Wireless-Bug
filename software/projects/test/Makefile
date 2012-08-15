@@ -3,7 +3,7 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=test
-DEVICE_FILES=const.o led.o
+DEVICE_FILES=const.o led.o bandgap.o
 FILES=main.o
 
 include $(BUGONE_PATH)/projects/bugone.inc
