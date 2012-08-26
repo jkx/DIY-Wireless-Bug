@@ -12,3 +12,7 @@ CFLAGS += -DLED_START_FLASHES=3 -DBAUD_RATE=38400 -fno-inline-small-functions -f
 LDFLAGS += -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe -Wl,--relax -Wl,--gc-sections -nostartfiles -nostdlib
 
 $(BOARD)/optiboot.o:optiboot.c
+
+
+bootfuses:
+	avrdude $(DUDE_OPT) -U efuse:w:0x04:m
