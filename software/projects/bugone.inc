@@ -20,6 +20,9 @@ endif
 ifeq ($(BOARD),bugone)
 	MCU=atmega168
 	DUDE_OPT =-c usbasp -p m168 -V
+	
+	# uncomment this to use bootload
+	#DUDE_OPT =-c arduino -P$(PORT) -p m168 -b 38400
 endif
 
 ifeq ($(BOARD),arduino)
@@ -54,7 +57,7 @@ ifndef FILES
 endif
 
 # enable floating point printf or not ?
-# CC=avr-gcc -Wl,-u,vfprintf -lprintf_flt
+#CC=avr-gcc -Wl,-u,vfprintf -lprintf_flt
 CC=avr-gcc
 AS=avr-as
 CPP=avr-cpp
