@@ -20,9 +20,6 @@ endif
 ifeq ($(BOARD),bugone)
 	MCU=atmega168
 	DUDE_OPT =-c usbasp -p m168 -V
-	
-	# uncomment this to use bootload
-	#DUDE_OPT =-c arduino -P$(PORT) -p m168 -b 38400
 endif
 
 ifeq ($(BOARD),arduino)
@@ -106,10 +103,7 @@ load: $(BOARD)/$(PRG).hex
 
 
 sload: $(BOARD)/$(PRG).hex
-	 avrdude -V -c arduino -P /dev/ttyUSB0 -p atmega168 -b 38400 -U flash:w:$(BOARD)/$(PRG).hex
-
-
-
+	avrdude -c arduino -P$(PORT) -p m168 -b 38400 -U flash:w:$(BOARD)/$(PRG).hex
 
 
 
