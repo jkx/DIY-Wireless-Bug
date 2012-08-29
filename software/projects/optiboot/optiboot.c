@@ -313,6 +313,11 @@ int main(void) {
   /* Set LED pin as output */
   LED_DDR |= _BV(LED);
 
+  // JKX patch to have LED1 enable
+  DDRC |= _BV(1);
+  PORTC |= _BV(1);
+
+
 #ifdef SOFT_UART
   /* Set TX pin as output */
   UART_DDR |= _BV(UART_TX_BIT);
