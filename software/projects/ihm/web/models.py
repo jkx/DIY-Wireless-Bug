@@ -33,14 +33,3 @@ class BugNetDevice(models.Model):
 
     def __unicode__(self):
         return self.device_description.name
-
-
-class DeviceData(models.Model):
-    bugnet = models.ForeignKey(BugNet)
-    timestamp = models.DateTimeField() #auto_now=True)
-    node_id = models.IntegerField()
-    device_id = models.IntegerField()
-    data = models.CharField(max_length=32)
-
-    def __unicode__(self):
-        return "%s.%s : %s" % (self.node_id, self.device_id,self.data)
