@@ -44,8 +44,14 @@ class Job(BaseJob):
                 print "#"
                 msgType = bugOne.getPacketType(msg)
                 srcNodeId = bugOne.getPacketSrc(msg)
-                srcNode = BugNetNode.objects.get(node_id=srcNodeId)
-                srcNodeName =  srcNode.location
+		try:
+                	srcNode = BugNetNode.objects.get(node_id=srcNodeId)
+                	srcNodeName = srcNode.location
+		except BugNetNode.DoesNotExist:
+			print "%d device not defined" % srcNodeId
+		except Exception as e:
+			print e
+			
 
                 if msgType == bugOne.PACKET_VALUES:
                     print "@"
@@ -58,7 +64,6 @@ class Job(BaseJob):
 
                     for (srcDevice,dstDevice,value) in values:
                         srcDevice = BugNetDevice.objects.get(device_id=srcDevice)
-                        print srcDevice.device_description
                         srcDeviceName = srcDevice.device_description
                         lines.append("%s.%s.%s %s %d" %
                                 (bugnet_name,srcNodeName,srcDevice,value,now))
@@ -66,6 +71,3 @@ class Job(BaseJob):
                     message = '\n'.join(lines) + '\n'
                     print message
                     sock.sendall(message)
-
-            else:
-                print "."
