@@ -62,7 +62,7 @@ class Job(BaseJob):
                     #lines.append("%s.%s.%s %s %d" % (bugnet_name,srcNodeId,srcDevice,values,now))
 
                     for (srcDevice,dstDevice,value) in values:
-                        srcDevice = BugNetDevice.objects.get(device_id=srcDevice)
+                        srcDevice = BugNetDevice.objects.get(device_id=srcDevice,node=srcNode)
                         srcDeviceName = srcDevice.device_description
                         lines.append("%s.%s.%s %s %d" %
                                 (bugnet_name,srcNodeName,srcDevice,value,now))
