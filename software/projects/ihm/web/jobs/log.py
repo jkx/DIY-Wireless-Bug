@@ -8,7 +8,7 @@ import datetime
 import time
 import sys
 
-sys.path.append("/home/a2683/rfm12/DIY-Wireless-Bug/software/projects/sniffer/Python/")
+sys.path.append("../sniffer/Python/")
 
 import rfm12
 import bugOne
