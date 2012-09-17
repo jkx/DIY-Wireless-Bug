@@ -1,5 +1,4 @@
 from django_extensions.management.jobs import BaseJob
-from web.models import DeviceData
 from web.models import BugNet
 from web.models import BugNetNode
 from web.models import BugNetDevice

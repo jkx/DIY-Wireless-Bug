@@ -1,4 +1,3 @@
-from web.models import DeviceData
 from web.models import BugNet
 from web.models import BugNetNode
 from web.models import BugNetDevice
@@ -26,17 +25,10 @@ class BugNetNodeAdmin(admin.ModelAdmin):
     inlines = [ BugNetDeviceInline ]
 
 
-class DeviceDataAdmin(admin.ModelAdmin):
-    list_display = ('timestamp', 'bugnet', 'node_id', 'device_id', 'data')
-    list_filter = ('bugnet', 'node_id', 'device_id')
-    date_hierarchy = 'timestamp'
-
-
 class DeviceDescriptionAdmin(admin.ModelAdmin):
     list_display = ('name', )
 
 
-admin.site.register(DeviceData, DeviceDataAdmin)
 admin.site.register(BugNet, BugNetAdmin)
 admin.site.register(BugNetNode, BugNetNodeAdmin)
 admin.site.register(BugNetDevice, BugNetDeviceAdmin)
