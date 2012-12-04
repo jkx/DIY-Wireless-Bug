@@ -46,6 +46,7 @@
 */
 
 #include "board.h"
+#include "project.h"
 
 //frequency to use
 #define FREQ 868000000UL
@@ -88,29 +89,3 @@
 
 //setup the interrupt to trigger on negative edge
 #define RFM12_INT_SETUP()   EICRA |= (1<<ISC01)
-
-
-/**** UART DEBUGGING
- * en- or disable debugging via uart.
- */
-#define RFM12_UART_DEBUG 0
-
-/*
-This is a bitmask that defines how "rude" this library behaves
-	0x01: ignore other devices when sending
-	0x04: don't use return values for transmission functions
-*/
-
-/* control rate, frequency, etc during runtime
- * this setting will certainly add a bit code
- **/
-#define RFM12_LIVECTRL 0
-#define RFM12_NORETURNS 0
-#define RFM12_USE_WAKEUP_TIMER 0
-#define RFM12_TRANSMIT_ONLY 0
-
-/* Disable interrupt vector and run purely inline. This may be useful for
- * configurations where a hardware interrupt is not available.
- */
-#define RFM12_NOIRQ 0
-#define RFM12_NOCOLLISIONDETECTION 0
