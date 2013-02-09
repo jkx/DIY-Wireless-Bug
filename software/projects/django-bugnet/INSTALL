@@ -1,0 +1,95 @@
+ Install graphite
+==================
+
+using the virtualenv method :
+$ virtualenv /opt/graphite
+$ source /opt/graphite/bin/activate
+
+Download lastest git at https://github.com/graphite-project/
+
+for carbon, whisper, ceres :
+$ git clone https://github.com/graphite-project/XXXXXXX
+$ pip install -r requirements.txt
+$ python setup.py install
+
+For graphite-web, you have to modify requirements.txt to get django 1.4. Replace
+django==1.3
+by
+django>=1.4
+
+Then, install graphite-web with same commands as previously
+
+ Configure carbon
+==================
+
+Follow instructions at http://graphite.readthedocs.org/en/latest/config-carbon.html
+
+ Configure graphite-web
+========================
+
+$ cd /opt/graphite/webapp/graphite
+$ mv local_settings.py.example local_settings.py
+
+in app_settings.py,
+- Add django.contrib.messages.middleware.MessageMiddleware in MIDDLEWARE_CLASSES in
+third position.
+- Set SECRET_KEY to a random value
+
+in local_settings.py, 
+- Set TIME_ZONE depending on your location
+- Uncomment database configuration in local_settings.py (for django 1.2 or greater)
+
+Create your database
+$ python manage.py syncdb
+
+To serve admin css (only for manage.py runserver ?), you have to :
+- add theses lines in urls.py, in penultimate position
+  (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+      {'document_root': '/opt/graphite/webapp/graphite/'}),
+- Install django.contrib.staticfiles and set STATIC_URL = '/media'
+- run 
+$ python manage.py collectstatic
+
+Check graphite-web installation by runnong test webserver :
+$ python manage.py runserver
+
+A proper installation using a real webserver is beyond the scope of this 
+document. Have a look at graphite documentation for instructions.
+
+ Install bugnet application
+============================
+
+it's located in software/projects/django-bugnet.
+
+Install requirements :
+$ pip install -r requirements.txt
+then install the application
+$ python setup.py install
+
+in local_settings.py, add bugnet and django_extensions. At the end, put :
+from graphite.app_settings import *
+
+INSTALLED_APPS += (
+    'bugnet',
+    'django_extensions',
+    'django.contrib.staticfiles',
+)
+
+Add tables for bugnet application
+$ python manage.py syncdb
+
+ Configure bugnet
+==================
+
+Using your favorite browser, go to the admin interface at http://localhost:8000/admin/
+Declare your bugnet, nodes and devices according to your bugnet topology
+
+ Running
+=========
+
+Start carbon :
+$ cd /opt/graphite/bin
+$ python carbon-cache.py start
+
+Start the bugnet collector
+$ python manage.py runjob log

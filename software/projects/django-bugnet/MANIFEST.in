@@ -1,0 +1,3 @@
+recursive-include bugnet *.py
+recursive-include graphite *.html
+recursive-include webapp *.png
