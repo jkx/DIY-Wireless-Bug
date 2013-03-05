@@ -1,8 +1,10 @@
 /* 
    bugOne onboard led driver
    =========================
-   JKX : in normal operation LED1 should be ON
-
+   LED1 is the power led, in normal operation it should be on,
+   in power-down mode, it should only blink
+   
+   LED2 is the app led, feel free to use it
 */
 
 
@@ -12,11 +14,9 @@
 #include "avr_compat.h"
 #include "led.h"
 
-/* Init on board LEDs */
+// Init on board LEDs
 void led_init() {
-	drive(LED1);
-	drive(LED2);
-
+	led_setup();
 	set_output(LED1);
 	set_output(LED2);
 
@@ -42,3 +42,33 @@ int8_t led_get(struct packet_t *packet) {
 	return set_data_int16(packet,get_output(LED1));
 }
 
+// configure the led pins 
+void led_setup()
+{
+	drive(LED1);
+	drive(LED2);
+}
+
+// disable the led pins, used for sleep
+void led_disable()
+{
+	tristate(LED1);
+	tristate(LED2);
+}
+
+// blink the power led
+void led_blink1()
+{
+	set_output(LED1);
+	delay_500ms();
+	clr_output(LED1);
+}
+
+
+// blink the app led
+void led_blink2()
+{
+	set_output(LED2);
+	delay_500ms();
+	clr_output(LED2);
+}
