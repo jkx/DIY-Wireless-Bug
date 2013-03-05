@@ -675,3 +675,17 @@ void rfm12_init(void)
 	RFM12_INT_ON();	
 }
 
+
+/* RFM sleep & wake functions 
+ * 
+ */ 
+void rfm12_sleep()
+{
+	rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
+}
+
+void rfm12_wakeup()
+{
+	rfm12_data(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT | RFM12_PWRMGT_ET);
+
+}

@@ -127,3 +127,25 @@ void bugone_loop() {
         wake_me_up = 0;
     }
 }
+
+
+//****************************************************************
+// 0=16ms, 1=32ms,2=64ms,3=128ms,4=250ms,5=500ms
+// 6=1 sec,7=2 sec, 8=4 sec, 9= 8sec
+// for more infos check this
+// http://interface.khm.de/index.php/lab/experiments/sleep_watchdog_battery/
+void bugone_setup_watchdog(int val) {
+  unsigned char  bb;
+  if (val > 9 ) val=9;
+  bb=val & 7;
+  if (val > 7) bb|= (1<<5);
+  bb|= (1<<WDCE);
+
+  MCUSR &= ~(1<<WDRF);
+  // start timed sequence
+  WDTCSR |= (1<<WDCE) | (1<<WDE);
+  // set new watchdog timeout value
+  WDTCSR = bb;
+  WDTCSR |= _BV(WDIE);
+}
+
