@@ -85,11 +85,13 @@ extern application_t applications[];
 volatile uint8_t wake_me_up=0;
 volatile uint8_t seconds = 0;
 
+/*
 ISR(TIMER1_COMPA_vect) {
 	seconds++;
 	toggle_output(LED2);
     	uart_putc('.');
 }
+*/
 
 void bugone_loop() {
     uint8_t *bufcontents;
@@ -97,10 +99,13 @@ void bugone_loop() {
 
     // RFM12 managment
     rfm12_tick();
+    
+#if !(RFM12_TRANSMIT_ONLY)    
     if (rfm12_rx_status() == STATUS_COMPLETE) {
         bufcontents=rfm12_rx_buffer();
         recv(bufcontents);
     }
+#endif
 
     // Every minutes
     if (seconds > 20) {
