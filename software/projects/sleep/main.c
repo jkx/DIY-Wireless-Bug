@@ -7,6 +7,7 @@
 #include <avr/power.h>
 
 
+#include "led.h"
 
 application_t applications[] = {};
 
@@ -23,12 +24,9 @@ SIGNAL(WDT_vect) {
   {
 	power_all_enable();
 	rfm12_wakeup();
-	drive(LED1);
-	drive(LED2);
+	led_setup();
+	led_blink1();
 
-	set_output(LED1);
-	_delay_ms(500);
-	clr_output(LED1);
 	wd_count = 0;
   }
   else
@@ -40,15 +38,13 @@ SIGNAL(WDT_vect) {
 
 void system_sleep() {
   rfm12_sleep();
-  tristate(LED1);
-  tristate(LED2);
+  led_disable();
   power_all_disable();
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // sleep mode is set here
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
   sleep_enable();
 
-  PRR = 0xFF;
-  sleep_mode();                        // System sleeps here
-  sleep_disable();                     // System continues execution here when watchdog timed out 
+  sleep_mode();                        // let's sleep and wake-up
+  sleep_disable();                     
 }
 
 

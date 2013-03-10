@@ -18,6 +18,14 @@ void delay_1s() {
     _delay_ms(250);
 }
 
+
+void delay_500ms()
+{
+	_delay_ms(250);
+	_delay_ms(250);
+}
+
+
 void timer1_init() {
 	// Set interrupt CTC mode. Every second (prescaler 1024 at 8MHz)
 	TCCR1B |= (1 << WGM12);
@@ -31,8 +39,8 @@ void timer1_init() {
 void bugone_init(application_t* applications) {
 	char buf[16];
 	uint8_t i;
-        uint8_t nb_devices=0;
-        application_t *app=applications;
+    uint8_t nb_devices=0;
+    application_t *app=applications;
 
 	led_init();
 	uart_init();
@@ -58,7 +66,7 @@ void bugone_init(application_t* applications) {
 	uart_putstr_P(PSTR("\r\n"));
 
 	for (i=0 ; i < nb_devices; i++) {
-                uart_putc('*');
+		uart_putc('*');
 		if (applications[i].init == NULL) { continue; }
 		applications[i].init(applications[i].cfg);
 	}
@@ -67,7 +75,7 @@ void bugone_init(application_t* applications) {
 
 	sei();
 
-	uart_putstr_P(PSTR("AVR init complete\r\n"));
+	uart_putstr_P(PSTR("bugOne init complete\r\n"));
 	//clr_output(LED1);
 	//clr_output(LED2);
 }
