@@ -85,13 +85,11 @@ extern application_t applications[];
 volatile uint8_t wake_me_up=0;
 volatile uint8_t seconds = 0;
 
-/*
 ISR(TIMER1_COMPA_vect) {
 	seconds++;
 	toggle_output(LED2);
     	uart_putc('.');
 }
-*/
 
 void bugone_loop() {
     uint8_t *bufcontents;
