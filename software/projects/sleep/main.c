@@ -68,8 +68,6 @@ void system_sleep() {
   sbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter ON
 }
 
-
-
 int main ( void )
 {
   char buf[20];
@@ -84,25 +82,13 @@ int main ( void )
   drive(LED2);
   set_output(LED2);
 
-
-
   uart_init();
-
-  uart_putstr_P(PSTR("Firmware version "));
-  uart_putstr_P(PSTR(FWVERSION));
-  uart_putstr_P(PSTR("\r\n"));
+  uart_putstr_P(PSTR("Boot\r\n"));
 
   //config_init();
 
-  /*
-  uart_putstr_P(PSTR("Node address : "));
-  itoa(config.address,buf,10);
-  uart_putstr(buf);
-  uart_putstr_P(PSTR("\r\n"));
-  */
-
   _delay_ms(250);
-  //rfm12_init();
+  rfm12_init();
   _delay_ms(250);
 
 
@@ -110,7 +96,7 @@ int main ( void )
   clr_output(LED2);
  
   // put the RFM is sleep mode
-  //rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
+  rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
   //rfm12_data(0x8205);
 
   sei();

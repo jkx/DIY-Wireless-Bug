@@ -1,17 +1,17 @@
+### PROJECT CONFIG ###
+BUGONE_PATH=../..
+BOARD=bugone
 
-PRG=sleep
+PRG=test
+DEVICE_FILES=led.o
+FILES=main.o rfm12.o
+BASE=
+NO_RFM12=1
 
-include ../make.inc
-
-
-
+include $(BUGONE_PATH)/projects/bugone.inc
 
 $(BOARD)/main.o:main.c
-	$(CC) $(CFLAGS) -c main.c -o $(BOARD)/main.o
 
-
-$(BOARD)/$(PRG).elf:base $(BOARD)/main.o
-	$(CC) $(CFLAGS) -o $(BOARD)/$(PRG).elf $(BOARD)/*.o
 
 
 
