@@ -7,12 +7,12 @@ $ source /opt/graphite/bin/activate
 
 Download lastest git at https://github.com/graphite-project/
 
-for carbon, whisper, ceres :
+for whisper, carbon, ceres :
 $ git clone https://github.com/graphite-project/XXXXXXX
 $ pip install -r requirements.txt
 $ python setup.py install
 
-For graphite-web, you have to modify requirements.txt to get django 1.4. Replace
+For graphite-web, you have to modify requirements.txt to get django 1.5. Replace
 django==1.3
 by
 django>=1.4
@@ -42,11 +42,9 @@ in local_settings.py,
 Create your database
 $ python manage.py syncdb
 
-To serve admin css (only for manage.py runserver ?), you have to :
-- add theses lines in urls.py, in penultimate position
-  (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-      {'document_root': '/opt/graphite/webapp/graphite/'}),
-- Install django.contrib.staticfiles and set STATIC_URL = '/media'
+To serve admin css, you have to :
+- Install django.contrib.staticfiles application
+- set STATIC_URL = '/content/' and STATIC_ROOT = '/opt/graphite/webapps/content/'
 - run 
 $ python manage.py collectstatic
 
