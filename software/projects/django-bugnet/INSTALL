@@ -70,7 +70,6 @@ from graphite.app_settings import *
 INSTALLED_APPS += (
     'bugnet',
     'django_extensions',
-    'django.contrib.staticfiles',
 )
 
 Add tables for bugnet application
