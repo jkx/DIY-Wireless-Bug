@@ -90,3 +90,11 @@ $ python carbon-cache.py start
 
 Start the bugnet collector
 $ python manage.py runjob log
+
+ Useful application
+===================
+
+south: to deal with database migration
+
+improve django admin :
+django-admin-bootstrapped or django-admin-tools
