@@ -1,45 +1,22 @@
 #include "bugOne.h"
+#include "avr_compat.h"
 
-#include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include <string.h>
 #include <avr/sleep.h>
-#include <stdlib.h>
-
-#include "avr_compat.h"
-#include "rfm12.h"
-#include "uart.h"
-#include "config.h"
-
-#include "ping.h"
+#include <avr/power.h>
 
 
-#include <avr/wdt.h>
+#include "led.h"
 
-
-#include <rfm12/include/rfm12_core.h>
-#include <rfm12/include/rfm12_hw.h>
-
-
-SIGNAL(WDT_vect) {
-  drive(LED1);
-  drive(LED2);
-
-  set_output(LED1);
-  _delay_ms(500);
-  clr_output(LED1);
-}
-
+application_t applications[] = {};
 
 //****************************************************************
 // 0=16ms, 1=32ms,2=64ms,3=128ms,4=250ms,5=500ms
 // 6=1 sec,7=2 sec, 8=4 sec, 9= 8sec
 // for more infos check this
 // http://interface.khm.de/index.php/lab/experiments/sleep_watchdog_battery/
-
 void setup_watchdog(int val) {
-
   unsigned char  bb;
   if (val > 9 ) val=9;
   bb=val & 7;
@@ -55,17 +32,39 @@ void setup_watchdog(int val) {
 }
 
 
+// Note : 
+// Additionnal infos for power registers is here : 
+// http://www.nongnu.org/avr-libc/user-manual/group__avr__power.html
+
+
+SIGNAL(WDT_vect) {
+  static wd_count = 0;
+  
+  if (wd_count > 2)
+  {
+	power_all_enable();
+	rfm12_wakeup();
+	led_setup();
+	led_blink1();
+
+	wd_count = 0;
+  }
+  else
+	wd_count ++;
+}
+
+
+
+
 void system_sleep() {
-  tristate(LED1);
-  tristate(LED2);
-  cbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter OFF
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // sleep mode is set here
+  rfm12_sleep();
+  led_disable();
+  power_all_disable();
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
   sleep_enable();
 
-  PRR = 0xFF;
-  sleep_mode();                        // System sleeps here
-  sleep_disable();                     // System continues execution here when watchdog timed out 
-  sbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter ON
+  sleep_mode();                        // let's sleep and wake-up
+  sleep_disable();                     
 }
 
 int main ( void )
@@ -83,7 +82,7 @@ int main ( void )
   set_output(LED2);
 
   uart_init();
-  uart_putstr_P(PSTR("Boot\r\n"));
+  uart_putstr("Boot\r\n");
 
   //config_init();
 
@@ -96,10 +95,14 @@ int main ( void )
   clr_output(LED2);
  
   // put the RFM is sleep mode
-  rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
-  //rfm12_data(0x8205);
+  //rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
+  rfm12_data(0x8205);
 
-  sei();
+  
+ 
+  //bugone_init(applications);
+  //bugone_setup_watchdog(9);
+
   while (1) {
     _delay_ms(200); // wait for last char before sleep
     system_sleep();

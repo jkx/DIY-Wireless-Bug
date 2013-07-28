@@ -38,6 +38,8 @@ struct packet_t *get_tx_packet() {
 	return &packet;
 }
 
+
+#if !(RFM12_TRANSMIT_ONLY)    
 uint8_t recv(char* buf) {
 #ifdef DEBUG
 	uart_putstr_P(PSTR("Receiving\r\n"));
@@ -76,6 +78,7 @@ uint8_t recv(char* buf) {
 	rfm12_rx_clear();
 	return 0;
 }
+#endif 
 
 uint8_t get_remaining_length(struct packet_t packet) {
 	return (char*)packet.network+BUGONE_PACKET_SIZE-packet.payload;

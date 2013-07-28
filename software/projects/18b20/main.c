@@ -70,7 +70,7 @@ int main ( void )
   uint16_t plen;
   uint16_t dat_p;
 
-  bugone_init(applications,3);
+  bugone_init(applications);
 #if 0
 	enc28j60Init(bugone_mac);
 	init_ip_arp_udp_tcp(bugone_mac,bugone_ip,80);
