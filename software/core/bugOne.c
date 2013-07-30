@@ -5,6 +5,9 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
+#include <avr/sleep.h>
+#include <avr/power.h>
+
 #include "avr_compat.h"
 #include "rfm12.h"
 
@@ -21,9 +24,15 @@ void delay_1s() {
 
 void delay_500ms()
 {
-	_delay_ms(250);
-	_delay_ms(250);
+    _delay_ms(250);
+    _delay_ms(250);
 }
+
+void delay_250ms()
+{
+    _delay_ms(250);
+}
+
 
 
 void timer1_init() {
@@ -145,6 +154,7 @@ void bugone_loop() {
 // 6=1 sec,7=2 sec, 8=4 sec, 9= 8sec
 // for more infos check this
 // http://interface.khm.de/index.php/lab/experiments/sleep_watchdog_battery/
+// WARNING : you must implement SIGNAL(WDT_vect) if you use this
 void bugone_setup_watchdog(int val) {
   unsigned char  bb;
   if (val > 9 ) val=9;
@@ -158,5 +168,14 @@ void bugone_setup_watchdog(int val) {
   // set new watchdog timeout value
   WDTCSR = bb;
   WDTCSR |= _BV(WDIE);
+}
+
+
+void bugone_deep_sleep() {
+  power_all_disable();
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
+  sleep_enable();
+  sleep_mode();                        // let's sleep and wake-up
+  sleep_disable();                      
 }
 

@@ -1,23 +1,22 @@
 
 /* 
 
-This is an example howto use the watchdog 
+This is an minimal example howto use the watchdog, to put the bugOne 
+in deep sleep mode. 
 
+NOTE : In this state, the RFM12 still drain a lot of current. This 
 
 */
 
 
 #include "bugOne.h"
 
-
 #include <avr/interrupt.h>
 #include <avr/power.h>
-
 
 #include "uart.h"
 #include "config.h"
 
-//#include <stdio.h>
 
 
 application_t applications[] ={} ; 
@@ -36,24 +35,30 @@ SIGNAL(WDT_vect) {
   // just blink
   led_setup();
   led_blink1();
-  led_blink2();
 }
 
 
 
 int main ( void )
 {
-  char buf[16];
+    // cut & paste from the bugone_init() .. 
+    // note that timer1.init() cause the power_all_enable() to bug .. 
+    // and system randomly do some weird stuff .. 
+    
+    led_init();
+	uart_init();
+	rfm12_init();
+	config_init();
 
-  led_setup();
-  led_blink1();
-  
-  sei();  
-  uart_init();
+	uart_putstr_P(PSTR("Firmware version "));
+	uart_putstr_P(PSTR(FWVERSION_STR));
+	uart_putstr_P(PSTR("\r\n"));
 
-  uart_putstr_P(PSTR("AVR init complete\r\n"));
+	//timer1_init();
+	sei();
+	uart_putstr_P(PSTR("bugOne init complete\r\n"));
 
-  bugone_setup_watchdog(7);
+    bugone_setup_watchdog(7);
   while (1) {
     delay_250ms(); // wait until uart flush..
     my_sleep();
