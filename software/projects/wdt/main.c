@@ -4,7 +4,7 @@
 This is an minimal example howto use the watchdog, to put the bugOne 
 in deep sleep mode. 
 
-NOTE : In this state, the RFM12 still drain a lot of current. This 
+NOTE : In this state, the bugOne drains around 20uA, and can only send
 
 */
 
