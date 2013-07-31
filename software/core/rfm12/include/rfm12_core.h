@@ -17,7 +17,7 @@
  *
  * @author Peter Fuhrmann, Hans-Gert Dahmen, Soeren Heisrath
  */
- 
+
 #ifndef _RFM12_CORE_H
 #define _RFM12_CORE_H
 
@@ -37,15 +37,25 @@
 #define STATE_RX_IDLE 0
 #define STATE_RX_ACTIVE 1
 #define STATE_TX 2
+#define STATE_POWER_DOWN 3
+
 
 //packet header length in bytes
 #define PACKET_OVERHEAD 3
 
 
 /************************
-* LIBRARY DEFAULT SETTINGS	
+* LIBRARY DEFAULT SETTINGS
  */
- 
+
+
+#ifdef PWRMGT_DEFAULT
+	#warning "You are using the PWRMGT_DEFAULT makro directly in your rfm12_config.h - this is no longer supported."
+	#warning "RFM12_USE_WAKEUP_TIMER and RFM12_LOW_BATT_DETECTOR care about this on their own now. just remove PWRMGT_DEFAULT if you needed it for that."
+	#warning "if you need the clock output, use the new RFM12_USE_CLOCK_OUTPUT instead!"
+	#undef PWRMGT_DEFAULT
+#endif
+
 //if notreturns is not defined, we won't use this feature
 #ifndef RFM12_NORETURNS
 	#define RFM12_NORETURNS 0
@@ -78,6 +88,18 @@
 //if low battery detector is not defined, we won't use this feature
 #ifndef RFM12_LOW_BATT_DETECTOR
 	#define RFM12_LOW_BATT_DETECTOR 0
+#endif
+
+#ifndef RFM12_USE_CLOCK_OUTPUT
+	#define RFM12_USE_CLOCK_OUTPUT 0
+#endif
+
+#if RFM12_USE_CLOCK_OUTPUT
+	//Enable Xtal oscillator
+	#define PWRMGMT_CLCKOUT (RFM12_PWRMGT_EX)
+#else
+	//Disable Clock output
+	#define PWRMGMT_CLCKOUT (RFM12_PWRMGT_DC)
 #endif
 
 //if the low battery detector feature is used, we will set some extra pwrmgmt options
@@ -115,6 +137,9 @@
 			#warning "You are using the RFM12 wakeup timer, but PWRMGT_DEFAULT has the wakeup timer bit unset."
 		#endif
 	#endif
+
+	//enable powermanagement shadowing
+	#define RFM12_PWRMGT_SHADOW 1
 #else
 	#define PWRMGMT_WKUP 0
 #endif /* RFM12_USE_WAKEUP_TIMER */
@@ -138,10 +163,14 @@
 #ifndef RFM12_UART_DEBUG
 	#define RFM12_UART_DEBUG 0
 #endif
- 
+
+#ifndef RFM12_PWRMGT_SHADOW
+	#define RFM12_PWRMGT_SHADOW 0
+#endif
+
 //default value for powermanagement register
 #ifndef PWRMGT_DEFAULT
-	#define PWRMGT_DEFAULT (RFM12_PWRMGT_DC | PWRMGMT_WKUP | PWRMGMT_LOW_BATT)
+	#define PWRMGT_DEFAULT (PWRMGMT_CLCKOUT | PWRMGMT_WKUP | PWRMGMT_LOW_BATT)
 #endif
 
 //define a default receive power management mode
@@ -184,6 +213,52 @@
 	#define PORT_SPI_SS PORT_SPI
 #endif
 
+/*
+ * backward compatibility for rf channel settings
+ * these values weren't set in the config in older revisions of this library
+ * so we assume defaults here.
+ */
+
+#ifndef RFM12_XTAL_LOAD
+	#define                        RFM12_XTAL_LOAD RFM12_XTAL_11_5PF
+#endif
+
+#ifndef RFM12_POWER
+	#define RFM12_POWER            RFM12_TXCONF_POWER_0
+#endif
+
+#ifndef FSK_SHIFT
+	#define FSK_SHIFT 125000
+#endif
+
+#ifndef RFM12_RSSI_THRESHOLD
+	#define RFM12_RSSI_THRESHOLD   RFM12_RXCTRL_RSSI_79
+#endif
+
+#ifndef RFM12_FILTER_BW
+	#define RFM12_FILTER_BW        RFM12_RXCTRL_BW_400
+#endif
+
+#ifndef RFM12_LNA_GAIN
+	#define RFM12_LNA_GAIN         RFM12_RXCTRL_LNA_6
+#endif
+
+#ifndef RFM12_LBD_VOLTAGE
+	#define RFM12_LBD_VOLTAGE      RFM12_LBD_VOLTAGE_3V7
+#endif
+
+#ifndef RFM12_CLOCK_OUT_FREQUENCY
+	#define RFM12_CLOCK_OUT_FREQUENCY RFM12_CLOCK_OUT_FREQUENCY_1_00_MHz
+#endif
+
+#ifndef RFM12_FREQUENCY
+	#ifndef FREQ
+		#error "RFM12_FREQUENCY not defined."
+	#else
+		#define RFM12_FREQUENCY FREQ
+		#warning "using FREQ for RFM12_FREQUENCY. Please use RFM12_FREQUENCY in the future!"
+	#endif
+#endif
 
 //baseband selection
 #if (RFM12_BASEBAND) == RFM12_BAND_433

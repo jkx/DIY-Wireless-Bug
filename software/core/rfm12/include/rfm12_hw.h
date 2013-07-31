@@ -30,14 +30,33 @@
 	1 1 1 0 15.5
 	1 1 1 1 16.0
 */
-#define RFM12_CMD_CFG 0x8000
+#	define RFM12_CMD_CFG 0x8000
 #	define RFM12_CFG_EL 0x80
 #	define RFM12_CFG_EF 0x40
+#	define RFM12_CFG_BAND_MASK 0x30
 #	define RFM12_BAND_315 0x00
 #	define RFM12_BAND_433 0x10
 #	define RFM12_BAND_868 0x20
 #	define RFM12_BAND_915 0x30
-#	define RFM12_XTAL_12PF 0x07
+
+#	define RFM12_CFG_XTAL_MASK 0x0F
+#	define RFM12_XTAL_8_5PF  0x00
+#	define RFM12_XTAL_9_0PF  0x01
+#	define RFM12_XTAL_9_5PF  0x02
+#	define RFM12_XTAL_10_0PF 0x03
+#	define RFM12_XTAL_10_5PF 0x04
+#	define RFM12_XTAL_11_0PF 0x05
+#	define RFM12_XTAL_11_5PF 0x06
+#	define RFM12_XTAL_12_0PF 0x07
+#	define RFM12_XTAL_12_5PF 0x08
+#	define RFM12_XTAL_13_0PF 0x09
+#	define RFM12_XTAL_13_5PF 0x0A
+#	define RFM12_XTAL_14_0PF 0x0B
+#	define RFM12_XTAL_14_5PF 0x0C
+#	define RFM12_XTAL_15_0PF 0x0D
+#	define RFM12_XTAL_15_5PF 0x0E
+#	define RFM12_XTAL_16_0PF 0x0F
+
 
 /*
 	2. Power Management Command
@@ -74,14 +93,15 @@
 	The constants C1 and C2 are determined by
 	the selected band as:
 	Band [MHz] C1 C2
-	433 		1 43
-	868 		2 43
-	915 		3 30
+	433		1 43
+	868		2 43
+	915		3 30
 
 	Frequency in 433 Band can be from 430.24MHz to 439.7575MHz in 2.5kHz increments.
 */
 
 #define RFM12_CMD_FREQUENCY 0xA000
+#define RFM12_FREQUENCY_MASK 0x0FFF
 #define RFM12_FREQUENCY_CALC_433(f) (((f)-430000000UL)/2500UL)
 #define RFM12_FREQUENCY_CALC_868(f) (((f)-860000000UL)/5000UL)
 #define RFM12_FREQUENCY_CALC_915(f) (((f)-900000000UL)/7500UL)
@@ -110,17 +130,18 @@
 #define RFM12_DATARATE_CALC_HIGH(d) ((uint8_t)((10000000.0/29.0/d)-0.5))
 //calculate setting for datarates < 2700 Baud
 #define RFM12_DATARATE_CALC_LOW(d) (RFM12_DATARATE_CS|(uint8_t)((10000000.0/29.0/8.0/d)-0.5))
+#define RFM12_DATARATE_MASK 0x00ff
 
 /*
 	5. Receiver Control Command
 	Bit 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 POR
 	1 0 0 1 0 p16 d1 d0 i2 i1 i0 g1 g0 r2 r1 r0 9080h
 	Bit 10 (p16): pin16 function select
-	
+
 	p16 Function of pin 16
 	0 Interrupt input
 	1 VDI output
-	
+
 	Bits 9-8 (d1 to d0): VDI (valid data indicator) signal response time setting:
 	d1 d0 Response
 	0 0 Fast
@@ -166,16 +187,21 @@
 #define RFM12_RXCTRL_VDI_MEDIUM 0x100
 #define RFM12_RXCTRL_VDI_SLOW 0x200
 #define RFM12_RXCTRL_VDI_ALWAYS_ON 0x300
+
+#define RFM12_RXCTRL_BW_MASK 0xE0
 #define RFM12_RXCTRL_BW_400 0x20
 #define RFM12_RXCTRL_BW_340 0x40
 #define RFM12_RXCTRL_BW_270 0x60
 #define RFM12_RXCTRL_BW_200 0x80
 #define RFM12_RXCTRL_BW_134 0xA0
 #define RFM12_RXCTRL_BW_67 0xC0
+
+#define RFM12_RXCTRL_LNA_MASK 0x18
 #define RFM12_RXCTRL_LNA_0 0x00
 #define RFM12_RXCTRL_LNA_6 0x08
 #define RFM12_RXCTRL_LNA_14 0x10
 #define RFM12_RXCTRL_LNA_20 0x18
+
 #define RFM12_RXCTRL_RSSI_103 0x00
 #define RFM12_RXCTRL_RSSI_97 0x01
 #define RFM12_RXCTRL_RSSI_91 0x02
@@ -184,6 +210,7 @@
 #define RFM12_RXCTRL_RSSI_73 0x05
 #define RFM12_RXCTRL_RSSI_67 0x06
 #define RFM12_RXCTRL_RSSI_61 0x07
+#define RFM12_RXCTRL_RSSI_MASK 0x07
 
 
 
@@ -191,15 +218,15 @@
 	6. Data Filter Command
 	Bit 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 POR
 	1 1 0 0 0 0 1 0 al ml 1 s 1 f2 f1 f0 C22Ch
-	
+
 	Bit 7 (al): Clock recovery (CR) auto lock control, if set.
 	CR will start in fast mode, then after locking it will automatically switch to slow mode.
-	
+
 	Bit 6 (ml): Clock recovery lock control
 	1: fast mode, fast attack and fast release (4 to 8 bit preamble (1010...) is recommended)
 	0: slow mode, slow attack and slow release (12 to 16 bit preamble is recommended)
 	Using the slow mode requires more accurate bit timing (see Data Rate Command).
-	
+
 	Bits 4 (s): Select the type of the data filter:
 	s Filter Type
 	0 Digital filter
@@ -209,7 +236,7 @@
 	Note: Bit rate can not exceed 115 kpbs in this mode.
 	Analog RC filter: The demodulator output is fed to pin 7 over a 10 kOhm resistor. The filter cut-off frequency is set by the
 	external capacitor connected to this pin and VSS.
-	
+
 	Bits 2-0 (f2 to f0): DQD threshold parameter.
 	Note: To let the DQD report "good signal quality" the threshold parameter should be 4 in cases where the bitrate is close to the
 	deviation. At higher deviation/bitrate settings, a higher threshold parameter can report "good signal quality" as well.
@@ -225,15 +252,15 @@
 	7. FIFO and Reset Mode Command
 	Bit 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 POR
 	1 1 0 0 1 0 1 0 f3 f2 f1 f0 sp al ff dr CA80h
-	
+
 	Bits 7-4 (f3 to f0): FIFO IT level. The FIFO generates IT when the number of received data bits reaches this level.
-	
+
 	Bit 3 (sp): Select the length of the synchron pattern:
-	sp 		Byte1 		Byte0 (POR) 	Synchron Pattern (Byte1+Byte0)
-	0 		2Dh 		D4h 			2DD4h
-	1 		Not used 	D4h 			D4h
+	sp		Byte1		Byte0 (POR) 	Synchron Pattern (Byte1+Byte0)
+	0		2Dh			D4h				2DD4h
+	1		Not used	D4h				D4h
 	Note: Byte0 can be programmed by the Synchron Pattern Command.
-	
+
 	Bit 2 (al): Set the input of the FIFO fill start condition:
 	al
 	0 Synchron pattern
@@ -291,14 +318,14 @@
 	433 MHz bands: 2.5 kHz
 	868 MHz band: 5 kHz
 	915 MHz band: 7.5 kHz
-	
+
 	Bit 3 (st): Strobe edge, when st goes to high, the actual latest calculated frequency error is stored into the offset register of the AFC
 	block.
 	Bit 2 (fi): Switches the circuit to high accuracy (fine) mode. In this case, the processing time is about twice as long, but the measurement
 	uncertainty is about half.
 	Bit 1 (oe): Enables the frequency offset register. It allows the addition of the offset register to the frequency control word of the PLL.
 	Bit 0 (en): Enables the calculation of the offset frequency by the AFC circuit.
-	
+
 	In automatic operation mode (no strobe signal is needed from the microcontroller to update the output offset register) the AFC circuit
 	is automatically enabled when the VDI indicates potential incoming signal during the whole measurement cycle and the circuit
 	measures the same result in two subsequent cycles.
@@ -347,7 +374,7 @@
 	Frequency Setting Command)
 	M is the four bit binary number <m3 : m0>
 	SIGN = (mp) XOR FSK
-	
+
 	Bits 2-0 (p2 to p0): Output power:
 	p2 p1 p0 Relative Output Power [dB]
 	0 0 0 0
@@ -358,20 +385,23 @@
 	1 0 1 -12.5
 	1 1 0 -15
 	1 1 1 -17.5
-	
+
 */
 
 #define RFM12_CMD_TXCONF 0x9800
 #define RFM12_TXCONF_MP 0x100
 #define RFM12_TXCONF_POWER_0 	0x00
-#define RFM12_TXCONF_POWER_2_5 	0x01
-#define RFM12_TXCONF_POWER_5 	0x02
-#define RFM12_TXCONF_POWER_7_5 	0x03
-#define RFM12_TXCONF_POWER_10 	0x04
-#define RFM12_TXCONF_POWER_12_5 0x05
-#define RFM12_TXCONF_POWER_15 	0x06
-#define RFM12_TXCONF_POWER_17_5 0x07
+#define RFM12_TXCONF_POWER_3 	0x01
+#define RFM12_TXCONF_POWER_6 	0x02
+#define RFM12_TXCONF_POWER_9 	0x03
+#define RFM12_TXCONF_POWER_12 	0x04
+#define RFM12_TXCONF_POWER_15   0x05
+#define RFM12_TXCONF_POWER_18 	0x06
+#define RFM12_TXCONF_POWER_21   0x07
+#define RFM12_TXCONF_FSK_MASK   0xf0
 #define RFM12_TXCONF_FS_CALC(f) (((f/15000UL)-1)<<4)
+#define RFM12_TXCONF_MASK 0x01F7
+#define RFM12_TXCONF_POWER_MASK 0x07
 
 
 
@@ -385,26 +415,26 @@
 	0 0 5 or 10 MHz (recommended)
 	0 1 3.3 MHz
 	1 X 2.5 MHz or less
-	
+
 	(Typ conditions: Top = 27 oC; Vdd = Voc = 2.7 V, Crystal ESR = 30 Ohm)
 
 	Bit 3 (ddy): Switches on the delay in the phase detector when this bit is set.
 	Bit 2 (ddit): When set, disables the dithering in the PLL loop.
 	Bit 0 (bw0): PLL bandwidth can be set for optimal TX RF performance.
-	
-	bw0 	Max bit rate [kbps]		Phase noise at 1MHz offset [dBc/Hz]
-	0 		86.2 					-107
-	1 		256 					-102
-	
+
+	bw0		Max bit rate [kbps]		Phase noise at 1MHz offset [dBc/Hz]
+	0		86.2					-107
+	1		256						-102
+
 	Note: Needed for optimization of the RF
 	performance. Optimal settings can vary
 	according to the external load capacitance.
 */
 
-#define RFM12_CMD_PLL 	0xCC02
-#define RFM12_PLL_DDY 	0x08
-#define RFM12_PLL_DDIT 	0x04
-#define RFM12_PLL_BW0 	0x01
+#define RFM12_CMD_PLL	0xCC02
+#define RFM12_PLL_DDY	0x08
+#define RFM12_PLL_DDIT	0x04
+#define RFM12_PLL_BW0	0x01
 
 /*
 	13. Transmitter Register Write Command
@@ -467,11 +497,39 @@
 */
 #define RFM12_CMD_LBDMCD 0xC000
 
+#define RFM12_LBD_VOLTAGE_2V2 0
+#define RFM12_LBD_VOLTAGE_2V3 1
+#define RFM12_LBD_VOLTAGE_2V4 2
+#define RFM12_LBD_VOLTAGE_2V5 3
+#define RFM12_LBD_VOLTAGE_2V6 4
+#define RFM12_LBD_VOLTAGE_2V7 5
+#define RFM12_LBD_VOLTAGE_2V8 6
+#define RFM12_LBD_VOLTAGE_2V9 7
+#define RFM12_LBD_VOLTAGE_3V0 8
+#define RFM12_LBD_VOLTAGE_3V1 9
+#define RFM12_LBD_VOLTAGE_3V2 10
+#define RFM12_LBD_VOLTAGE_3V3 11
+#define RFM12_LBD_VOLTAGE_3V4 12
+#define RFM12_LBD_VOLTAGE_3V5 13
+#define RFM12_LBD_VOLTAGE_3V6 14
+#define RFM12_LBD_VOLTAGE_3V7 15
+
+#define RFM12_CLOCK_OUT_FREQUENCY_1_00_MHz  (0<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_1_25_MHz  (1<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_1_66_MHz  (2<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_2_00_MHz  (3<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_2_50_MHz  (4<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_3_33_MHz  (5<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_5_00_MHz  (6<<5)
+#define RFM12_CLOCK_OUT_FREQUENCY_10_00_MHz (7<<5)
+
+
+
 /*
 	17. Status Read Command
 	The read command starts with a zero, whereas all other control commands start with a one. If a read command is identified, the
 	status bits will be clocked out on the SDO pin as follows:
-	
+
 	bitnumber
 	15	RGIT TX register is ready to receive the next byte (Can be cleared by Transmitter Register Write Command)
 		FFIT The number of data bits in the RX FIFO has reached the pre-programmed limit (Can be cleared by any of the
@@ -495,18 +553,23 @@
 	0
 */
 
-#define RFM12_CMD_STATUS 	0x0000
-#define RFM12_STATUS_RGIT 	0x8000
-#define RFM12_STATUS_FFIT 	0x8000
-#define RFM12_STATUS_POR 	0x4000
-#define RFM12_STATUS_RGUR 	0x2000
-#define RFM12_STATUS_FFOV 	0x2000
-#define RFM12_STATUS_WKUP 	0x1000
-#define RFM12_STATUS_EXT 	0x0800
-#define RFM12_STATUS_LBD 	0x0400
-#define RFM12_STATUS_FFEM 	0x0200
-#define RFM12_STATUS_ATS 	0x0100
-#define RFM12_STATUS_RSSI 	0x0100
-#define RFM12_STATUS_DQD 	0x0080
-#define RFM12_STATUS_CRL 	0x0040
-#define RFM12_STATUS_ATGL 	0x0020
+#define RFM12_CMD_STATUS	0x0000
+#define RFM12_STATUS_RGIT	0x8000
+#define RFM12_STATUS_FFIT	0x8000
+#define RFM12_STATUS_POR	0x4000
+#define RFM12_STATUS_RGUR	0x2000
+#define RFM12_STATUS_FFOV	0x2000
+#define RFM12_STATUS_WKUP	0x1000
+#define RFM12_STATUS_EXT	0x0800
+#define RFM12_STATUS_LBD	0x0400
+#define RFM12_STATUS_FFEM	0x0200
+#define RFM12_STATUS_ATS	0x0100
+#define RFM12_STATUS_RSSI	0x0100
+#define RFM12_STATUS_DQD	0x0080
+#define RFM12_STATUS_CRL	0x0040
+#define RFM12_STATUS_ATGL	0x0020
+
+
+/* undocumented software reset command for the rf12
+ */
+#define RFM12_RESET		0xffff
