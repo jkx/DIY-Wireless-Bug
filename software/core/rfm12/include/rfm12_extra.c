@@ -299,17 +299,16 @@
 	}
 
 
-	 /** Old JKX version 
-		void rfm12_power_down()
+	 /** Old JKX version */
+		void _rfm12_power_down()
 		{
 			rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
 		}
 
-		void rfm12_power_up()
+		void _rfm12_power_up()
 		{
 			rfm12_data(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT | RFM12_PWRMGT_ET);
 		}
-      */
 #endif
 
 /************************

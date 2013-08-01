@@ -24,8 +24,8 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 application_t applications[] ={} ; 
 
 
-void my_sleep() {
-    delay_250ms();
+void my_sleep() {    
+    delay_500ms();
     rfm12_power_down();
     led_disable();
     bugone_deep_sleep();
@@ -56,6 +56,7 @@ int main ( void )
 
 	//timer1_init();
 	sei();
+    led_blink1();
     bugone_setup_watchdog(9);
 
     while (1) {
