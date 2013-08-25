@@ -31,21 +31,20 @@ application_t applications[] ={ {bandgap_init,bandgap_get,NULL,NULL},
 
 void my_sleep() {
   delay_500ms();
-  //rfm12_power_down();
+  rfm12_power_down();
   led_disable();
-  //bugone_deep_sleep();
+  bugone_deep_sleep();
 }
 
 
 // The watchdog wake us, what we do ? 
 SIGNAL(WDT_vect) {
     // tell the AVR to power devices
-    //power_all_enable(); 
-    //rfm12_power_up();
+    power_all_enable(); 
+    rfm12_power_up();
     // just blink
     led_setup();
     led_blink1();
-    my_send();
 }
 
 
@@ -111,5 +110,6 @@ int main ( void )
     uart_putstr_P(PSTR("Boot\r\n"));
     while (1) {
       my_sleep();
+      my_send();
     }
 }
