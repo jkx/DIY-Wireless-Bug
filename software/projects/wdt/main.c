@@ -18,25 +18,28 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 #include "config.h"
 
 
+#define RFM12_USE_POWER_CONTROL 1
+
 
 application_t applications[] ={} ; 
 
 
-void my_sleep() {
-  rfm12_sleep();
-  led_disable();
-  bugone_deep_sleep();
+void my_sleep() {    
+    delay_500ms();
+    rfm12_power_down();
+    led_disable();
+    bugone_deep_sleep();
 }
 
 
 // The watchdog wake us, what we do ? 
 SIGNAL(WDT_vect) {
-  // tell the AVR to power devices
-  power_all_enable(); 
-  rfm12_wakeup();
-  // just blink
-  led_setup();
-  led_blink1();
+    // tell the AVR to power devices
+    power_all_enable(); 
+    rfm12_power_up();
+    // just blink
+    led_setup();
+    led_blink1();
 }
 
 
@@ -53,10 +56,10 @@ int main ( void )
 
 	//timer1_init();
 	sei();
+    led_blink1();
     bugone_setup_watchdog(9);
 
-  while (1) {
-    delay_250ms(); // wait until uart flush..
-    my_sleep();
-  }
+    while (1) {
+        my_sleep();
+    }
 }
