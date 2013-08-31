@@ -9,6 +9,10 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 */
 
 
+
+
+
+
 #include "bugOne.h"
 
 #include <avr/interrupt.h>
@@ -56,7 +60,7 @@ void my_send()
   application_t *application;
   int8_t len;
   i=0;
-  while ( (application = get_app(i)) != NULL) {
+  while ( (application = app_get(i)) != NULL) {
     i++;
     if (application->get == NULL) { continue; }
     set_devices(packet,i,0x29);
@@ -68,6 +72,7 @@ void my_send()
     //delay_250ms();
   }
   uart_putstr_P(PSTR("send done ...\r\n"));
+  led_blink2();
 }
 
 
@@ -77,8 +82,6 @@ int main ( void )
     // note that timer1.init() cause the power_all_enable() to bug .. 
     // and system randomly do some weird stuff .. 
     uint8_t i=0;
-    uint8_t nb_devices=0;
-    application_t *app=applications;
 
     
     led_init();
@@ -86,30 +89,17 @@ int main ( void )
     rfm12_init();
     config_init();
 
-    /* Count how many devices are declared */
-    while (!((app->init == NULL) && 
-	     (app->get == NULL) && 
-	     (app->set == NULL) && 
-	     (app->cfg == NULL))) { 
-      nb_devices++;
-      app++;
-    }
-    set_apps(applications,nb_devices);
+    
+    apps_setup(applications);
+    apps_init();
 
-
-    for (i=0 ; i < nb_devices; i++) {
-      if (applications[i].init == NULL) { continue; }
-      applications[i].init(applications[i].cfg);
-    }
-
+    led_blink1();
+    bugone_setup_watchdog(9);
 
     sei();
-    led_blink1();
-    bugone_setup_watchdog(7);
-
     uart_putstr_P(PSTR("Boot\r\n"));
     while (1) {
+      my_send();        
       my_sleep();
-      my_send();
     }
 }

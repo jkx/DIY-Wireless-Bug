@@ -47,23 +47,12 @@ void timer1_init() {
 /* Initialise board */
 void bugone_init(application_t* applications) {
 	char buf[16];
-	uint8_t i;
-    uint8_t nb_devices=0;
-    application_t *app=applications;
 
 	led_init();
 	uart_init();
 	rfm12_init();
 	config_init();
-	/* Count how many devices are declared */
-        while (!((app->init == NULL) && 
-              (app->get == NULL) && 
-              (app->set == NULL) && 
-              (app->cfg == NULL))) { 
-            nb_devices++;
-            app++;
-        }
-        set_apps(applications,nb_devices);
+	apps_setup(applications);
 
 	uart_putstr_P(PSTR("Firmware version "));
 	uart_putstr_P(PSTR(FWVERSION_STR));
@@ -74,16 +63,11 @@ void bugone_init(application_t* applications) {
 	uart_putstr(buf);
 	uart_putstr_P(PSTR("\r\n"));
 
-	for (i=0 ; i < nb_devices; i++) {
-		uart_putc('*');
-		if (applications[i].init == NULL) { continue; }
-		applications[i].init(applications[i].cfg);
-	}
+	apps_init();
 
 	timer1_init();
 
 	sei();
-
 	uart_putstr_P(PSTR("bugOne init complete\r\n"));
 	//clr_output(LED1);
 	//clr_output(LED2);
@@ -121,7 +105,7 @@ void bugone_loop() {
         int8_t len;
         uart_putstr_P(PSTR("\r\n"));
         i=0;
-        while ( (application = get_app(i)) != NULL) {
+        while ( (application = app_get(i)) != NULL) {
             i++;
             uart_putstr_P(PSTR("#"));
             if (application->get == NULL) { continue; }

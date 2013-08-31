@@ -12,7 +12,10 @@ typedef struct {
 } application_t;
 
 
-void set_apps(application_t* apps, uint8_t size);
-application_t* get_app(uint8_t sensor);
+void apps_set(application_t* apps, uint8_t size);
+application_t* app_get(uint8_t sensor);
+void apps_setup(application_t* apps);
+void apps_init();
+
 
 #endif
