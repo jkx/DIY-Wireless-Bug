@@ -1,0 +1,22 @@
+
+
+Software Guidelines
+===================
+When you use the bugOne framework to developp apps, please to follow this 
+guidelines : 
+
+- LED1 (red one) must be used to represent the power supply. On normal 
+  operation it should be ON. If your application need to power consumption,
+  you can turn it OFF, but alway turn it ON when the app is running. 
+
+- LED2 (blue one) must be used for radio channel. It should blink on receive
+  or transmit. We can imagine two kind of blinking, 1 long for transmition,
+  2 short blinks for reception.
+
+- At during boot, both leds should be ON.
+
+- Tabulation, please try to follow the GNU coding style : 4 spaces
+
+
+  
+
