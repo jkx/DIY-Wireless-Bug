@@ -36,41 +36,41 @@ void delay_250ms()
 
 
 void timer1_init() {
-	// Set interrupt CTC mode. Every second (prescaler 1024 at 8MHz)
-	TCCR1B |= (1 << WGM12);
-  	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt 
-	OCR1A = 7812;
-	// Set timer 1 prescaler
-	TCCR1B |= ((1 << CS10) | (1 << CS12)); // Set up timer at Fcpu/1024
+    // Set interrupt CTC mode. Every second (prescaler 1024 at 8MHz)
+    TCCR1B |= (1 << WGM12);
+    TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt
+    OCR1A = 7812;
+    // Set timer 1 prescaler
+    TCCR1B |= ((1 << CS10) | (1 << CS12)); // Set up timer at Fcpu/1024
 }
 
 /* Initialise board */
 void bugone_init(application_t* applications) {
-	char buf[16];
+    char buf[16];
 
-	led_init();
-	uart_init();
-	rfm12_init();
-	config_init();
-	apps_setup(applications);
+    led_init();
+    uart_init();
+    rfm12_init();
+    config_init();
+    apps_setup(applications);
 
-	uart_putstr_P(PSTR("Firmware version "));
-	uart_putstr_P(PSTR(FWVERSION_STR));
-	uart_putstr_P(PSTR("\r\n"));
+    uart_putstr_P(PSTR("Firmware version "));
+    uart_putstr_P(PSTR(FWVERSION_STR));
+    uart_putstr_P(PSTR("\r\n"));
 
-	uart_putstr_P(PSTR("Node address : "));
-	itoa(config.address,buf,10);
-	uart_putstr(buf);
-	uart_putstr_P(PSTR("\r\n"));
+    uart_putstr_P(PSTR("Node address : "));
+    itoa(config.address,buf,10);
+    uart_putstr(buf);
+    uart_putstr_P(PSTR("\r\n"));
 
-	apps_init();
+    apps_init();
 
-	timer1_init();
+    timer1_init();
 
-	sei();
-	uart_putstr_P(PSTR("bugOne init complete\r\n"));
-	//clr_output(LED1);
-	//clr_output(LED2);
+    sei();
+    uart_putstr_P(PSTR("bugOne init complete\r\n"));
+    //clr_output(LED1);
+    //clr_output(LED2);
 }
 
 extern application_t applications[];
@@ -79,9 +79,9 @@ volatile uint8_t wake_me_up=0;
 volatile uint8_t seconds = 0;
 
 ISR(TIMER1_COMPA_vect) {
-	seconds++;
-	toggle_output(LED2);
-    	uart_putc('.');
+    seconds++;
+    toggle_output(LED2);
+    uart_putc('.');
 }
 
 void bugone_loop() {
@@ -90,8 +90,8 @@ void bugone_loop() {
 
     // RFM12 managment
     rfm12_tick();
-    
-#if !(RFM12_TRANSMIT_ONLY)    
+
+#if !(RFM12_TRANSMIT_ONLY)
     if (rfm12_rx_status() == STATUS_COMPLETE) {
         bufcontents=rfm12_rx_buffer();
         recv(bufcontents);
@@ -108,13 +108,15 @@ void bugone_loop() {
         while ( (application = app_get(i)) != NULL) {
             i++;
             uart_putstr_P(PSTR("#"));
-            if (application->get == NULL) { continue; }
-                set_devices(packet,i,0x29);
-                len=application->get(packet);
-                if (len > 0) {
-                    //data.remaining_len-=len;
-                    //data.buf+=len;
-                }
+            if (application->get == NULL) {
+                continue;
+            }
+            set_devices(packet,i,0x29);
+            len=application->get(packet);
+            if (len > 0) {
+                //data.remaining_len-=len;
+                //data.buf+=len;
+            }
         }
         send(0xFF,6,packet);
         seconds=0;
@@ -140,26 +142,26 @@ void bugone_loop() {
 // http://interface.khm.de/index.php/lab/experiments/sleep_watchdog_battery/
 // WARNING : you must implement SIGNAL(WDT_vect) if you use this
 void bugone_setup_watchdog(int val) {
-  unsigned char  bb;
-  if (val > 9 ) val=9;
-  bb=val & 7;
-  if (val > 7) bb|= (1<<5);
-  bb|= (1<<WDCE);
+    unsigned char  bb;
+    if (val > 9 ) val=9;
+    bb=val & 7;
+    if (val > 7) bb|= (1<<5);
+    bb|= (1<<WDCE);
 
-  MCUSR &= ~(1<<WDRF);
-  // start timed sequence
-  WDTCSR |= (1<<WDCE) | (1<<WDE);
-  // set new watchdog timeout value
-  WDTCSR = bb;
-  WDTCSR |= _BV(WDIE);
+    MCUSR &= ~(1<<WDRF);
+    // start timed sequence
+    WDTCSR |= (1<<WDCE) | (1<<WDE);
+    // set new watchdog timeout value
+    WDTCSR = bb;
+    WDTCSR |= _BV(WDIE);
 }
 
 
 void bugone_deep_sleep() {
-  power_all_disable();
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
-  sleep_enable();
-  sleep_mode();                        // let's sleep and wake-up
-  sleep_disable();                      
+    power_all_disable();
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
+    sleep_enable();
+    sleep_mode();                        // let's sleep and wake-up
+    sleep_disable();
 }
 
