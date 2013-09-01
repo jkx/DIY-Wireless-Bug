@@ -10,9 +10,6 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 
 
 
-
-
-
 #include "bugOne.h"
 
 #include <avr/interrupt.h>
@@ -27,7 +24,7 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 // devices
 #include "bandgap.h"
 #include "const.h"
-
+#include "avr_compat.h"
 
 
 
@@ -42,6 +39,7 @@ application_t applications[] = {
 
 
 void my_sleep() {
+    clr_output(LED1);
     delay_500ms();
     rfm12_power_down();
     led_disable();
@@ -56,7 +54,8 @@ SIGNAL(WDT_vect) {
     rfm12_power_up();
     // just blink
     led_setup();
-    led_blink1();
+    set_output(LED1);
+    delay_250ms();
 }
 
 
@@ -91,7 +90,7 @@ int main ( void )
     // cut & paste from the bugone_init() ..
     // note that timer1.init() cause the power_all_enable() to bug ..
     // and system randomly do some weird stuff ..
-    uint8_t i=0;
+    uint8_t i=10;
 
 
     led_init();
@@ -109,7 +108,11 @@ int main ( void )
     sei();
     uart_putstr_P(PSTR("Boot\r\n"));
     while (1) {
-        my_send();
-        my_sleep();
+        i++;
+        if (i > 10) {
+            i=0;
+	    my_send();
+         }
+	my_sleep();
     }
 }
