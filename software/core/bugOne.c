@@ -14,6 +14,10 @@
 #include "apps.h"
 #include "config.h"
 
+#ifndef PRG
+#define PRG "unknown"
+#endif
+
 void delay_1s() {
     _delay_ms(250);
     _delay_ms(250);
@@ -56,6 +60,8 @@ void bugone_init(application_t* applications) {
 
     uart_putstr_P(PSTR("Firmware version "));
     uart_putstr_P(PSTR(FWVERSION_STR));
+    uart_putstr_P(PSTR(" for "));
+    uart_putstr_P(PSTR(PRG));
     uart_putstr_P(PSTR("\r\n"));
 
     uart_putstr_P(PSTR("Node address : "));

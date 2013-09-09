@@ -59,7 +59,7 @@ CC=avr-gcc
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DF_CPU=8000000
+CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DF_CPU=8000000 -DPRG=\"$(PRG)\"
 LDFLAGS=-mmcu=$(MCU)
 
 ifeq ($(NO_RFM12), 1)
