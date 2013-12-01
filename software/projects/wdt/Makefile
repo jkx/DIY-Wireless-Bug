@@ -3,8 +3,9 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=test
-NO_RFM12=1
-FILES=main.o rfm12.o bugOne.o led.o network.o config.o get.o value.o ping.o apps.o bandgap.o const.o
+# DISABLE_CORE=1
+DISABLE_MAIN=1
+FILES=main.o
 
 DEVICE_FILES=led.o bandgap.o const.o
 
