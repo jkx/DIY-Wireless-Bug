@@ -55,7 +55,7 @@ endif
 
 # enable floating point printf or not ?
 #CC=avr-gcc -Wl,-u,vfprintf -lprintf_flt
-CC=avr-gcc
+CC=avr-gcc -std=gnu99 -Wno-implicit-function-declaration
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
