@@ -52,6 +52,8 @@ void led_setup()
 // disable the led pins, used for sleep
 void led_disable()
 {
+	clr_output(LED1);
+	clr_output(LED2);
 	tristate(LED1);
 	tristate(LED2);
 }
