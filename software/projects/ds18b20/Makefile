@@ -3,11 +3,8 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=ds18b20
-DEVICE_FILES=led.o ds18x20.o onewire.o crc8.o dht11.o
+DEVICE_FILES=const.o led.o ds18x20.o onewire.o crc8.o
 FILES=main.o
-
-BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o
-
 
 include $(BUGONE_PATH)/projects/bugone.inc
 
@@ -23,5 +20,3 @@ $(BOARD)/onewire.o: $(BUGONE_PATH)/devices/onewire.c $(BUGONE_PATH)/devices/onew
 $(BOARD)/crc8.o: $(BUGONE_PATH)/devices/crc8.c $(BUGONE_PATH)/devices/crc8.h
 	$(CC) $(CFLAGS) -std=c99 -c ../../devices/crc8.c -o $(BOARD)/crc8.o
 
-$(BOARD)/dht11.o: $(BUGONE_PATH)/devices/dht11.c $(BUGONE_PATH)/devices/dht11.h
-	$(CC) $(CFLAGS) -std=c99 -c ../../devices/dht11.c -o $(BOARD)/dht11.o

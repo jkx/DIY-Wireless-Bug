@@ -3,7 +3,7 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=test
-DISABLE_CORE=1
+NO_RFM12=1
 FILES=main.o
 
 include $(BUGONE_PATH)/projects/bugone.inc

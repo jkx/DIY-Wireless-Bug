@@ -11,26 +11,6 @@
 
 application_t applications[] = {};
 
-//****************************************************************
-// 0=16ms, 1=32ms,2=64ms,3=128ms,4=250ms,5=500ms
-// 6=1 sec,7=2 sec, 8=4 sec, 9= 8sec
-// for more infos check this
-// http://interface.khm.de/index.php/lab/experiments/sleep_watchdog_battery/
-void setup_watchdog(int val) {
-  unsigned char  bb;
-  if (val > 9 ) val=9;
-  bb=val & 7;
-  if (val > 7) bb|= (1<<5);
-  bb|= (1<<WDCE);
-
-  MCUSR &= ~(1<<WDRF);
-  // start timed sequence
-  WDTCSR |= (1<<WDCE) | (1<<WDE);
-  // set new watchdog timeout value
-  WDTCSR = bb;
-  WDTCSR |= _BV(WDIE);
-}
-
 
 // Note : 
 // Additionnal infos for power registers is here : 
@@ -67,41 +47,14 @@ void system_sleep() {
   sleep_disable();                     
 }
 
+
+
 int main ( void )
 {
   char buf[20];
-
-  cbi( SMCR,SE );      // sleep enable, power down mode
-  cbi( SMCR,SM0 );     // power down mode
-  sbi( SMCR,SM1 );     // power down mode
-  cbi( SMCR,SM2 );     // power down mode
-
-  setup_watchdog(9);
-
-  drive(LED2);
-  set_output(LED2);
-
-  uart_init();
-  uart_putstr("Boot\r\n");
-
-  //config_init();
-
-  _delay_ms(250);
-  rfm12_init();
-  _delay_ms(250);
-
-
-  _delay_ms(1000);
-  clr_output(LED2);
  
-  // put the RFM is sleep mode
-  //rfm12_data(RFM12_CMD_PWRMGT | RFM12_PWRMGT_DC);
-  rfm12_data(0x8205);
-
-  
- 
-  //bugone_init(applications);
-  //bugone_setup_watchdog(9);
+  bugone_init(applications);
+  bugone_setup_watchdog(9);
 
   while (1) {
     _delay_ms(200); // wait for last char before sleep

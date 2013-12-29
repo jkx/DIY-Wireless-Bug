@@ -41,16 +41,17 @@ class SnifferSerial:
 import socket
 
 class SnifferEthernet:
+	port = 1234
 
-	def __init__(self, port = 12288):
+	def __init__(self, bugone):
 		self.socket = socket.socket( socket.AF_INET, socket.SOCK_DGRAM )
-		self.port = port
-		self.socket.bind(('',self.port))
+		self.bugone = bugone
 
 	def close(self):
 		self.socket.close()
 
 	def waitForMessage(self):
+		self.socket.bind((self.bugone,self.port))
 		data, adrr = self.socket.recvfrom(256)
 		return data
 

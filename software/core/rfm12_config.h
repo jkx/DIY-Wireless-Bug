@@ -49,7 +49,7 @@
 #include "project.h"
 
 //frequency to use
-#define RFM12_FREQUENCY 868000000UL
+#define FREQ 868000000UL
 #define RFM12_BASEBAND RFM12_BAND_868
 
 //use this for datarates >= 2700 Baud
@@ -89,6 +89,3 @@
 
 //setup the interrupt to trigger on negative edge
 #define RFM12_INT_SETUP()   EICRA |= (1<<ISC01)
-
-#define RFM12_PWRMGT_SHADOW 1
-#define RFM12_USE_POWER_CONTROL 1

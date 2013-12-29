@@ -16,7 +16,7 @@ void recv_get(struct packet_t *packet) {
 	struct packet_t *send_packet = get_tx_packet();
 
 	while (get_devices(packet,&device_src,&device_dst)) {
-		app=app_get(device_dst);
+		app=get_app(device_dst);
 		set_devices(send_packet,device_dst,device_src);
 		len=app->get(send_packet);
 	//	if (len > 0) {
@@ -48,7 +48,7 @@ void recv_set(struct packet_t *packet) {
 	uart_putstr_P(PSTR("recv_set()\r\n"));
 
 	while (get_devices(packet,&device_src,&device_dst)) {
-		app=app_get(device_dst);
+		app=get_app(device_dst);
 		if (app == NULL) continue; 
 		if (app->set == NULL) continue;
 		app->set(packet);

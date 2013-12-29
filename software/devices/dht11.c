@@ -21,12 +21,10 @@
 #include "dht11.h"
 #include "value.h"
 
-#include <avr/pgmspace.h>
-
 int humidity;
 int temperature;
 
-#define DHT11 B,2
+#define DHT11 D,3
 
 int dht11_read()
 {
@@ -53,14 +51,14 @@ int dht11_read()
 
 	loopCnt = 10000;
 	while(get_input(DHT11) == 1)
-		if (loopCnt-- == 0) return -3;
+		if (loopCnt-- == 0) return -2;
 
 	// READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
 	for (int i=0; i<40; i++)
 	{
 		loopCnt = 10000;
 		while(get_input(DHT11) == 0)
-			if (loopCnt-- == 0) return -4;
+			if (loopCnt-- == 0) return -2;
 
 		//unsigned long t = micros();
 
@@ -107,15 +105,8 @@ int8_t dht11_humidity_read(struct packet_t *packet) {
 
 int8_t dht11_temperature_read(struct packet_t *packet) {
 	dht11_read();
+
 	return set_data_int16(packet, temperature);
 }
 
 
-int dht11_humidity_val() {
-  return humidity;
-}
-
-int dht11_temperature_val() {
-  dht11_read();
-  return temperature;
-}
