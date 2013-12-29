@@ -42,7 +42,12 @@ all: $(BOARD) $(BOARD)/$(PRG).hex
 ### CONSTANTS ###
 CORE=$(BUGONE_PATH)/core
 ifndef BASE
-	BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o bugone_main.o
+	_BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o
+	ifeq ($(DISABLE_MAIN), 1)
+		BASE=$(_BASE)
+	else
+		BASE=$(_BASE) bugone_main.o
+	endif
 endif
 
 ifndef DEVICE_FILES
@@ -55,14 +60,16 @@ endif
 
 # enable floating point printf or not ?
 #CC=avr-gcc -Wl,-u,vfprintf -lprintf_flt
-CC=avr-gcc
+CC=avr-gcc -std=gnu99 -Wno-implicit-function-declaration
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DF_CPU=8000000
+CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DF_CPU=8000000 -DPRG=\"$(PRG)\"
 LDFLAGS=-mmcu=$(MCU)
 
-ifeq ($(NO_RFM12), 1)
+
+# if DISABLE_CORE is set we only use the $FILES arguments
+ifeq ($(DISABLE_CORE), 1)
 	OBJS=$(addprefix $(BOARD)/, uart.o $(FILES))
 else
 	OBJS=$(addprefix $(BOARD)/, $(BASE) $(DEVICE_FILES) $(FILES))

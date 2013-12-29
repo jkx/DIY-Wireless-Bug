@@ -62,7 +62,7 @@ void led_disable()
 void led_blink1()
 {
 	set_output(LED1);
-	delay_500ms();
+	delay_250ms();
 	clr_output(LED1);
 }
 
@@ -71,6 +71,7 @@ void led_blink1()
 void led_blink2()
 {
 	set_output(LED2);
-	delay_500ms();
+	delay_250ms();
 	clr_output(LED2);
 }
+
