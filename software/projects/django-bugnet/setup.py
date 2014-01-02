@@ -42,7 +42,7 @@ setup(
     'graphite',
   ],
   package_data={'graphite' :
-    ['templates/admin/*', 'local_settings.py.example']},
+    ['templates/admin/*', 'templates/*.html', 'local_settings.py.example']},
   scripts=glob('bin/*'),
   data_files=webapp_content.items() + conf_files + examples,
   **setup_kwargs
