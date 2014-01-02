@@ -27,7 +27,6 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 #include "avr_compat.h"
 
 
-
 #define RFM12_USE_POWER_CONTROL 1
 
 
