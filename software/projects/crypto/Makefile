@@ -3,7 +3,7 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=test
-NO_RFM12=1
+DISABLE_CORE=1
 FILES=main.o aes_dec.o aes_enc.o aes_keyschedule.o aes_sbox.o aes128_enc.o aes128_dec.o aes_invsbox.o gf256mul.o
 
 include $(BUGONE_PATH)/projects/bugone.inc
