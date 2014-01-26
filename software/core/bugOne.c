@@ -71,7 +71,7 @@ void bugone_init(application_t* applications) {
 
     apps_init();
 
-    timer1_init();
+    bugone_setup_watchdog(7);
 
     sei();
     uart_putstr_P(PSTR("bugOne init complete\r\n"));
@@ -90,12 +90,32 @@ ISR(TIMER1_COMPA_vect) {
     uart_putc('.');
 }
 
+SIGNAL(WDT_vect) {
+    // tell the AVR to power devices
+    power_all_enable();
+    rfm12_power_up();
+    // just blink
+    led_setup();
+    set_output(LED1);
+    delay_250ms();
+}
+
+void bugone_sleep() {
+    clr_output(LED1);
+    delay_500ms();
+    rfm12_power_down();
+    led_disable();
+    bugone_deep_sleep();
+}
+
 void bugone_loop() {
     uint8_t *bufcontents;
     uint8_t i;
 
     // RFM12 managment
-    rfm12_tick();
+    while (ctrl.txstate!=STATUS_FREE) {
+        rfm12_tick();
+    } 
 
 #if !(RFM12_TRANSMIT_ONLY)
     if (rfm12_rx_status() == STATUS_COMPLETE) {
@@ -104,7 +124,11 @@ void bugone_loop() {
     }
 #endif
 
+    bugone_sleep();
+
     // Every minutes
+    seconds++;
+    uart_putstr_P(PSTR("."));
     if (seconds > 20) {
         struct packet_t *packet = get_tx_packet();
         application_t *application;
