@@ -452,7 +452,7 @@ int main(void) {
 #endif
 
   // Set up watchdog to trigger after 500ms
-  watchdogConfig(WATCHDOG_1S);
+  watchdogConfig(WATCHDOG_8S);
 
 #if (LED_START_FLASHES > 0) || defined(LED_DATA_FLASH)
   /* Set LED pin as output */
