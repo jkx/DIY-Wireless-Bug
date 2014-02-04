@@ -261,7 +261,8 @@ uint8_t dhcp_option_parser(uint8_t *buf,uint16_t plen)
                                 }
                         }
                         break;
-                case 6: if (option_len==4) {
+                case 6: if (option_len%4==0) {
+                            // We take the first DNS server
                             i=0;
                             while(i<4){
                                 dnsip[i]=buf[option_idx+2+i];
