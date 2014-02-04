@@ -122,6 +122,7 @@ int main(void)
 
     uart_init();
     bugone_init(applications);
+    wdt_disable();
 
     enc28j60Init(config.mac);
 
