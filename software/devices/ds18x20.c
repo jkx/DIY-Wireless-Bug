@@ -31,6 +31,7 @@ changelog:
 #include "ds18x20.h"
 #include "onewire.h"
 #include "crc8.h"
+#include "avr_compat.h"
 
 #if DS18X20_EEPROMSUPPORT
 // for 10ms delay in copy scratchpad
@@ -46,6 +47,8 @@ void ds18x20_init(void *cfg) {
         uint8_t id[OW_ROMCODE_SIZE];
 
 	uart_putstr_P(PSTR("ds18x20 init\r\n"));
+
+        ds18x20_wakeup();
 
 	ow_reset();
 
@@ -72,6 +75,18 @@ int8_t ds18x20_read(struct packet_t *packet) {
         DS18X20_read_decicelsius_single(DS18B20_FAMILY_CODE, &temperature);
 
 	return set_data_int16(packet, temperature);
+}
+
+#define DS18X20_VCC D,4
+
+void ds18x20_sleep(void) {
+    clr_output(DS18X20_VCC);
+    tristate(DS18X20_VCC);
+}
+
+void ds18x20_wakeup(void) {
+    drive(DS18X20_VCC);
+    set_output(DS18X20_VCC);
 }
 
 

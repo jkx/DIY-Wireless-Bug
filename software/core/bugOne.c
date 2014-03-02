@@ -37,17 +37,6 @@ void delay_250ms()
     _delay_ms(250);
 }
 
-
-
-void timer1_init() {
-    // Set interrupt CTC mode. Every second (prescaler 1024 at 8MHz)
-    TCCR1B |= (1 << WGM12);
-    TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt
-    OCR1A = 7812;
-    // Set timer 1 prescaler
-    TCCR1B |= ((1 << CS10) | (1 << CS12)); // Set up timer at Fcpu/1024
-}
-
 /* Initialise board */
 void bugone_init(application_t* applications) {
     char buf[16];
@@ -71,8 +60,6 @@ void bugone_init(application_t* applications) {
 
     apps_init();
 
-    bugone_setup_watchdog(7);
-
     sei();
     uart_putstr_P(PSTR("bugOne init complete\r\n"));
     //clr_output(LED1);
@@ -81,14 +68,7 @@ void bugone_init(application_t* applications) {
 
 extern application_t applications[];
 
-volatile uint8_t wake_me_up=0;
-volatile uint8_t seconds = 0;
-
-ISR(TIMER1_COMPA_vect) {
-    seconds++;
-    toggle_output(LED2);
-    uart_putc('.');
-}
+volatile uint8_t send_flush=0;
 
 SIGNAL(WDT_vect) {
     // tell the AVR to power devices
@@ -108,9 +88,36 @@ void bugone_sleep() {
     bugone_deep_sleep();
 }
 
+void bugone_send() {
+    struct packet_t *packet = get_tx_packet();
+    application_t *application;
+    int8_t len;
+    uint8_t i;
+    uart_putstr_P(PSTR("\r\n"));
+    i=0;
+    while ( (application = app_get(i)) != NULL) {
+        i++;
+        uart_putstr_P(PSTR("#"));
+        if (application->get == NULL) {
+            continue;
+        }
+        set_devices(packet,i,0x29);
+        len=application->get(packet);
+        if (len > 0) {
+            //data.remaining_len-=len;
+            //data.buf+=len;
+        }
+    }
+    send(0xFF,6,packet);
+    
+    // RFM12 managment
+    while (ctrl.txstate!=STATUS_FREE) {
+        rfm12_tick();
+    } 
+}
+
 void bugone_loop() {
     uint8_t *bufcontents;
-    uint8_t i;
 
     // RFM12 managment
     while (ctrl.txstate!=STATUS_FREE) {
@@ -124,43 +131,11 @@ void bugone_loop() {
     }
 #endif
 
-    bugone_sleep();
-
     // Every minutes
-    seconds++;
     uart_putstr_P(PSTR("."));
-    if (seconds > 20) {
-        struct packet_t *packet = get_tx_packet();
-        application_t *application;
-        int8_t len;
-        uart_putstr_P(PSTR("\r\n"));
-        i=0;
-        while ( (application = app_get(i)) != NULL) {
-            i++;
-            uart_putstr_P(PSTR("#"));
-            if (application->get == NULL) {
-                continue;
-            }
-            set_devices(packet,i,0x29);
-            len=application->get(packet);
-            if (len > 0) {
-                //data.remaining_len-=len;
-                //data.buf+=len;
-            }
-        }
-        send(0xFF,6,packet);
-        seconds=0;
-    }
-
-    // Asynchronous events
-    if (wake_me_up > 0) {
-        struct packet_t *packet = get_tx_packet();
-        int8_t len;
-        uart_putstr_P(PSTR("\r\n"));
-        set_devices(packet,wake_me_up,42);
-        len=applications[wake_me_up].get(packet);
-        send(0xFF,VALUE,packet);
-        wake_me_up = 0;
+    if (send_flush == 1) {
+        bugone_send();
+        send_flush=0;
     }
 }
 

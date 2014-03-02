@@ -27,3 +27,21 @@ application_t applications[] = {
  {NULL,dht11_humidity_read,NULL,NULL},
  {NULL,NULL,NULL,NULL},
 };
+
+int main() {
+    bugone_init(applications);
+
+    bugone_setup_watchdog(8);
+
+    uint8_t wake_up=2;
+    while (1) {
+        wake_up++;
+        if (wake_up > 2) {
+            led_blink2();
+            bugone_send();
+            wake_up=0;
+        }
+        bugone_sleep();
+    }
+}
+

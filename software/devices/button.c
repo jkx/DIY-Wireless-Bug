@@ -4,7 +4,7 @@
 #include "avr_compat.h"
 #include "button.h"
 
-extern uint8_t wake_me_up;
+extern uint8_t send_flush;
 
 #define BUTTON1 D,4
 void button_init(void* cfg) {
@@ -15,7 +15,7 @@ void button_init(void* cfg) {
 
 ISR (PCINT2_vect) {
 	uart_putstr_P(PSTR("ISR\r\n"));
-	wake_me_up = 2;
+	send_flush = 0;
 }
 
 int8_t button_read(struct packet_t *packet) {

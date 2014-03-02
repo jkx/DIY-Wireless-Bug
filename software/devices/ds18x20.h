@@ -5,5 +5,7 @@
 
 void ds18x20_init(void *cfg);
 int8_t ds18x20_read(struct packet_t *packet);
+void ds18x20_sleep(void);
+void ds18x20_wakeup(void);
 
 #endif

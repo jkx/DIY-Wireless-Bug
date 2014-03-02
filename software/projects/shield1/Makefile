@@ -3,6 +3,7 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=shield1
+DISABLE_MAIN=1
 DEVICE_FILES=const.o led.o dht11.o photoresistor.o bandgap.o
 FILES=main.o
 

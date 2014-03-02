@@ -9,5 +9,6 @@
 void bugone_init(application_t* applications);
 void bugone_setup_watchdog(int val);
 void bugone_deep_sleep();
+void bugone_send();
 
 #endif

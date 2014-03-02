@@ -19,6 +19,6 @@ const uint8_t period = 5;
 application_t applications[] = {
  {NULL,const_read,NULL,NULL},
  {bandgap_init,bandgap_get,NULL,NULL},
- {ds18x20_init,ds18x20_read,NULL,NULL},
+ {ds18x20_init,ds18x20_read,NULL,ds18x20_sleep,ds18x20_wakeup,NULL},
  {NULL,NULL,NULL,NULL},
 };
