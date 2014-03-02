@@ -1,6 +1,7 @@
 #include "bugOne.h"
 
 #include <stdlib.h>
+#include <avr/interrupt.h>
 
 #include "avr_compat.h"
 #include "config.h"
@@ -27,6 +28,11 @@ application_t applications[] = {
  {NULL,dht11_humidity_read,NULL,NULL},
  {NULL,NULL,NULL,NULL},
 };
+
+SIGNAL(WDT_vect) {
+    // tell the AVR to power devices
+    bugone_wakeup();
+}
 
 int main() {
     bugone_init(applications);

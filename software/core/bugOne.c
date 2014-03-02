@@ -70,22 +70,21 @@ extern application_t applications[];
 
 volatile uint8_t send_flush=0;
 
-SIGNAL(WDT_vect) {
-    // tell the AVR to power devices
-    power_all_enable();
-    rfm12_power_up();
-    // just blink
-    led_setup();
-    set_output(LED1);
-    delay_250ms();
-}
-
 void bugone_sleep() {
     clr_output(LED1);
+    // To flush the UART
     delay_500ms();
     rfm12_power_down();
     led_disable();
     bugone_deep_sleep();
+}
+
+void bugone_wakeup() {
+    power_all_enable();
+    rfm12_power_up();
+    led_setup();
+    set_output(LED1);
+    delay_250ms();
 }
 
 void bugone_send() {
