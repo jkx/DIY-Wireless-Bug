@@ -4,7 +4,7 @@
 This is an minimal example howto use the watchdog, to put the bugOne
 in deep sleep mode.
 
-NOTE : In this state, the bugOne drains around 20uA, and can only send
+NOTE : In this state, the bugOne drains around 120uA, and can only send
 
 */
 
@@ -13,17 +13,11 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 #include "bugOne.h"
 
 #include <avr/interrupt.h>
-#include <avr/power.h>
 #include <stdlib.h>
 
 
-#include "uart.h"
-#include "config.h"
-#include "rfm12.h"
-
 // devices
 #include "bandgap.h"
-#include "const.h"
 #include "avr_compat.h"
 
 
@@ -32,86 +26,38 @@ NOTE : In this state, the bugOne drains around 20uA, and can only send
 
 application_t applications[] = { 
     {bandgap_init,bandgap_get,NULL,NULL},
-    {NULL,const_read,NULL,NULL},
     {NULL,NULL,NULL,NULL},
 };
 
 
-void my_sleep() {
-    clr_output(LED1);
-    delay_500ms();
-    rfm12_power_down();
-    led_disable();
-    bugone_deep_sleep();
+void sleep() {
+  bugone_sleep();
 }
 
 
 // The watchdog wake us, what we do ?
 SIGNAL(WDT_vect) {
-    // tell the AVR to power devices
-    power_all_enable();
-    rfm12_power_up();
-    // just blink
-    led_setup();
-    set_output(LED1);
-    delay_250ms();
-}
-
-
-void my_send()
-{
-    uint8_t i;
-    struct packet_t *packet = get_tx_packet();
-
-    application_t *application;
-    int8_t len;
-    i=0;
-    while ( (application = app_get(i)) != NULL) {
-        i++;
-        if (application->get == NULL) {
-            continue;
-        }
-        set_devices(packet,i,0x29);
-        len=application->get(packet);
-    }
-    send(0xFF,6,packet);
-    while (ctrl.txstate!=STATUS_FREE) {
-        rfm12_tick();
-        //delay_250ms();
-    }
-    uart_putstr_P(PSTR("send done ...\r\n"));
-    led_blink2();
+  bugone_wakeup();
 }
 
 
 int main ( void )
 {
-    // cut & paste from the bugone_init() ..
-    // note that timer1.init() cause the power_all_enable() to bug ..
-    // and system randomly do some weird stuff ..
-    uint8_t i=10;
+  bugone_init(applications);
+  bugone_setup_watchdog(8);
 
-
-    led_init();
-    uart_init();
-    rfm12_init();
-    config_init();
-
-
-    apps_setup(applications);
-    apps_init();
-
-    led_blink1();
-    bugone_setup_watchdog(9);
-
-    sei();
-    uart_putstr_P(PSTR("Boot\r\n"));
-    while (1) {
-        i++;
-        if (i > 10) {
-            i=0;
-	    my_send();
-         }
-	my_sleep();
-    }
+  uint8_t wake_up=2;
+  while (1) 
+  {
+	wake_up++;
+	if (wake_up > 2)
+	{
+	  led_blink2();
+	  bugone_send();
+	  wake_up=0;
+	}
+	sleep();
+  }
 }
+
+
