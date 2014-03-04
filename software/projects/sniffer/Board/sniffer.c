@@ -41,13 +41,7 @@ int main(void) {
 	timer0_init();
 
 	sei();
-	drive(LED1);
-	drive(LED2);
-
-        set_output(LED1);
-        set_output(LED2);
-        _delay_ms(250);
-	clr_output(LED2);
+	led_init();
 
 	while (1) {
 		if (rfm12_rx_status() == STATUS_COMPLETE) {
