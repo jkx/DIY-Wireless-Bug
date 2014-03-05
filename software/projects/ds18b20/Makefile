@@ -3,11 +3,8 @@ BUGONE_PATH=../..
 BOARD=bugone
 
 PRG=ds18b20
-DEVICE_FILES=led.o ds18x20.o onewire.o crc8.o dht11.o
+DEVICE_FILES=led.o ds18x20.o onewire.o crc8.o dht11.o bandgap.o
 FILES=main.o
-
-BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o
-
 
 include $(BUGONE_PATH)/projects/bugone.inc
 
