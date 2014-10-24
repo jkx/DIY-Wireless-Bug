@@ -15,10 +15,6 @@ ChangePinName(U3, 3, VOUT)
 ChangePinName(U3, 1, GND)
 ChangePinName(U3, 2, VIN)
 
-# Start of element C5
-ChangePinName(C5, 2, 2)
-ChangePinName(C5, 1, 1)
-
 # Start of element CONN1
 ChangePinName(CONN1, 9, 9)
 ChangePinName(CONN1, 10, 10)
@@ -43,15 +39,11 @@ ChangePinName(CONN2, 6, 6)
 ChangePinName(CONN2, 4, 4)
 ChangePinName(CONN2, 2, 2)
 
-# Start of element CONN4
-ChangePinName(CONN4, 1, 1)
-ChangePinName(CONN4, 4, 4)
-ChangePinName(CONN4, 2, 2)
-ChangePinName(CONN4, 3, 3)
-
-# Start of element C3
-ChangePinName(C3, 2, 2)
-ChangePinName(C3, 1, 1)
+# Start of element ALIM2
+ChangePinName(ALIM2, 1, 1)
+ChangePinName(ALIM2, 4, 4)
+ChangePinName(ALIM2, 2, 2)
+ChangePinName(ALIM2, 3, 3)
 
 # Start of element C2
 ChangePinName(C2, 2, 2)
@@ -64,10 +56,6 @@ ChangePinName(C1, 1, 1)
 # Start of element R0
 ChangePinName(R0, 1, 1)
 ChangePinName(R0, 2, 2)
-
-# Start of element F1
-ChangePinName(F1, 1, 1)
-ChangePinName(F1, 2, 2)
 
 # Start of element LED1
 ChangePinName(LED1, 2, K)
@@ -89,11 +77,11 @@ ChangePinName(R2, 2, 2)
 ChangePinName(LED2, 2, K)
 ChangePinName(LED2, 1, A)
 
-# Start of element CONN3
-ChangePinName(CONN3, 1, 1)
-ChangePinName(CONN3, 4, 4)
-ChangePinName(CONN3, 2, 2)
-ChangePinName(CONN3, 3, 3)
+# Start of element ALIM1
+ChangePinName(ALIM1, 1, 1)
+ChangePinName(ALIM1, 4, 4)
+ChangePinName(ALIM1, 2, 2)
+ChangePinName(ALIM1, 3, 3)
 
 # Start of element R1
 ChangePinName(R1, 1, 1)
@@ -115,13 +103,13 @@ ChangePinName(U2, 2, nIRQ)
 ChangePinName(U2, 1, SDO)
 ChangePinName(U2, 12, SDI)
 
-# Start of element CONN5
-ChangePinName(CONN5, 5, REST)
-ChangePinName(CONN5, 4, MOSI)
-ChangePinName(CONN5, 3, SCK)
-ChangePinName(CONN5, 2, VTG)
-ChangePinName(CONN5, 1, MISO)
-ChangePinName(CONN5, 6, GND)
+# Start of element ISP
+ChangePinName(ISP, 5, REST)
+ChangePinName(ISP, 4, MOSI)
+ChangePinName(ISP, 3, SCK)
+ChangePinName(ISP, 2, VTG)
+ChangePinName(ISP, 1, MISO)
+ChangePinName(ISP, 6, GND)
 
 # Start of element U1
 ChangePinName(U1, 22, ADC7)
