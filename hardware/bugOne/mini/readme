@@ -1,0 +1,22 @@
+# Board description
+
+This is a miniaturized version of bugOne board. Power connectors have been
+rotated in order to reduce the board length below 50 mm. Shields stay compatible
+in size. 
+
+# Noticeable changes
+
+	* A PMOS has been introduced, to provide a shutdown feature on selected
+	  devices. RF transmitter can now be completely powered off, by setting pin
+	  PB7 as input (a pull up is used), and powerd on by setting it to 0. This
+	  controlled power line is accessible as V+ on CONN2.
+	* Power connectors have been modified
+	* A new LDO regulator is used, either MCP1700 or XC6206 (preferred choice).
+	  They aure pin compatible. 
+	* Grounded mounting holes are provided. One of them is located near the
+	  antenna output, providing an easy way to ground an external antenna.
+	* R0 is not used as a fuse anymore, but as a bypass in case no regulator is
+	  soldered. The same mechanism is provided by the shield, in order to keep
+     the same pinout as before on the shield connectors.
+	* ISP connector is now usable even with a shield connected (same line as the
+	  antenna)

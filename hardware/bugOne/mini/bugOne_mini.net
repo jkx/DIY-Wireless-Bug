@@ -1,16 +1,16 @@
 Vss	ALIM2-1 C1-2 U3-2 R0-2 
 unnamed_net25	LED1-1 R2-2 
 unnamed_net24	R3-2 LED2-1 
-VRFM	CONN2-1 Q1-D U2-9 
-unnamed_net23	D1-1 Q1-G U1-22 
-unnamed_net22	U2-14 U1-11 
-unnamed_net21	CONN1-3 U1-10 
-unnamed_net20	CONN1-2 U1-9 
-unnamed_net19	CONN2-2 U1-2 
-unnamed_net18	CONN2-3 U1-1 
-unnamed_net17	U2-2 U1-32 
-unnamed_net16	ALIM1-2 U1-31 
-unnamed_net15	ALIM1-3 U1-30 
+VRFM	CONN2-1 R4-2 Q1-D U2-9 
+unnamed_net23	U2-14 U1-11 
+unnamed_net22	CONN1-3 U1-10 
+unnamed_net21	CONN1-2 U1-9 
+unnamed_net20	CONN2-2 U1-2 
+unnamed_net19	CONN2-3 U1-1 
+unnamed_net18	U2-2 U1-32 
+unnamed_net17	ALIM1-2 U1-31 
+unnamed_net16	ALIM1-3 U1-30 
+unnamed_net15	D1-1 Q1-G U1-8 
 unnamed_net14	CONN1-9 U2-13 ISP-3 U1-17 
 unnamed_net13	CONN1-8 U2-1 ISP-1 U1-16 
 unnamed_net12	CONN1-7 U2-12 ISP-4 U1-15 
@@ -26,4 +26,4 @@ unnamed_net3	CONN2-8 R2-1 U1-24
 unnamed_net2	CONN2-9 R3-1 U1-23 
 unnamed_net1	C4-1 U1-20 
 GND	U3-1 CONN1-10 CONN2-10 ALIM2-4 C2-1 C1-1 C4-2 LED1-2 LED2-2 ALIM1-4 U2-7 U2-10 ISP-6 U1-21 U1-5 U1-3 
-Vcc	Q1-S CONN1-1 ALIM2-2 U3-3 C2-2 R0-1 ALIM1-1 R1-2 ISP-2 U1-18 U1-6 U1-4 
+Vcc	R4-1 Q1-S CONN1-1 ALIM2-2 U3-3 C2-2 R0-1 ALIM1-1 R1-2 ISP-2 U1-18 U1-6 U1-4 
