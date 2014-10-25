@@ -1,0 +1,4 @@
+elements-dir ../../footprints
+schematics pilot_wire.sch
+output-name pilot_wire
+

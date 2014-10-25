@@ -1,0 +1,27 @@
+Connectors : 
+CONN1	: 10 pins female header 
+CONN2	: 10 pins female header
+ALIM1	: 4 pins female header (can be soldered below to add a bigger power shield)
+ALIM2	: 4 pins female header (can be soldered below to add a bigger power shield)
+ISP	: 2 rows 3-pins male header
+
+
+Components : 
+U1 	: ATmegaX8 with TQFP-32 package (ATmega168, ATmega328, ATmega8,...)
+U2 	: RFM12B from hopeRF (or pin compatible, such as RFM69HW)
+U3 	: LDO regulator, Microchip MCP1700 or Torex XC6206, adapts C1 and C2 according to choice. SOT-89 package
+Q1		: P-MOSFET, SOT-23 package. Pin example is BSS315P from Infineon (draws 1uA), low cost
+R0		: 0 ohm, soldered to replace U3 if no LDO required
+R1		: 10k, 0805 package
+R2		: 1k, 0805 package
+R3		: 1k, 0805 package
+R4		: 0 ohm, soldered to replace Q1 if no MOSFET required
+C1		: 1206 package, 1u ceramic for XC6206, 
+C2		: 1206 package, 1u ceramic for XC6206,
+C4		: 100nF, 0805 package
+D1		: SOD-323 package, "usual" blocking diod
+LED1	: red led
+LED2	: blue led
+
+
+
