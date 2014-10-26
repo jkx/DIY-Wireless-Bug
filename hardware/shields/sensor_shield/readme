@@ -1,0 +1,39 @@
+# Board description
+
+This shield is designed to provide different possibilities to create a sensor
+shield, for relative humidity and temperature. All choices do not need to be
+soldered. A 8P8C (RJ45) modular connector is provided in order to export the sensors
+further from the board (to avoid sensor noise). A repeater board is also
+provided (in the corresponding subdirectory), in order to connect the sensors
+through RJ45 wire.
+
+# BOM
+
+The following components can be soldered on the board:
+	- Sensirion SHT21/SHT25 (U1): cheap (~4$) QFP sensor, using I2C for communication
+		http://www.sensirion.com/fileadmin/user_upload/customers/sensirion/Dokumente/Humidity/Sensirion_Humidity_SHT21_Datasheet_V4.pdf
+		Resolution and precision are interesting, and it is low power (less than 1uA when asleep, 1mA when measuring temp, 330uA when measuring RH). However, it is difficult to solder...
+	- HH10D (U2): this is a humidity sensor provided by HopeRF. It is quite expensive but efficient. 
+		http://www.hoperf.com/upload/sensor/hh10d.pdf
+	- DHT11 (U3): cheap but unprecise RH and temp sensor. It is widely used.
+		http://www.exp-tech.de/service/datasheet/DHT11.PDF
+	- DS18B20 (U4): popular 1-Wire temperature sensor from Maxim. 
+		http://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
+
+2 pull-up resistors can be soldered. 
+	R1 is the pull-up resistor for DHT11. Expected value is 5kOhm if the sensor is connected through a wire shorter than 20m. 
+	R2 is the pull-up resistor for 1-Wire bus. Expected value is 4.7kOhm.
+	R3 and R4 are the pull-up resistors for I2C bus. Values can range from 1.8 to 10k. I prefer using 1.8k (strong pull-up), but the higher the resistance, the lower the current consumption.
+
+# Pinout
+
+RJ45 pinout:
+
+P1: 1-Wire bus, PB1
+P2: Vcc
+P3: SDA, PC4
+P4: SCL, PC5
+P5: FOUT pin if HH10D connected (unusable if HH10D on the shield), PD5
+P6: DATA1 pin if DHT11 connected (unusable if DHT11 on the shield), PD3
+P7: PC2 (ADC pin, usable for light sensor for example)
+P8: GND

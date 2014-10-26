@@ -1,0 +1,82 @@
+v 20130925 2
+B 900 0 2000 2000 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+{
+T 1700 100 5 10 0 1 0 0 1
+devicename=SHT21
+}
+P 0 1500 900 1500 1 0 0
+{
+T 0 1500 5 10 0 0 0 0 1
+pintype=io
+T 955 1495 5 10 1 1 0 0 1
+pinlabel=SDA
+T 805 1545 5 10 1 1 0 6 1
+pinseq=1
+T 0 1500 5 10 0 0 0 0 1
+pinnumber=1
+}
+P 0 1000 900 1000 1 0 0
+{
+T 0 1000 5 10 0 0 0 0 1
+pintype=pwr
+T 955 995 5 10 1 1 0 0 1
+pinlabel=VSS
+T 805 1045 5 10 1 1 0 6 1
+pinseq=2
+T 0 1000 5 10 0 0 0 0 1
+pinnumber=2
+}
+P 0 500 900 500 1 0 0
+{
+T 0 500 5 10 0 0 0 0 1
+pintype=io
+T 955 495 5 10 1 1 0 0 1
+pinlabel=NC
+T 805 545 5 10 1 1 0 6 1
+pinseq=3
+T 0 500 5 10 0 0 0 0 1
+pinnumber=3
+}
+P 4000 1500 2900 1500 1 0 0
+{
+T 4000 1500 5 10 0 0 0 0 1
+pintype=io
+T 2845 1495 5 10 1 1 0 6 1
+pinlabel=SCL
+T 2995 1545 5 10 1 1 0 0 1
+pinseq=6
+T 4000 1500 5 10 0 0 0 0 1
+pinnumber=6
+}
+P 4000 1000 2900 1000 1 0 0
+{
+T 4000 1000 5 10 0 0 0 0 1
+pintype=pwr
+T 2845 995 5 10 1 1 0 6 1
+pinlabel=VCC
+T 2995 1045 5 10 1 1 0 0 1
+pinnumber=5
+T 4000 1000 5 10 0 0 0 0 1
+pinseq=5
+}
+P 4000 500 2900 500 1 0 0
+{
+T 4000 500 5 10 0 0 0 0 1
+pintype=io
+T 2845 495 5 10 1 1 0 6 1
+pinlabel=NC
+T 2995 545 5 10 1 1 0 0 1
+pinseq=4
+T 4000 500 5 10 0 0 0 0 1
+pinnumber=4
+}
+T 100 -200 8 10 0 1 0 0 1
+description=Sensirion SHT21 Temp/Humidity sensor
+T 100 -200 8 10 0 1 0 0 1
+footprint=QFN6 3 EP
+T 2600 2000 8 10 1 1 0 0 1
+refdes=U?
+T -5 0 8 10 0 1 0 0 1
+numslots=1
+T 900 2000 9 10 1 0 0 0 1
+SHT21

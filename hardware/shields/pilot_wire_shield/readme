@@ -1,0 +1,9 @@
+# Board description
+
+This shield is designed to provide electric heater control through "pilot wire"
+interface. It uses 2 MOC to control positive and negative part of the input
+sinusoid. It also uses a shift register to store values without need of the AVR.
+This shield is designed to go BELOW the bugOne main board. It would otherwise 
+hide the antenna and leds. 
+
+

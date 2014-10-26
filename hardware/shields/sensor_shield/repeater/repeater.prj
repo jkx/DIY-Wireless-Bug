@@ -1,0 +1,4 @@
+elements-dir ../../../footprints
+schematics repeater.sch
+output-name repeater
+
