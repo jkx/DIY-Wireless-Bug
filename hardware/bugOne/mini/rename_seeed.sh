@@ -9,4 +9,5 @@ mv bugOne_mini.topsilk.gbr bugOne_mini.GTO
 mv bugOne_mini.topmask.gbr bugOne_mini.GTS
 mv bugOne_mini.plated-drill.cnc bugOne_mini.TXT
 
-rm bugOne_mini.*.gbr bugOne_mini.*.cnc
+rm bugOne_mini.*.gbr 
+zip bugOne_mini.zip -xi bugOne_mini.G* bugOne_mini.TXT 
