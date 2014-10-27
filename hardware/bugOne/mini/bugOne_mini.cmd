@@ -1,5 +1,10 @@
 # Pin name action command file
 
+# Start of element JMP1
+ChangePinName(JMP1, 3, 3)
+ChangePinName(JMP1, 1, 1)
+ChangePinName(JMP1, 2, 2)
+
 # Start of element R4
 ChangePinName(R4, 1, 1)
 ChangePinName(R4, 2, 2)
