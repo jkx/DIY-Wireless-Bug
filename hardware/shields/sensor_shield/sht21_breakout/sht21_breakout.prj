@@ -1,0 +1,4 @@
+elements-dir ../../../footprints
+schematics sht21_breakout.sch
+output-name sht21_breakout
+

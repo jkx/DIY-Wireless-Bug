@@ -1,0 +1,5 @@
+# Board description
+
+Small breakout board for the Sensirion SHT21/SHT25 T/RH sensor. The board is 
+compatible with repeater pinout. It also allows a photoresistor on it, for
+ambient light sensing.
