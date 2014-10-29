@@ -87,7 +87,7 @@ C 69300 43400 1 0 0 connector4-1.sym
 T 71100 44300 5 10 0 0 0 0 1
 device=CONNECTOR_4
 T 69300 44800 5 10 1 1 0 0 1
-refdes=ALIM1
+refdes=A1
 T 69300 43400 5 10 1 1 0 0 1
 footprint=JUMPER4
 }
@@ -208,7 +208,7 @@ C 86800 45400 1 180 0 connector4-1.sym
 T 85000 44500 5 10 0 0 180 0 1
 device=CONNECTOR_4
 T 86800 44000 5 10 1 1 180 0 1
-refdes=ALIM2
+refdes=A2
 T 86800 45400 5 10 1 1 0 0 1
 footprint=JUMPER4
 }

@@ -1,5 +1,18 @@
 # Pin name action command file
 
+# Start of element JMP1
+ChangePinName(JMP1, 3, 3)
+ChangePinName(JMP1, 1, 1)
+ChangePinName(JMP1, 2, 2)
+
+# Start of element R6
+ChangePinName(R6, 1, 1)
+ChangePinName(R6, 2, 2)
+
+# Start of element R5
+ChangePinName(R5, 1, 1)
+ChangePinName(R5, 2, 2)
+
 # Start of element U1
 ChangePinName(U1, 4, NC)
 ChangePinName(U1, 5, VCC)
@@ -35,13 +48,6 @@ ChangePinName(U4, 3, VCC)
 ChangePinName(U4, 2, DO)
 ChangePinName(U4, 1, GND)
 
-# Start of element U2
-ChangePinName(U2, 5, 5)
-ChangePinName(U2, 3, 3)
-ChangePinName(U2, 1, 1)
-ChangePinName(U2, 4, 4)
-ChangePinName(U2, 2, 2)
-
 # Start of element CONN5
 ChangePinName(CONN5, 8, I7)
 ChangePinName(CONN5, 7, I6)
@@ -51,18 +57,6 @@ ChangePinName(CONN5, 4, I3)
 ChangePinName(CONN5, 3, I2)
 ChangePinName(CONN5, 2, I1)
 ChangePinName(CONN5, 1, I0)
-
-# Start of element ALIM4
-ChangePinName(ALIM4, 1, 1)
-ChangePinName(ALIM4, 4, 4)
-ChangePinName(ALIM4, 2, 2)
-ChangePinName(ALIM4, 3, 3)
-
-# Start of element ALIM3
-ChangePinName(ALIM3, 1, 1)
-ChangePinName(ALIM3, 4, 4)
-ChangePinName(ALIM3, 2, 2)
-ChangePinName(ALIM3, 3, 3)
 
 # Start of element ALIM2
 ChangePinName(ALIM2, 1, 1)
@@ -75,30 +69,6 @@ ChangePinName(ALIM1, 1, 1)
 ChangePinName(ALIM1, 4, 4)
 ChangePinName(ALIM1, 2, 2)
 ChangePinName(ALIM1, 3, 3)
-
-# Start of element CONN4
-ChangePinName(CONN4, 9, 9)
-ChangePinName(CONN4, 10, 10)
-ChangePinName(CONN4, 7, 7)
-ChangePinName(CONN4, 5, 5)
-ChangePinName(CONN4, 3, 3)
-ChangePinName(CONN4, 1, 1)
-ChangePinName(CONN4, 8, 8)
-ChangePinName(CONN4, 6, 6)
-ChangePinName(CONN4, 4, 4)
-ChangePinName(CONN4, 2, 2)
-
-# Start of element CONN3
-ChangePinName(CONN3, 9, 9)
-ChangePinName(CONN3, 10, 10)
-ChangePinName(CONN3, 7, 7)
-ChangePinName(CONN3, 5, 5)
-ChangePinName(CONN3, 3, 3)
-ChangePinName(CONN3, 1, 1)
-ChangePinName(CONN3, 8, 8)
-ChangePinName(CONN3, 6, 6)
-ChangePinName(CONN3, 4, 4)
-ChangePinName(CONN3, 2, 2)
 
 # Start of element CONN2
 ChangePinName(CONN2, 9, 9)

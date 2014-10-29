@@ -37,3 +37,13 @@ P5: FOUT pin if HH10D connected (unusable if HH10D on the shield), PD5
 P6: DATA1 pin if DHT11 connected (unusable if DHT11 on the shield), PD3
 P7: PC2 (ADC pin, usable for light sensor for example)
 P8: GND
+
+Shield pinout : 
+
+CONN1_2 : FOUT, PD5
+CONN1-5 : 1-Wire bus, PB1
+CONN2_3 : DHT11 DATA1, PD3
+CONN2_4 : SCL, PC5
+CONN2_5 : SDA, PC4
+CONN2_6 : battery sense, PC3
+CONN2_7 : external connector, PC2
