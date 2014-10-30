@@ -929,10 +929,11 @@ Layer(9 "silk")
 )
 Layer(10 "silk")
 (
-	Line[0.0000 0.0000 0.0000 550.00mil 25.00mil 20.00mil ""]
-	Line[800.00mil 550.00mil 0.0000 550.00mil 25.00mil 20.00mil ""]
-	Line[800.00mil 550.00mil 800.00mil 0.0000 25.00mil 20.00mil ""]
-	Line[800.00mil 0.0000 0.0000 0.0000 25.00mil 20.00mil ""]
+	Line[0.0000 0.0000 0.0000 550.00mil 10.00mil 20.00mil ""]
+	Line[0.0000 550.00mil 800.00mil 550.00mil 10.00mil 20.00mil ""]
+	Line[800.00mil 550.00mil 800.00mil 0.0000 10.00mil 20.00mil ""]
+	Line[800.00mil 0.0000 0.0000 0.0000 10.00mil 20.00mil ""]
+	Text[225.00mil 475.00mil 0 100 "#mdl29 SHT21 board" "clearline"]
 )
 NetList()
 (

@@ -5,7 +5,7 @@ FileVersion[20091103]
 
 PCB["" 49.8000mm 16.0000mm]
 
-Grid[1000.000000 0.0000 0.0000 1]
+Grid[1000.000000 0.0000 0.0000 0]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[6.00mil 10.00mil 0.60mil 10.00mil 0.3000mm 6.00mil]
@@ -795,21 +795,6 @@ Via[960.00mil 80.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[800.00mil 80.00mil 60.00mil 20.00mil 0.0000 35.00mil "" ""]
 Via[240.00mil 480.00mil 60.00mil 20.00mil 0.0000 35.00mil "" ""]
 
-Element["" "JUMPER4" "CONN4" "unknown" 1280.00mil 160.00mil -140.00mil -260.00mil 0 100 ""]
-(
-	Pin[0.0000 0.0000 60.00mil 30.00mil 66.00mil 38.00mil "1" "1" "square"]
-	Pin[0.0000 100.00mil 60.00mil 30.00mil 66.00mil 38.00mil "2" "2" ""]
-	Pin[0.0000 200.00mil 60.00mil 30.00mil 66.00mil 38.00mil "3" "3" ""]
-	Pin[0.0000 300.00mil 60.00mil 30.00mil 66.00mil 38.00mil "4" "4" ""]
-	ElementLine [-50.00mil -50.00mil -50.00mil 350.00mil 10.00mil]
-	ElementLine [-50.00mil 350.00mil 50.00mil 350.00mil 10.00mil]
-	ElementLine [50.00mil 350.00mil 50.00mil -50.00mil 10.00mil]
-	ElementLine [50.00mil -50.00mil -50.00mil -50.00mil 10.00mil]
-	ElementLine [-50.00mil 50.00mil 50.00mil 50.00mil 10.00mil]
-	ElementLine [50.00mil 50.00mil 50.00mil -50.00mil 10.00mil]
-
-	)
-
 Element["" "JUMPER4" "CONN3" "unknown" 680.00mil 460.00mil -70.00mil -410.00mil 0 100 ""]
 (
 	Pin[0.0000 0.0000 60.00mil 30.00mil 66.00mil 38.00mil "1" "1" "square"]
@@ -825,7 +810,7 @@ Element["" "JUMPER4" "CONN3" "unknown" 680.00mil 460.00mil -70.00mil -410.00mil 
 
 	)
 
-Element["" "RJ45" "CONN2" "unknown" 1830.00mil 320.00mil -630.00mil -270.00mil 0 100 ""]
+Element["" "RJ45" "CONN2" "unknown" 1830.00mil 320.00mil -370.00mil -290.00mil 0 100 ""]
 (
 	Pin[-250.00mil -130.00mil 1.4000mm 20.00mil 1.5524mm 0.9000mm "" "1" ""]
 	Pin[-350.00mil -180.00mil 1.4000mm 20.00mil 1.5524mm 0.9000mm "" "2" ""]
@@ -858,6 +843,21 @@ Element["" "RJ45" "CONN1" "unknown" 140.00mil 310.00mil 180.00mil -280.00mil 0 1
 	ElementLine [-130.00mil -300.00mil 400.00mil -300.00mil 10.00mil]
 	ElementLine [400.00mil -300.00mil 400.00mil 310.00mil 10.00mil]
 	ElementLine [-130.00mil 310.00mil 400.00mil 310.00mil 10.00mil]
+
+	)
+
+Element["" "JUMPER4" "CONN4" "unknown" 1280.00mil 160.00mil -80.00mil -120.00mil 0 100 ""]
+(
+	Pin[0.0000 0.0000 60.00mil 30.00mil 66.00mil 38.00mil "1" "1" "square"]
+	Pin[0.0000 100.00mil 60.00mil 30.00mil 66.00mil 38.00mil "2" "2" ""]
+	Pin[0.0000 200.00mil 60.00mil 30.00mil 66.00mil 38.00mil "3" "3" ""]
+	Pin[0.0000 300.00mil 60.00mil 30.00mil 66.00mil 38.00mil "4" "4" ""]
+	ElementLine [-50.00mil -50.00mil -50.00mil 350.00mil 10.00mil]
+	ElementLine [-50.00mil 350.00mil 50.00mil 350.00mil 10.00mil]
+	ElementLine [50.00mil 350.00mil 50.00mil -50.00mil 10.00mil]
+	ElementLine [50.00mil -50.00mil -50.00mil -50.00mil 10.00mil]
+	ElementLine [-50.00mil 50.00mil 50.00mil 50.00mil 10.00mil]
+	ElementLine [50.00mil 50.00mil 50.00mil -50.00mil 10.00mil]
 
 	)
 Layer(1 "top")
@@ -971,10 +971,10 @@ Layer(9 "silk")
 )
 Layer(10 "silk")
 (
-	Line[0.0000 0.0000 0.0000 630.00mil 25.00mil 20.00mil "clearline"]
-	Line[0.0000 630.00mil 1960.00mil 630.00mil 25.00mil 20.00mil "clearline"]
-	Line[1960.00mil 630.00mil 1960.00mil 0.0000 25.00mil 20.00mil "clearline"]
-	Line[1960.00mil 0.0000 0.0000 0.0000 25.00mil 20.00mil "clearline"]
+	Line[0.0000 0.0000 0.0000 630.00mil 10.00mil 20.00mil "clearline"]
+	Line[0.0000 630.00mil 1960.00mil 630.00mil 10.00mil 20.00mil "clearline"]
+	Line[1960.00mil 630.00mil 1960.00mil 0.0000 10.00mil 20.00mil "clearline"]
+	Line[1960.00mil 0.0000 0.0000 0.0000 10.00mil 20.00mil "clearline"]
 	Text[1020.00mil 120.00mil 0 100 "Vcc(P2)" "clearline"]
 	Text[1020.00mil 220.00mil 0 100 "SCL(P4)" "clearline"]
 	Text[970.00mil 330.00mil 0 100 "DATA1(P6)" "clearline"]
@@ -989,6 +989,8 @@ Layer(10 "silk")
 	Text[560.00mil 420.00mil 0 100 "B1" "clearline"]
 	Text[1350.00mil 220.00mil 0 100 "C5" "clearline"]
 	Text[1350.00mil 330.00mil 0 100 "D3" "clearline"]
+	Text[570.00mil 510.00mil 0 100 "#mdl29 8P8C Expansion board" "clearline"]
+	Text[600.00mil 560.00mil 0 100 "2014/11" "clearline"]
 )
 NetList()
 (

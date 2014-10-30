@@ -1,0 +1,21 @@
+Production files for November 2014 batch
+
+The aim is to get the following boards : 
+	- 70 bugOne_mini
+	- 25+ sensor shields
+	- 5+ sht21 breakout
+	- 35 battery power shields
+	- optionnally, 5+ repeater
+
+This has been done in 3 different boards (10x10cm). A .8mm cut line is used, the
+cutter can only cut through a whole board, which limits sorting possibilities.
+
+# Boards description
+
+batch1 : 4 bugOne_mini, 2 battery power shields, 2 sht21 breakout
+batch2 : 2 bugOne_mini, 2 sensor shields, 2 battery power shields, 1 repeater board
+batch3 : same as batch 1
+
+Expected order is 10 batch1, 10 batch2, and 10 batch3. SeeedStudio charges ~22$
+10 pieces of 10x10cm printed boards, which amounts to 66$ before taxes and
+shipping fees. 
