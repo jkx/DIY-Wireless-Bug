@@ -1,6 +1,7 @@
-unnamed_net27	JMP2-1 U3-3 
-unnamed_net26	JMP1-2 CONN2-1 
-Vss	A2-1 U3-2 C1-2 
+unnamed_net28	JMP2-1 U3-3 
+unnamed_net27	JMP1-2 CONN2-1 
+Vss	JMP3-1 A2-1 
+unnamed_net26	JMP3-2 U3-2 C1-2 
 unnamed_net25	LED1-1 R2-2 
 unnamed_net24	R3-2 LED2-1 
 VRFM	JMP1-1 R4-2 Q1-D U2-9 

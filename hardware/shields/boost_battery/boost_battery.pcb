@@ -788,7 +788,7 @@ Symbol['~' 12.00mil]
 Attribute("PCB::grid::unit" "mm")
 Attribute("PCB::grid::size" "10.00mil")
 Via[560.00mil 270.00mil 60.00mil 20.00mil 0.0000 35.00mil "" ""]
-Via[450.00mil 730.00mil 60.00mil 20.00mil 0.0000 35.00mil "" ""]
+Via[420.00mil 730.00mil 60.00mil 20.00mil 0.0000 35.00mil "" ""]
 
 Element["" "JUMPER2" "BAT1" "unknown" 90.00mil 610.00mil 120.00mil -10.00mil 3 100 ""]
 (
@@ -926,7 +926,6 @@ Layer(1 "top")
 	Line[90.00mil 610.00mil 138.10mil 610.00mil 25.00mil 20.00mil "clearline"]
 	Line[138.10mil 610.00mil 230.00mil 518.10mil 25.00mil 20.00mil "clearline"]
 	Line[234.05mil 514.05mil 8.0649mm 514.05mil 25.00mil 20.00mil "clearline"]
-	Line[9.7180mm 17.8100mm 9.7180mm 19.8760mm 0.7350mm 20.00mil "clearline"]
 	Line[9.7180mm 19.8760mm 10.9720mm 21.1300mm 0.7350mm 20.00mil "clearline"]
 	Line[10.9720mm 21.1300mm 10.7960mm 20.9540mm 0.7350mm 20.00mil "clearline"]
 	Line[460.00mil 1210.00mil 460.00mil 27.9420mm 0.7350mm 20.00mil "clearline"]
@@ -934,7 +933,6 @@ Layer(1 "top")
 	Line[460.00mil 1210.00mil 560.00mil 1210.00mil 0.7350mm 20.00mil "clearline"]
 	Line[560.00mil 1210.00mil 620.00mil 1150.00mil 0.7350mm 20.00mil "clearline"]
 	Line[620.00mil 1150.00mil 620.00mil 760.00mil 0.7350mm 20.00mil "clearline"]
-	Line[620.00mil 760.00mil 560.00mil 700.00mil 0.7350mm 20.00mil "clearline"]
 	Line[90.00mil 1210.00mil 360.00mil 1210.00mil 0.7350mm 20.00mil "clearline"]
 	Line[90.00mil 610.00mil 210.00mil 610.00mil 0.7350mm 20.00mil "clearline"]
 	Line[210.00mil 610.00mil 250.00mil 650.00mil 0.7350mm 20.00mil "clearline"]
@@ -957,14 +955,17 @@ Layer(1 "top")
 	Line[404.57mil 460.00mil 410.00mil 465.43mil 25.00mil 20.00mil ""]
 	Line[11.6180mm 14.1640mm 11.6180mm 13.2740mm 25.00mil 20.00mil ""]
 	Line[11.6180mm 13.2740mm 520.00mil 460.00mil 25.00mil 20.00mil ""]
-	Line[11.8930mm 660.00mil 520.00mil 660.00mil 25.00mil 20.00mil ""]
-	Line[520.00mil 660.00mil 560.00mil 700.00mil 25.00mil 20.00mil ""]
-	Line[575.00mil 715.00mil 520.00mil 660.00mil 25.00mil 20.00mil ""]
-	Line[9.7180mm 660.00mil 9.7180mm 18.1000mm 25.00mil 20.00mil ""]
-	Line[420.00mil 17.2640mm 420.00mil 700.00mil 25.00mil 20.00mil ""]
-	Line[420.00mil 700.00mil 455.00mil 735.00mil 25.00mil 20.00mil ""]
-	Line[470.00mil 660.00mil 11.6420mm 660.00mil 25.00mil 20.00mil ""]
-	Line[11.6420mm 660.00mil 11.6180mm 16.7400mm 25.00mil 20.00mil ""]
+	Line[9.7180mm 16.9440mm 9.7180mm 17.4600mm 25.00mil 20.00mil ""]
+	Line[9.7180mm 17.4600mm 360.00mil 710.00mil 25.00mil 20.00mil ""]
+	Line[360.00mil 710.00mil 360.00mil 19.3020mm 25.00mil 20.00mil ""]
+	Line[360.00mil 19.3020mm 9.7180mm 19.8760mm 25.00mil 20.00mil ""]
+	Line[420.00mil 17.2640mm 420.00mil 730.00mil 25.00mil 20.00mil ""]
+	Line[620.00mil 760.00mil 620.00mil 750.00mil 25.00mil 20.00mil ""]
+	Line[620.00mil 750.00mil 590.00mil 720.00mil 25.00mil 20.00mil ""]
+	Line[590.00mil 720.00mil 470.00mil 720.00mil 25.00mil 20.00mil ""]
+	Line[470.00mil 720.00mil 460.00mil 710.00mil 25.00mil 20.00mil ""]
+	Line[460.00mil 710.00mil 460.00mil 17.0100mm 25.00mil 20.00mil ""]
+	Line[460.00mil 17.0100mm 11.6180mm 16.9440mm 25.00mil 20.00mil ""]
 )
 Layer(2 "ground")
 (
@@ -979,14 +980,13 @@ Layer(2 "ground")
 	Line[610.00mil 280.00mil 610.00mil 270.00mil 0.7350mm 20.00mil ""]
 	Line[600.00mil 270.00mil 520.00mil 270.00mil 0.7350mm 20.00mil ""]
 	Line[560.00mil 220.00mil 560.00mil 320.00mil 0.7350mm 20.00mil ""]
-	Line[420.00mil 730.00mil 410.00mil 740.00mil 25.00mil 20.00mil ""]
-	Line[420.00mil 730.00mil 490.00mil 730.00mil 25.00mil 20.00mil ""]
-	Line[450.00mil 690.00mil 450.00mil 770.00mil 25.00mil 20.00mil ""]
 	Line[140.00mil 910.00mil 40.00mil 910.00mil 25.00mil 20.00mil ""]
 	Line[90.00mil 860.00mil 90.00mil 950.00mil 25.00mil 20.00mil ""]
 	Line[90.00mil 710.00mil 90.00mil 750.00mil 25.00mil 20.00mil ""]
 	Line[40.00mil 710.00mil 140.00mil 710.00mil 25.00mil 20.00mil ""]
-	Polygon("clearpoly")
+	Line[460.00mil 730.00mil 380.00mil 730.00mil 25.00mil 20.00mil ""]
+	Line[420.00mil 690.00mil 420.00mil 770.00mil 25.00mil 20.00mil ""]
+	Polygon("")
 	(
 		[0.0000 0.0000] [0.0000 1330.00mil] [790.00mil 1330.00mil] [790.00mil 0.0000] 
 	)
