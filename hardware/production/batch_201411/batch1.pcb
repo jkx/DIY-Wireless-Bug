@@ -4532,6 +4532,10 @@ Layer(6 "bottom")
 )
 Layer(7 "outline")
 (
+	Line[0.0000 0.0000 0.0000 3940.00mil 10.00mil 20.00mil "clearline"]
+	Line[0.0000 3940.00mil 3940.00mil 3940.00mil 10.00mil 20.00mil "clearline"]
+	Line[3940.00mil 3940.00mil 3940.00mil 0.0000 10.00mil 20.00mil "clearline"]
+	Line[3940.00mil 0.0000 0.0000 0.0000 10.00mil 20.00mil "clearline"]
 )
 Layer(8 "spare")
 (
@@ -4573,6 +4577,10 @@ Layer(10 "silk")
 	Line[2710.00mil 3850.00mil 3510.00mil 3850.00mil 10.00mil 20.00mil ""]
 	Line[3510.00mil 3850.00mil 3510.00mil 3300.00mil 10.00mil 20.00mil ""]
 	Line[3510.00mil 3300.00mil 2710.00mil 3300.00mil 10.00mil 20.00mil ""]
+	Line[0.0000 0.0000 0.0000 3940.00mil 10.00mil 20.00mil "clearline"]
+	Line[0.0000 3940.00mil 3940.00mil 3940.00mil 10.00mil 20.00mil "clearline"]
+	Line[3940.00mil 3940.00mil 3940.00mil 0.0000 10.00mil 20.00mil "clearline"]
+	Line[3940.00mil 0.0000 0.0000 0.0000 10.00mil 20.00mil "clearline"]
 	Text[420.00mil 1160.00mil 1 100 "PD5" "clearline"]
 	Text[520.00mil 1160.00mil 1 100 "PD6" "clearline"]
 	Text[620.00mil 1160.00mil 1 100 "PB0" "clearline"]
