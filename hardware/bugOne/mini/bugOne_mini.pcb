@@ -1614,7 +1614,7 @@ Layer(10 "silk")
 	Line[0.0000 1330.00mil 1950.00mil 1330.00mil 14.00mil 20.00mil ""]
 	Line[1950.00mil 1330.00mil 1950.00mil 0.0000 14.00mil 20.00mil ""]
 	Line[1950.00mil 0.0000 0.0000 0.0000 14.00mil 20.00mil ""]
-	Line[0.0000 0.0000 0.0000 1330.00mil 14.00mil 20.00mil "selected"]
+	Line[0.0000 0.0000 0.0000 1330.00mil 14.00mil 20.00mil ""]
 	Text[410.00mil 1150.00mil 1 100 "PD5" "clearline"]
 	Text[510.00mil 1150.00mil 1 100 "PD6" "clearline"]
 	Text[610.00mil 1150.00mil 1 100 "PB0" "clearline"]
@@ -1634,8 +1634,8 @@ Layer(10 "silk")
 	Text[1010.00mil 270.00mil 1 100 "PC1" "clearline"]
 	Text[1210.00mil 270.00mil 1 100 "GND" "clearline"]
 	Text[1110.00mil 270.00mil 1 100 "PC0" "clearline"]
-	Text[140.00mil 950.00mil 0 100 "RST" "clearline"]
-	Text[140.00mil 850.00mil 0 100 "GND" "clearline"]
+	Text[150.00mil 950.00mil 0 100 "RST" "clearline"]
+	Text[150.00mil 850.00mil 0 100 "GND" "clearline"]
 	Text[160.00mil 180.00mil 0 100 "Tx" "clearline"]
 	Text[160.00mil 280.00mil 0 100 "Rx" "clearline"]
 	Text[550.00mil 870.00mil 0 100 "#mdl29" "clearline"]
@@ -1648,6 +1648,7 @@ Layer(10 "silk")
 	Text[270.95mil 550.00mil 0 100 "Vcc" "clearline"]
 	Text[150.00mil 1140.00mil 0 100 "Vss" "clearline"]
 	Text[310.00mil 230.00mil 1 100 "V+" "clearline"]
+	Text[150.95mil 1050.00mil 0 100 "Vcc" "clearline"]
 )
 NetList()
 (
