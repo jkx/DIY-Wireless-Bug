@@ -7,6 +7,7 @@
 #define GET  4
 #define SET  5
 #define VALUE 6
+#define SLEEP 7
 
 struct hello_t {
 	uint8_t	address;
@@ -32,7 +33,6 @@ struct packet_t {
 	struct network_t* network;
 	char* payload;
 };
-
 
 struct route_t {
 	uint8_t dst;
