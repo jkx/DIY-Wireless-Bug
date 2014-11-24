@@ -13,7 +13,6 @@
 #include <util/delay.h>
 #include <util/atomic.h>
 #include <util/twi.h>
-#include "uart.h"
 
 #include "twi.h"
 

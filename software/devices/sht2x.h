@@ -14,6 +14,7 @@ typedef enum {
 	RHumidityNoHoldCmd = 0xF5,
 } SHT21_cmds;
 
+void sht2x_init(void *cfg);
 int8_t sht2x_temp_read(struct packet_t *packet);
 int8_t sht2x_hum_read(struct packet_t *);
 

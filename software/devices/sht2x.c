@@ -16,7 +16,8 @@
 
 
 void sht2x_init(void *cfg) {
-	
+	uint8_t init_reg[2] = {0xE6, 1};
+	twi_nwrite(SHT21Address, init_reg, 2);	
 }
 
 int8_t sht2x_temp_read(struct packet_t *packet) {
@@ -32,7 +33,7 @@ int8_t sht2x_temp_read(struct packet_t *packet) {
 	if (twi_nwrite(SHT21Address, &command, 1) != TW_SUCCESS) {
 		return -128;
 	}
-	_delay_ms(100);   
+	_delay_ms(90);   
 	if (twi_nread(SHT21Address, temp, 3) != TW_SUCCESS) {
 		return -128;
 	}
@@ -56,7 +57,7 @@ int8_t sht2x_hum_read(struct packet_t *packet) {
 	if (twi_nwrite(SHT21Address, &command, 1) != TW_SUCCESS) {
 		return -128;
 	}
-	_delay_ms(100);   
+	_delay_ms(30);   
 	if (twi_nread(SHT21Address, hum, 3) != TW_SUCCESS) {
 		return -128;
 	}
