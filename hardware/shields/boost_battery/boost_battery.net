@@ -1,6 +1,8 @@
-unnamed_net3	ALIM2-1 J1-1 
-unnamed_net2	R2-1 R1-2 U1-4 
+unnamed_net5	J2-3 CONN2-2 
+unnamed_net4	ALIM2-1 J1-1 
+unnamed_net3	R2-1 R1-2 U1-4 
 Vcc	ALIM2-2 ALIM1-1 R1-1 C2-1 U1-5 
-Vss	BAT1-1 J1-2 C1-2 L1-1 U1-6 U1-3 
+Vss	J2-1 BAT1-1 J1-2 C1-2 L1-1 U1-6 
+unnamed_net2	J2-2 U1-3 
 GND	BAT1-2 ALIM2-4 ALIM1-4 C1-1 C2-2 R2-2 U1-2 
 unnamed_net1	L1-2 U1-1 

@@ -113,6 +113,12 @@ void bugone_send() {
     while (ctrl.txstate!=STATUS_FREE) {
         rfm12_tick();
     } 
+#if BUGONE_ANNOUNCE_SLEEP
+	 send(0xFF, SLEEP, packet);
+    while (ctrl.txstate!=STATUS_FREE) {
+        rfm12_tick();
+    } 
+#endif
 }
 
 void bugone_loop() {
