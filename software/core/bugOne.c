@@ -47,7 +47,7 @@ void bugone_init(application_t* applications) {
     config_init();
     apps_setup(applications);
 
-    uart_putstr_P(PSTR("Firmware version "));
+    uart_putstr_P(PSTR("\r\nFirmware version "));
     uart_putstr_P(PSTR(FWVERSION_STR));
     uart_putstr_P(PSTR(" for "));
     uart_putstr_P(PSTR(PRG));
@@ -131,8 +131,9 @@ void bugone_loop() {
 #endif
 
     // Every minutes
-    uart_putstr_P(PSTR("."));
+    //uart_putstr_P(PSTR("."));
     if (send_flush == 1) {
+	  uart_putstr_P(PSTR("Send.."));
         bugone_send();
         send_flush=0;
     }
