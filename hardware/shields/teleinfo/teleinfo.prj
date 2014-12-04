@@ -1,0 +1,4 @@
+elements-dir ../../footprints
+schematics teleinfo.sch
+output-name teleinfo
+

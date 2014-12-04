@@ -1,0 +1,4 @@
+# Board description
+
+This shield is a simple prototype for teleinfo reading. It is based on a simple design, with a single SHF620A optocoupler for demodulation. The LED blinks when data is available on RX. 
+
