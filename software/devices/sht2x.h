@@ -4,14 +4,14 @@
 #include "apps.h"
 
 typedef enum {
-	SHT21Address = 0x80,
+    SHT21Address = 0x80,
 } SHT21_sensor;
 
 typedef enum {
-	TempHoldCmd        = 0xE3,
-	RHumidityHoldCmd  = 0xE5,
-	TempNoHoldCmd      = 0xF3,
-	RHumidityNoHoldCmd = 0xF5,
+    TempHoldCmd        = 0xE3,
+    RHumidityHoldCmd  = 0xE5,
+    TempNoHoldCmd      = 0xF3,
+    RHumidityNoHoldCmd = 0xF5,
 } SHT21_cmds;
 
 void sht2x_init(void *cfg);

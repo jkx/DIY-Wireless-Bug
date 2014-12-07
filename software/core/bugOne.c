@@ -42,15 +42,15 @@ void bugone_init(application_t* applications) {
     char buf[16];
 
 #if defined(RFM12_MOSFET_PWR_CTRL)
-	 drive(MOSFET_PWR_PIN);
-	 clr_output(MOSFET_PWR_PIN);
-//	 DDR_MOSFET_PWR |= MASK(BIT_MOSFET_PWR);
-//	 PORT_MOSFET_PWR &= ~MASK(BIT_MOSFET_PWR);
+     drive(MOSFET_PWR_PIN);
+     clr_output(MOSFET_PWR_PIN);
+//   DDR_MOSFET_PWR |= MASK(BIT_MOSFET_PWR);
+//   PORT_MOSFET_PWR &= ~MASK(BIT_MOSFET_PWR);
 #endif
     led_init();
     uart_init();
-	 rfm12_init();
-	 config_init();
+    rfm12_init();
+    config_init();
     apps_setup(applications);
 
     uart_putstr_P(PSTR("\r\nFirmware version "));
@@ -66,7 +66,7 @@ void bugone_init(application_t* applications) {
 
     apps_init();
 
-	 sei();
+     sei();
     uart_putstr_P(PSTR("bugOne init complete\r\n"));
     //clr_output(LED1);
     //clr_output(LED2);
@@ -78,18 +78,18 @@ volatile uint8_t send_flush=0;
 
 void bugone_complete_sleep() {
 #if BUGONE_ANNOUNCE_SLEEP
-	 send(0xFF, SLEEP, packet);
+     send(0xFF, SLEEP, packet);
     while (ctrl.txstate!=STATUS_FREE) {
         rfm12_tick();
     } 
-	 led_blink2();
+     led_blink2();
 #endif
     // To flush the UART
 #if defined(RFM12_MOSFET_PWR_CTRL) && RFM12_MOSFET_PWR_CTRL
-	 rfm12_disable();
-	 // Pull up the MOSFET grid to power down the rfm12
-	 tristate(MOSFET_PWR_PIN);
-	 set_output(MOSFET_PWR_PIN);
+     rfm12_disable();
+     // Pull up the MOSFET grid to power down the rfm12
+     tristate(MOSFET_PWR_PIN);
+     set_output(MOSFET_PWR_PIN);
 #else
     rfm12_power_down();
 #endif
@@ -105,11 +105,11 @@ void bugone_sleep() {
 void bugone_complete_wakeup() {
     power_all_enable();
 #if defined(RFM12_MOSFET_PWR_CTRL) && RFM12_MOSFET_PWR_CTRL
-	 // Pull up the MOSFET grid to power down the rfm12
-	 drive(MOSFET_PWR_PIN);
-	 clr_output(MOSFET_PWR_PIN);
+     // Pull up the MOSFET grid to power down the rfm12
+     drive(MOSFET_PWR_PIN);
+     clr_output(MOSFET_PWR_PIN);
     delay_250ms();
-	 rfm12_init();
+     rfm12_init();
 #else
     rfm12_power_up();
     delay_250ms();
@@ -167,7 +167,7 @@ void bugone_loop() {
     // Every minutes
     //uart_putstr_P(PSTR("."));
     if (send_flush == 1) {
-	  uart_putstr_P(PSTR("Send.."));
+      uart_putstr_P(PSTR("Send.."));
         bugone_send();
         send_flush=0;
     }

@@ -50,14 +50,14 @@
 
 //for uart debugging
 #if RFM12_UART_DEBUG
-	#include "../examples/uart_lib/uart.h"
+    #include "../examples/uart_lib/uart.h"
 #endif
 
 #if RFM12_USE_RX_CALLBACK
-	volatile static (*rfm12_rx_callback_func)(uint8_t, uint8_t *) = (void *)0x0000;
-	void rfm12_set_callback ((*in_func)(uint8_t, uint8_t *)) {
-		rfm12_rx_callback_func = in_func;
-	}
+    volatile static (*rfm12_rx_callback_func)(uint8_t, uint8_t *) = (void *)0x0000;
+    void rfm12_set_callback ((*in_func)(uint8_t, uint8_t *)) {
+        rfm12_rx_callback_func = in_func;
+    }
 #endif
 
 
@@ -70,8 +70,8 @@ rf_tx_buffer_t rf_tx_buffer;
 
 //if receive mode is not disabled (default)
 #if !(RFM12_TRANSMIT_ONLY)
-	//! Buffers and status to receive packets.
-	rf_rx_buffer_t rf_rx_buffers[2];
+    //! Buffers and status to receive packets.
+    rf_rx_buffer_t rf_rx_buffers[2];
 #endif /* RFM12_TRANSMIT_ONLY */
 
 //! Global control and status.
@@ -132,252 +132,252 @@ void rfm12_poll(void)
 ISR(RFM12_INT_VECT, ISR_NOBLOCK)
 #endif
 {
-	RFM12_INT_OFF();
-	uint8_t status;
-	uint8_t recheck_interrupt;
-	//if receive mode is not disabled (default)
-	#if !(RFM12_TRANSMIT_ONLY)
-		static uint8_t checksum; //static local variables produce smaller code size than globals
-	#endif /* !(RFM12_TRANSMIT_ONLY) */
+    RFM12_INT_OFF();
+    uint8_t status;
+    uint8_t recheck_interrupt;
+    //if receive mode is not disabled (default)
+    #if !(RFM12_TRANSMIT_ONLY)
+        static uint8_t checksum; //static local variables produce smaller code size than globals
+    #endif /* !(RFM12_TRANSMIT_ONLY) */
 
-	do {
-		//clear AVR int flag
-		RFM12_INT_FLAG = (1<<RFM12_FLAG_BIT);
+    do {
+        //clear AVR int flag
+        RFM12_INT_FLAG = (1<<RFM12_FLAG_BIT);
 
-		//first we read the first byte of the status register
-		//to get the interrupt flags
-		status = rfm12_read_int_flags_inline();
+        //first we read the first byte of the status register
+        //to get the interrupt flags
+        status = rfm12_read_int_flags_inline();
 
-		//if we use at least one of the status bits, we need to check the status again
-		//for the case in which another interrupt condition occured while we were handeling
-		//the first one.
-		recheck_interrupt = 0;
+        //if we use at least one of the status bits, we need to check the status again
+        //for the case in which another interrupt condition occured while we were handeling
+        //the first one.
+        recheck_interrupt = 0;
 
-		#if RFM12_UART_DEBUG >= 2
-			uart_putc('S');
-			uart_putc(status);
-		#endif
+        #if RFM12_UART_DEBUG >= 2
+            uart_putc('S');
+            uart_putc(status);
+        #endif
 
-		//low battery detector feature
-		#if RFM12_LOW_BATT_DETECTOR
-			if (status & (RFM12_STATUS_LBD >> 8)) {
-				//debug
-				#if RFM12_UART_DEBUG >= 2
-					uart_putc('L');
-				#endif
+        //low battery detector feature
+        #if RFM12_LOW_BATT_DETECTOR
+            if (status & (RFM12_STATUS_LBD >> 8)) {
+                //debug
+                #if RFM12_UART_DEBUG >= 2
+                    uart_putc('L');
+                #endif
 
-				//set status variable to low battery
-				ctrl.low_batt = RFM12_BATT_LOW;
-				recheck_interrupt = 1;
-			}
-		#endif /* RFM12_LOW_BATT_DETECTOR */
+                //set status variable to low battery
+                ctrl.low_batt = RFM12_BATT_LOW;
+                recheck_interrupt = 1;
+            }
+        #endif /* RFM12_LOW_BATT_DETECTOR */
 
-		//wakeup timer feature
-		#if RFM12_USE_WAKEUP_TIMER
-			if (status & (RFM12_STATUS_WKUP >> 8)) {
-				//debug
-				#if RFM12_UART_DEBUG >= 2
-					uart_putc('W');
-				#endif
+        //wakeup timer feature
+        #if RFM12_USE_WAKEUP_TIMER
+            if (status & (RFM12_STATUS_WKUP >> 8)) {
+                //debug
+                #if RFM12_UART_DEBUG >= 2
+                    uart_putc('W');
+                #endif
 
-				ctrl.wkup_flag = 1;
-				recheck_interrupt = 1;
-			}
-			if (status & ((RFM12_STATUS_WKUP | RFM12_STATUS_FFIT) >> 8) ) {
-				//restart the wakeup timer by toggling the bit on and off
-				rfm12_data(ctrl.pwrmgt_shadow & ~RFM12_PWRMGT_EW);
-				rfm12_data(ctrl.pwrmgt_shadow);
-			}
-		#endif /* RFM12_USE_WAKEUP_TIMER */
+                ctrl.wkup_flag = 1;
+                recheck_interrupt = 1;
+            }
+            if (status & ((RFM12_STATUS_WKUP | RFM12_STATUS_FFIT) >> 8) ) {
+                //restart the wakeup timer by toggling the bit on and off
+                rfm12_data(ctrl.pwrmgt_shadow & ~RFM12_PWRMGT_EW);
+                rfm12_data(ctrl.pwrmgt_shadow);
+            }
+        #endif /* RFM12_USE_WAKEUP_TIMER */
 
-		//check if the fifo interrupt occurred
-		if (status & (RFM12_STATUS_FFIT>>8)) {
-			//yes
-			recheck_interrupt = 1;
-			//see what we have to do (start rx, rx or tx)
-			switch (ctrl.rfm12_state) {
-				case STATE_RX_IDLE: {
-					//if receive mode is not disabled (default)
-					#if !(RFM12_TRANSMIT_ONLY)
-						uint8_t data;
+        //check if the fifo interrupt occurred
+        if (status & (RFM12_STATUS_FFIT>>8)) {
+            //yes
+            recheck_interrupt = 1;
+            //see what we have to do (start rx, rx or tx)
+            switch (ctrl.rfm12_state) {
+                case STATE_RX_IDLE: {
+                    //if receive mode is not disabled (default)
+                    #if !(RFM12_TRANSMIT_ONLY)
+                        uint8_t data;
 
-						//init the bytecounter - remember, we will read the length byte, so this must be 1
-						ctrl.bytecount = 1;
+                        //init the bytecounter - remember, we will read the length byte, so this must be 1
+                        ctrl.bytecount = 1;
 
-						//read the length byte,  and write it to the checksum
-						//remember, the first byte is the length byte
-						data = rfm12_read(RFM12_CMD_READ);
-						checksum = data;
+                        //read the length byte,  and write it to the checksum
+                        //remember, the first byte is the length byte
+                        data = rfm12_read(RFM12_CMD_READ);
+                        checksum = data;
 
-						//add the packet overhead and store it into a working variable
-						ctrl.num_bytes = data + PACKET_OVERHEAD;
+                        //add the packet overhead and store it into a working variable
+                        ctrl.num_bytes = data + PACKET_OVERHEAD;
 
-						//debug
-						#if RFM12_UART_DEBUG >= 2
-							uart_putc('I');
-							uart_putc(data);
-						#endif
+                        //debug
+                        #if RFM12_UART_DEBUG >= 2
+                            uart_putc('I');
+                            uart_putc(data);
+                        #endif
 
-						//see whether our buffer is free
-						//FIXME: put this into global statekeeping struct, the free state can be set by the function which pulls the packet, i guess
-						if (rf_rx_buffers[ctrl.buffer_in_num].status == STATUS_FREE) {
-							//the current receive buffer is empty, so we start receiving
-							ctrl.rfm12_state = STATE_RX_ACTIVE;
+                        //see whether our buffer is free
+                        //FIXME: put this into global statekeeping struct, the free state can be set by the function which pulls the packet, i guess
+                        if (rf_rx_buffers[ctrl.buffer_in_num].status == STATUS_FREE) {
+                            //the current receive buffer is empty, so we start receiving
+                            ctrl.rfm12_state = STATE_RX_ACTIVE;
 
-							//store the received length into the packet buffer
-							//this length field will be used by application reading the
-							//buffer.
-							rf_rx_buffers[ctrl.buffer_in_num].len = data;
+                            //store the received length into the packet buffer
+                            //this length field will be used by application reading the
+                            //buffer.
+                            rf_rx_buffers[ctrl.buffer_in_num].len = data;
 
-							//end the interrupt without resetting the fifo
-							goto no_fifo_reset;
-						}
+                            //end the interrupt without resetting the fifo
+                            goto no_fifo_reset;
+                        }
 
-						/* if we're here, the buffer is full, so we ignore this transmission by resetting the fifo (at the end of the function)  */
-					#endif /* !(RFM12_TRANSMIT_ONLY) */
+                        /* if we're here, the buffer is full, so we ignore this transmission by resetting the fifo (at the end of the function)  */
+                    #endif /* !(RFM12_TRANSMIT_ONLY) */
 
-					} break;
+                    } break;
 
-				case STATE_RX_ACTIVE: {
-					//if receive mode is not disabled (default)
-					#if !(RFM12_TRANSMIT_ONLY)
-						uint8_t data;
-						//read a byte
-						data = rfm12_read(RFM12_CMD_READ);
+                case STATE_RX_ACTIVE: {
+                    //if receive mode is not disabled (default)
+                    #if !(RFM12_TRANSMIT_ONLY)
+                        uint8_t data;
+                        //read a byte
+                        data = rfm12_read(RFM12_CMD_READ);
 
-						//check if transmission is complete
-						if (ctrl.bytecount < ctrl.num_bytes) {
-							//debug
-							#if RFM12_UART_DEBUG >= 2
-								uart_putc('R');
-								uart_putc(data);
-							#endif
+                        //check if transmission is complete
+                        if (ctrl.bytecount < ctrl.num_bytes) {
+                            //debug
+                            #if RFM12_UART_DEBUG >= 2
+                                uart_putc('R');
+                                uart_putc(data);
+                            #endif
 
-							//xor the remaining bytes onto the checksum
-							//note: only the header will be effectively checked
-							checksum ^= data;
+                            //xor the remaining bytes onto the checksum
+                            //note: only the header will be effectively checked
+                            checksum ^= data;
 
-							//put next byte into buffer, if there is enough space
-							if (ctrl.bytecount < (RFM12_RX_BUFFER_SIZE + 3)) {
-								//hackhack: begin writing to struct at offsetof len
-								(& rf_rx_buffers[ctrl.buffer_in_num].len)[ctrl.bytecount] = data;
-							}
+                            //put next byte into buffer, if there is enough space
+                            if (ctrl.bytecount < (RFM12_RX_BUFFER_SIZE + 3)) {
+                                //hackhack: begin writing to struct at offsetof len
+                                (& rf_rx_buffers[ctrl.buffer_in_num].len)[ctrl.bytecount] = data;
+                            }
 #ifndef DISABLE_CHECKSUMM
-							//check header against checksum
-							if (ctrl.bytecount == 2 && checksum != 0xff) {
-								//if the checksum does not match, reset the fifo
-								break;
-							}
+                            //check header against checksum
+                            if (ctrl.bytecount == 2 && checksum != 0xff) {
+                                //if the checksum does not match, reset the fifo
+                                break;
+                            }
 #endif
 
-							//increment bytecount
-							ctrl.bytecount++;
+                            //increment bytecount
+                            ctrl.bytecount++;
 
-							//end the interrupt without resetting the fifo
-							goto no_fifo_reset;
-						}
+                            //end the interrupt without resetting the fifo
+                            goto no_fifo_reset;
+                        }
 
-						/* if we're here, receiving is done */
-						/* the fifo will be reset at the end of the function */
+                        /* if we're here, receiving is done */
+                        /* the fifo will be reset at the end of the function */
 
-						//debug
-						#if RFM12_UART_DEBUG >= 2
-							uart_putc('D');
-						#endif
+                        //debug
+                        #if RFM12_UART_DEBUG >= 2
+                            uart_putc('D');
+                        #endif
 
-						//indicate that the buffer is ready to be used
-						rf_rx_buffers[ctrl.buffer_in_num].status = STATUS_COMPLETE;
+                        //indicate that the buffer is ready to be used
+                        rf_rx_buffers[ctrl.buffer_in_num].status = STATUS_COMPLETE;
 
-						#if RFM12_USE_RX_CALLBACK
-							if (rfm12_rx_callback_func != 0x0000) {
-								rfm12_rx_callback_func (ctrl.rf_buffer_in->len, ctrl.rf_buffer_in.buffer);
-							}
-						#endif
+                        #if RFM12_USE_RX_CALLBACK
+                            if (rfm12_rx_callback_func != 0x0000) {
+                                rfm12_rx_callback_func (ctrl.rf_buffer_in->len, ctrl.rf_buffer_in.buffer);
+                            }
+                        #endif
 
-						//switch to other buffer
-						ctrl.buffer_in_num ^= 1;
+                        //switch to other buffer
+                        ctrl.buffer_in_num ^= 1;
 
-						#if RFM12_USE_RX_CALLBACK
-							rfm12_rx_clear(); /* clear immediately since the data has been processed by the callback func */
-						#endif
-					#endif /* !(RFM12_TRANSMIT_ONLY) */
-					} break;
+                        #if RFM12_USE_RX_CALLBACK
+                            rfm12_rx_clear(); /* clear immediately since the data has been processed by the callback func */
+                        #endif
+                    #endif /* !(RFM12_TRANSMIT_ONLY) */
+                    } break;
 
-				case STATE_TX:
-					//debug
-					#if RFM12_UART_DEBUG >= 2
-						uart_putc('T');
-					#endif
+                case STATE_TX:
+                    //debug
+                    #if RFM12_UART_DEBUG >= 2
+                        uart_putc('T');
+                    #endif
 
-					if (ctrl.bytecount < ctrl.num_bytes) {
-						//load the next byte from our buffer struct.
-						rfm12_data( RFM12_CMD_TX | rf_tx_buffer.sync[ctrl.bytecount++]);
+                    if (ctrl.bytecount < ctrl.num_bytes) {
+                        //load the next byte from our buffer struct.
+                        rfm12_data( RFM12_CMD_TX | rf_tx_buffer.sync[ctrl.bytecount++]);
 
-						//end the interrupt without resetting the fifo
-						goto no_fifo_reset;
-					}
+                        //end the interrupt without resetting the fifo
+                        goto no_fifo_reset;
+                    }
 
-					/* if we're here, we're finished transmitting the bytes */
-					/* the fifo will be reset at the end of the function */
+                    /* if we're here, we're finished transmitting the bytes */
+                    /* the fifo will be reset at the end of the function */
 
-					//Transmitter on RFM12BP off
-					#ifdef TX_LEAVE_HOOK
-						TX_LEAVE_HOOK;
-					#endif
+                    //Transmitter on RFM12BP off
+                    #ifdef TX_LEAVE_HOOK
+                        TX_LEAVE_HOOK;
+                    #endif
 
-					//flag the buffer as free again
-					ctrl.txstate = STATUS_FREE;
+                    //flag the buffer as free again
+                    ctrl.txstate = STATUS_FREE;
 
-					//turn off the transmitter and enable receiver
-					//the receiver is not enabled in transmit only mode (by PWRMGT_RECEIVE makro)
-					#if RFM12_PWRMGT_SHADOW
-						ctrl.pwrmgt_shadow &= ~(RFM12_PWRMGT_ET); /* disable transmitter */
-						ctrl.pwrmgt_shadow |= (PWRMGT_RECEIVE);   /* activate predefined receive mode */
-						rfm12_data(ctrl.pwrmgt_shadow);
-					#else /* no RFM12_PWRMGT_SHADOW */
-						rfm12_data( PWRMGT_RECEIVE );
-					#endif /* RFM12_PWRMGT_SHADOW */
+                    //turn off the transmitter and enable receiver
+                    //the receiver is not enabled in transmit only mode (by PWRMGT_RECEIVE makro)
+                    #if RFM12_PWRMGT_SHADOW
+                        ctrl.pwrmgt_shadow &= ~(RFM12_PWRMGT_ET); /* disable transmitter */
+                        ctrl.pwrmgt_shadow |= (PWRMGT_RECEIVE);   /* activate predefined receive mode */
+                        rfm12_data(ctrl.pwrmgt_shadow);
+                    #else /* no RFM12_PWRMGT_SHADOW */
+                        rfm12_data( PWRMGT_RECEIVE );
+                    #endif /* RFM12_PWRMGT_SHADOW */
 
-					//Receiver on RFM12BP on
-					#ifdef RX_ENTER_HOOK
-						RX_ENTER_HOOK;
-					#endif
+                    //Receiver on RFM12BP on
+                    #ifdef RX_ENTER_HOOK
+                        RX_ENTER_HOOK;
+                    #endif
 
-					//load a dummy byte to clear int status
-					rfm12_data( RFM12_CMD_TX | 0xaa);
-					break;
-					#if RFM12_USE_POWER_CONTROL
-						case STATE_POWER_DOWN:
-							//load a dummy byte to clear int status
-							rfm12_data( RFM12_CMD_TX | 0xaa);
-							break;
-					#endif
-			}//end of switch
+                    //load a dummy byte to clear int status
+                    rfm12_data( RFM12_CMD_TX | 0xaa);
+                    break;
+                    #if RFM12_USE_POWER_CONTROL
+                        case STATE_POWER_DOWN:
+                            //load a dummy byte to clear int status
+                            rfm12_data( RFM12_CMD_TX | 0xaa);
+                            break;
+                    #endif
+            }//end of switch
 
-			//set the state machine to idle
-			ctrl.rfm12_state = STATE_RX_IDLE;
+            //set the state machine to idle
+            ctrl.rfm12_state = STATE_RX_IDLE;
 
-			//reset the receiver fifo, if receive mode is not disabled (default)
-			#if !(RFM12_TRANSMIT_ONLY)
-				#if RFM12_UART_DEBUG >= 2
-					uart_putc('F');
-				#endif
-				rfm12_data( RFM12_CMD_FIFORESET | CLEAR_FIFO_INLINE);
-				rfm12_data( RFM12_CMD_FIFORESET | ACCEPT_DATA_INLINE);
-			#endif /* !(RFM12_TRANSMIT_ONLY) */
+            //reset the receiver fifo, if receive mode is not disabled (default)
+            #if !(RFM12_TRANSMIT_ONLY)
+                #if RFM12_UART_DEBUG >= 2
+                    uart_putc('F');
+                #endif
+                rfm12_data( RFM12_CMD_FIFORESET | CLEAR_FIFO_INLINE);
+                rfm12_data( RFM12_CMD_FIFORESET | ACCEPT_DATA_INLINE);
+            #endif /* !(RFM12_TRANSMIT_ONLY) */
 
-			uint8_t b;
-			no_fifo_reset:
-			b = b;
-		}
-	} while (recheck_interrupt);
+            uint8_t b;
+            no_fifo_reset:
+            b = b;
+        }
+    } while (recheck_interrupt);
 
-	#if RFM12_UART_DEBUG >= 2
-		uart_putc('E');
-	#endif
+    #if RFM12_UART_DEBUG >= 2
+        uart_putc('E');
+    #endif
 
-	//turn the int back on
-	RFM12_INT_ON();
+    //turn the int back on
+    RFM12_INT_ON();
 }
 
 
@@ -396,139 +396,139 @@ ISR(RFM12_INT_VECT, ISR_NOBLOCK)
 * \see rfm12_tx() and rfm12_start_tx()
 */
 void rfm12_tick(void) {
-	//collision detection is enabled by default
-	#if !(RFM12_NOCOLLISIONDETECTION)
-		uint16_t status;
+    //collision detection is enabled by default
+    #if !(RFM12_NOCOLLISIONDETECTION)
+        uint16_t status;
 
-		//start with a channel free count of 16, this is necessary for the ASK receive feature to work
-		static uint8_t channel_free_count = 16; //static local variables produce smaller code size than globals
-	#endif
+        //start with a channel free count of 16, this is necessary for the ASK receive feature to work
+        static uint8_t channel_free_count = 16; //static local variables produce smaller code size than globals
+    #endif
 
-	//debug
-	#if RFM12_UART_DEBUG
-		static uint8_t oldstate;
-		uint8_t state = ctrl.rfm12_state;
-		if (oldstate != state) {
-			uart_putstr ("mode change: ");
-			switch (state) {
-				case STATE_RX_IDLE:
-					uart_putc ('i');
-					break;
-				case STATE_RX_ACTIVE:
-					uart_putc ('r');
-					break;
-				case STATE_TX:
-					uart_putc ('t');
-					break;
-				default:
-					uart_putc ('?');
-			}
-			uart_putstr ("\r\n");
-			oldstate = state;
-		}
-	#endif
+    //debug
+    #if RFM12_UART_DEBUG
+        static uint8_t oldstate;
+        uint8_t state = ctrl.rfm12_state;
+        if (oldstate != state) {
+            uart_putstr ("mode change: ");
+            switch (state) {
+                case STATE_RX_IDLE:
+                    uart_putc ('i');
+                    break;
+                case STATE_RX_ACTIVE:
+                    uart_putc ('r');
+                    break;
+                case STATE_TX:
+                    uart_putc ('t');
+                    break;
+                default:
+                    uart_putc ('?');
+            }
+            uart_putstr ("\r\n");
+            oldstate = state;
+        }
+    #endif
 
-	//don't disturb RFM12 if transmitting or receiving
-	if (ctrl.rfm12_state != STATE_RX_IDLE) {
-		return;
-	}
+    //don't disturb RFM12 if transmitting or receiving
+    if (ctrl.rfm12_state != STATE_RX_IDLE) {
+        return;
+    }
 
-	//collision detection is enabled by default
-	#if !(RFM12_NOCOLLISIONDETECTION)
-		//disable the interrupt (as we're working directly with the transceiver now)
-		//hint: we could be losing an interrupt here, because we read the status register.
-		//this applys for the Wakeup timer, as it's flag is reset by reading.
-		RFM12_INT_OFF();
-		status = rfm12_read(RFM12_CMD_STATUS);
-		RFM12_INT_ON();
+    //collision detection is enabled by default
+    #if !(RFM12_NOCOLLISIONDETECTION)
+        //disable the interrupt (as we're working directly with the transceiver now)
+        //hint: we could be losing an interrupt here, because we read the status register.
+        //this applys for the Wakeup timer, as it's flag is reset by reading.
+        RFM12_INT_OFF();
+        status = rfm12_read(RFM12_CMD_STATUS);
+        RFM12_INT_ON();
 
-		//wakeup timer workaround (if we don't restart the timer after timeout, it will stay off.)
-		#if RFM12_USE_WAKEUP_TIMER
-			if (status & (RFM12_STATUS_WKUP)) {
-				ctrl.wkup_flag = 1;
+        //wakeup timer workaround (if we don't restart the timer after timeout, it will stay off.)
+        #if RFM12_USE_WAKEUP_TIMER
+            if (status & (RFM12_STATUS_WKUP)) {
+                ctrl.wkup_flag = 1;
 
-				RFM12_INT_OFF();
-				//restart the wakeup timer by toggling the bit on and off
-				rfm12_data(ctrl.pwrmgt_shadow & ~RFM12_PWRMGT_EW);
-				rfm12_data(ctrl.pwrmgt_shadow);
-				RFM12_INT_ON();
-			}
-		#endif /* RFM12_USE_WAKEUP_TIMER */
+                RFM12_INT_OFF();
+                //restart the wakeup timer by toggling the bit on and off
+                rfm12_data(ctrl.pwrmgt_shadow & ~RFM12_PWRMGT_EW);
+                rfm12_data(ctrl.pwrmgt_shadow);
+                RFM12_INT_ON();
+            }
+        #endif /* RFM12_USE_WAKEUP_TIMER */
 
-		//check if we see a carrier
-		if (status & RFM12_STATUS_RSSI) {
-			//yes: reset free counter and return
-			channel_free_count = CHANNEL_FREE_TIME;
-			return;
-		}
-		//no
+        //check if we see a carrier
+        if (status & RFM12_STATUS_RSSI) {
+            //yes: reset free counter and return
+            channel_free_count = CHANNEL_FREE_TIME;
+            return;
+        }
+        //no
 
-		//is the channel free long enough ?
-		if (channel_free_count != 0) {
-			//no:
-			channel_free_count--; // decrement counter
-			return;
-		}
-		//yes: we can begin transmitting
-	#endif
+        //is the channel free long enough ?
+        if (channel_free_count != 0) {
+            //no:
+            channel_free_count--; // decrement counter
+            return;
+        }
+        //yes: we can begin transmitting
+    #endif
 
-	//do we have something to transmit?
-	if (ctrl.txstate == STATUS_OCCUPIED) { //yes: start transmitting
-		//disable the interrupt (as we're working directly with the transceiver now)
-		//we won't loose interrupts, as the AVR caches them in the int flag.
-		//we could disturb an ongoing reception,
-		//if it has just started some cpu cycles ago
-		//(as the check for this case is some lines (cpu cycles) above)
-		//anyhow, we MUST transmit at some point...
-		RFM12_INT_OFF();
+    //do we have something to transmit?
+    if (ctrl.txstate == STATUS_OCCUPIED) { //yes: start transmitting
+        //disable the interrupt (as we're working directly with the transceiver now)
+        //we won't loose interrupts, as the AVR caches them in the int flag.
+        //we could disturb an ongoing reception,
+        //if it has just started some cpu cycles ago
+        //(as the check for this case is some lines (cpu cycles) above)
+        //anyhow, we MUST transmit at some point...
+        RFM12_INT_OFF();
 
-		//disable receiver - if you don't do this, tx packets will get lost
-		//as the fifo seems to be in use by the receiver
+        //disable receiver - if you don't do this, tx packets will get lost
+        //as the fifo seems to be in use by the receiver
 
-		#if RFM12_PWRMGT_SHADOW
-			ctrl.pwrmgt_shadow &= ~(RFM12_PWRMGT_ER); /* disable receiver */
-			rfm12_data(ctrl.pwrmgt_shadow);
-		#else
-			rfm12_data(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT ); /* disable receiver */
-		#endif
+        #if RFM12_PWRMGT_SHADOW
+            ctrl.pwrmgt_shadow &= ~(RFM12_PWRMGT_ER); /* disable receiver */
+            rfm12_data(ctrl.pwrmgt_shadow);
+        #else
+            rfm12_data(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT ); /* disable receiver */
+        #endif
 
-		//RFM12BP receiver off
-		#ifdef RX_LEAVE_HOOK
-			RX_LEAVE_HOOK;
-		#endif
+        //RFM12BP receiver off
+        #ifdef RX_LEAVE_HOOK
+            RX_LEAVE_HOOK;
+        #endif
 
-		//calculate number of bytes to be sent by ISR
-		//2 sync bytes + len byte + type byte + checksum + message length + 1 dummy byte
-		ctrl.num_bytes = rf_tx_buffer.len + 6;
+        //calculate number of bytes to be sent by ISR
+        //2 sync bytes + len byte + type byte + checksum + message length + 1 dummy byte
+        ctrl.num_bytes = rf_tx_buffer.len + 6;
 
-		//reset byte sent counter
-		ctrl.bytecount = 0;
+        //reset byte sent counter
+        ctrl.bytecount = 0;
 
-		//set mode for interrupt handler
-		ctrl.rfm12_state = STATE_TX;
+        //set mode for interrupt handler
+        ctrl.rfm12_state = STATE_TX;
 
-		//RFM12BP transmitter on
-		#ifdef TX_ENTER_HOOK
-			TX_ENTER_HOOK;
-		#endif
+        //RFM12BP transmitter on
+        #ifdef TX_ENTER_HOOK
+            TX_ENTER_HOOK;
+        #endif
 
-		//fill 2byte 0xAA preamble into data register
-		//the preamble helps the receivers AFC circuit to lock onto the exact frequency
-		//(hint: the tx FIFO [if el is enabled] is two staged, so we can safely write 2 bytes before starting)
-		rfm12_data(RFM12_CMD_TX | PREAMBLE);
-		rfm12_data(RFM12_CMD_TX | PREAMBLE);
+        //fill 2byte 0xAA preamble into data register
+        //the preamble helps the receivers AFC circuit to lock onto the exact frequency
+        //(hint: the tx FIFO [if el is enabled] is two staged, so we can safely write 2 bytes before starting)
+        rfm12_data(RFM12_CMD_TX | PREAMBLE);
+        rfm12_data(RFM12_CMD_TX | PREAMBLE);
 
-		//set ET in power register to enable transmission (hint: TX starts now)
-		#if RFM12_PWRMGT_SHADOW
-			ctrl.pwrmgt_shadow |= RFM12_PWRMGT_ET;
-			rfm12_data (ctrl.pwrmgt_shadow);
-		#else
-			rfm12_data(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT | RFM12_PWRMGT_ET);
-		#endif
+        //set ET in power register to enable transmission (hint: TX starts now)
+        #if RFM12_PWRMGT_SHADOW
+            ctrl.pwrmgt_shadow |= RFM12_PWRMGT_ET;
+            rfm12_data (ctrl.pwrmgt_shadow);
+        #else
+            rfm12_data(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT | RFM12_PWRMGT_ET);
+        #endif
 
-		//enable the interrupt to continue the transmission
-		RFM12_INT_ON();
-	}
+        //enable the interrupt to continue the transmission
+        RFM12_INT_ON();
+    }
 }
 
 
@@ -552,19 +552,19 @@ void
 uint8_t
 #endif
 rfm12_start_tx(uint8_t type, uint8_t length) {
-	//exit if the buffer isn't free
-	if (ctrl.txstate != STATUS_FREE)
-		return TXRETURN(RFM12_TX_OCCUPIED);
+    //exit if the buffer isn't free
+    if (ctrl.txstate != STATUS_FREE)
+        return TXRETURN(RFM12_TX_OCCUPIED);
 
-	//write airlab header to buffer
-	rf_tx_buffer.len = length;
-	rf_tx_buffer.type = type;
-	rf_tx_buffer.checksum = length ^ type ^ 0xff;
+    //write airlab header to buffer
+    rf_tx_buffer.len = length;
+    rf_tx_buffer.type = type;
+    rf_tx_buffer.checksum = length ^ type ^ 0xff;
 
-	//schedule packet for transmission
-	ctrl.txstate = STATUS_OCCUPIED;
+    //schedule packet for transmission
+    ctrl.txstate = STATUS_OCCUPIED;
 
-	return TXRETURN(RFM12_TX_ENQUEUED);
+    return TXRETURN(RFM12_TX_ENQUEUED);
 }
 
 
@@ -585,50 +585,50 @@ rfm12_start_tx(uint8_t type, uint8_t length) {
 * \see rfm12_start_tx() and rfm12_tick()
 */
 #if !(RFM12_SMALLAPI)
-	#if (RFM12_NORETURNS)
-	void
-	#else
-	uint8_t
-	#endif
-	rfm12_tx(uint8_t len, uint8_t type, uint8_t *data) {
-		#if RFM12_UART_DEBUG
-			uart_putstr ("sending packet\r\n");
-		#endif
+    #if (RFM12_NORETURNS)
+    void
+    #else
+    uint8_t
+    #endif
+    rfm12_tx(uint8_t len, uint8_t type, uint8_t *data) {
+        #if RFM12_UART_DEBUG
+            uart_putstr ("sending packet\r\n");
+        #endif
 
-		if (len > RFM12_TX_BUFFER_SIZE) return TXRETURN(RFM12_TX_ERROR);
+        if (len > RFM12_TX_BUFFER_SIZE) return TXRETURN(RFM12_TX_ERROR);
 
-		//exit if the buffer isn't free
-		if (ctrl.txstate != STATUS_FREE)
-			return TXRETURN(RFM12_TX_OCCUPIED);
+        //exit if the buffer isn't free
+        if (ctrl.txstate != STATUS_FREE)
+            return TXRETURN(RFM12_TX_OCCUPIED);
 
-		memcpy(rf_tx_buffer.buffer, data, len);
+        memcpy(rf_tx_buffer.buffer, data, len);
 
-		#if (!(RFM12_NORETURNS))
-		return rfm12_start_tx(type, len);
-		#else
-		rfm12_start_tx(type, len);
-		#endif
-	}
+        #if (!(RFM12_NORETURNS))
+        return rfm12_start_tx(type, len);
+        #else
+        rfm12_start_tx(type, len);
+        #endif
+    }
 #endif /* RFM12_SMALLAPI */
 
 
 //if receive mode is not disabled (default)
 #if !(RFM12_TRANSMIT_ONLY)
-	//! Function to clear buffer complete/occupied status.
-	/** This function will set the current receive buffer status to free and switch
-	* to the other buffer, which can then be read using rfm12_rx_buffer().
-	*
-	* \see rfm12_rx_status(), rfm12_rx_len(), rfm12_rx_type(), rfm12_rx_buffer() and rf_rx_buffers
-	*/
-	//warning: without the attribute, gcc will inline this even if -Os is set
-	void __attribute__((noinline)) rfm12_rx_clear(void) {
-			//mark the current buffer as empty
-			rf_rx_buffers[ctrl.buffer_out_num].status = STATUS_FREE;
+    //! Function to clear buffer complete/occupied status.
+    /** This function will set the current receive buffer status to free and switch
+    * to the other buffer, which can then be read using rfm12_rx_buffer().
+    *
+    * \see rfm12_rx_status(), rfm12_rx_len(), rfm12_rx_type(), rfm12_rx_buffer() and rf_rx_buffers
+    */
+    //warning: without the attribute, gcc will inline this even if -Os is set
+    void __attribute__((noinline)) rfm12_rx_clear(void) {
+            //mark the current buffer as empty
+            rf_rx_buffers[ctrl.buffer_out_num].status = STATUS_FREE;
 
-			//switch to the other buffer
-			ctrl.buffer_out_num ^= 1;
+            //switch to the other buffer
+            ctrl.buffer_out_num ^= 1;
 
-	}
+    }
 #endif /* !(RFM12_TRANSMIT_ONLY) */
 
 
@@ -647,46 +647,46 @@ rfm12_start_tx(uint8_t type, uint8_t length) {
 #define RFM12_CMD_TXCONF_DEFAULT  (RFM12_CMD_TXCONF | RFM12_POWER | RFM12_TXCONF_FS_CALC(FSK_SHIFT) )
 
 static const uint16_t init_cmds[] PROGMEM = {
-	//defined above (so shadow register is inited with same value)
-	RFM12_CMD_CFG_DEFAULT,
+    //defined above (so shadow register is inited with same value)
+    RFM12_CMD_CFG_DEFAULT,
 
-	//set power default state (usually disable clock output)
-	//do not write the power register two times in a short time
-	//as it seems to need some recovery
-	(RFM12_CMD_PWRMGT | PWRMGT_DEFAULT),
+    //set power default state (usually disable clock output)
+    //do not write the power register two times in a short time
+    //as it seems to need some recovery
+    (RFM12_CMD_PWRMGT | PWRMGT_DEFAULT),
 
-	//set frequency
-	(RFM12_CMD_FREQUENCY | RFM12_FREQUENCY_CALC(RFM12_FREQUENCY) ),
+    //set frequency
+    (RFM12_CMD_FREQUENCY | RFM12_FREQUENCY_CALC(RFM12_FREQUENCY) ),
 
-	//set data rate
-	(RFM12_CMD_DATARATE | DATARATE_VALUE ),
+    //set data rate
+    (RFM12_CMD_DATARATE | DATARATE_VALUE ),
 
-	//defined above (so shadow register is inited with same value)
-	RFM12_CMD_RXCTRL_DEFAULT,
+    //defined above (so shadow register is inited with same value)
+    RFM12_CMD_RXCTRL_DEFAULT,
 
-	//automatic clock lock control(AL), digital Filter(!S),
-	//Data quality detector value 3, slow clock recovery lock
-	(RFM12_CMD_DATAFILTER | RFM12_DATAFILTER_AL | 3),
+    //automatic clock lock control(AL), digital Filter(!S),
+    //Data quality detector value 3, slow clock recovery lock
+    (RFM12_CMD_DATAFILTER | RFM12_DATAFILTER_AL | 3),
 
-	//2 Byte Sync Pattern, Start fifo fill when sychron pattern received,
-	//disable sensitive reset, Fifo filled interrupt at 8 bits
-	(RFM12_CMD_FIFORESET | RFM12_FIFORESET_DR | (8 << 4)),
+    //2 Byte Sync Pattern, Start fifo fill when sychron pattern received,
+    //disable sensitive reset, Fifo filled interrupt at 8 bits
+    (RFM12_CMD_FIFORESET | RFM12_FIFORESET_DR | (8 << 4)),
 
-	//defined above (so shadow register is inited with same value)
-	RFM12_CMD_AFC_DEFAULT,
+    //defined above (so shadow register is inited with same value)
+    RFM12_CMD_AFC_DEFAULT,
 
-	//defined above (so shadow register is inited with same value)
-	RFM12_CMD_TXCONF_DEFAULT,
+    //defined above (so shadow register is inited with same value)
+    RFM12_CMD_TXCONF_DEFAULT,
 
-	//disable low dutycycle mode
-	(RFM12_CMD_DUTYCYCLE),
+    //disable low dutycycle mode
+    (RFM12_CMD_DUTYCYCLE),
 
-	//disable wakeup timer
-	(RFM12_CMD_WAKEUP),
+    //disable wakeup timer
+    (RFM12_CMD_WAKEUP),
 
-	//enable rf receiver chain, if receiving is not disabled (default)
-	//the magic is done via defines
-	(RFM12_CMD_PWRMGT | PWRMGT_RECEIVE),
+    //enable rf receiver chain, if receiving is not disabled (default)
+    //the magic is done via defines
+    (RFM12_CMD_PWRMGT | PWRMGT_RECEIVE),
 };
 
 //! This is the main library initialization function
@@ -707,85 +707,85 @@ static const uint16_t init_cmds[] PROGMEM = {
 * Have a look into rfm12_hw.h for possible settings.
 */
 void rfm12_init(void) {
-	//initialize spi
-	SS_RELEASE();
-	DDR_SS |= (1<<BIT_SS);
-	spi_init();
+    //initialize spi
+    SS_RELEASE();
+    DDR_SS |= (1<<BIT_SS);
+    spi_init();
 
-	//typically sets DDR registers for RFM12BP TX/RX pin
-	#ifdef TX_INIT_HOOK
-		TX_INIT_HOOK;
-	#endif
+    //typically sets DDR registers for RFM12BP TX/RX pin
+    #ifdef TX_INIT_HOOK
+        TX_INIT_HOOK;
+    #endif
 
-	#ifdef RX_INIT_HOOK
-		RX_INIT_HOOK;
-	#endif
+    #ifdef RX_INIT_HOOK
+        RX_INIT_HOOK;
+    #endif
 
-	//store the syncronization pattern to the transmission buffer
-	//the sync pattern is used by the receiver to distinguish noise from real transmissions
-	//the sync pattern is hardcoded into the receiver
-	rf_tx_buffer.sync[0] = SYNC_MSB;
-	rf_tx_buffer.sync[1] = SYNC_LSB;
+    //store the syncronization pattern to the transmission buffer
+    //the sync pattern is used by the receiver to distinguish noise from real transmissions
+    //the sync pattern is hardcoded into the receiver
+    rf_tx_buffer.sync[0] = SYNC_MSB;
+    rf_tx_buffer.sync[1] = SYNC_LSB;
 
-	//if receive mode is not disabled (default)
-	#if !(RFM12_TRANSMIT_ONLY)
-		//init buffer pointers
-		ctrl.buffer_in_num = 0;
-		ctrl.buffer_out_num = 0;
-	#endif /* !(RFM12_TRANSMIT_ONLY) */
+    //if receive mode is not disabled (default)
+    #if !(RFM12_TRANSMIT_ONLY)
+        //init buffer pointers
+        ctrl.buffer_in_num = 0;
+        ctrl.buffer_out_num = 0;
+    #endif /* !(RFM12_TRANSMIT_ONLY) */
 
-	//low battery detector feature initialization
-	#if RFM12_LOW_BATT_DETECTOR
-		ctrl.low_batt = RFM12_BATT_OKAY;
-	#endif /* RFM12_LOW_BATT_DETECTOR */
+    //low battery detector feature initialization
+    #if RFM12_LOW_BATT_DETECTOR
+        ctrl.low_batt = RFM12_BATT_OKAY;
+    #endif /* RFM12_LOW_BATT_DETECTOR */
 
-	#if RFM12_PWRMGT_SHADOW
-		//set power management shadow register to receiver chain enabled or disabled
-		//the define correctly handles the transmit only mode
-		ctrl.pwrmgt_shadow = (RFM12_CMD_PWRMGT | PWRMGT_RECEIVE);
-	#endif
+    #if RFM12_PWRMGT_SHADOW
+        //set power management shadow register to receiver chain enabled or disabled
+        //the define correctly handles the transmit only mode
+        ctrl.pwrmgt_shadow = (RFM12_CMD_PWRMGT | PWRMGT_RECEIVE);
+    #endif
 
 
-	#if RFM12_LIVECTRL
-		//init shadow registers with values about to be written to rfm12
-		ctrl.rxctrl_shadow = RFM12_CMD_RXCTRL_DEFAULT;
-		ctrl.afc_shadow = RFM12_CMD_AFC_DEFAULT;
-		ctrl.txconf_shadow = RFM12_CMD_TXCONF_DEFAULT;
-		ctrl.cfg_shadow =    RFM12_CMD_CFG_DEFAULT;
-	#endif
+    #if RFM12_LIVECTRL
+        //init shadow registers with values about to be written to rfm12
+        ctrl.rxctrl_shadow = RFM12_CMD_RXCTRL_DEFAULT;
+        ctrl.afc_shadow = RFM12_CMD_AFC_DEFAULT;
+        ctrl.txconf_shadow = RFM12_CMD_TXCONF_DEFAULT;
+        ctrl.cfg_shadow =    RFM12_CMD_CFG_DEFAULT;
+    #endif
 
-	//write all the initialisation values to rfm12
-	uint8_t x;
-	for (x = 0; x < ( sizeof(init_cmds) / 2) ; x++) {
-		rfm12_data(pgm_read_word(&init_cmds[x]));
-	}
+    //write all the initialisation values to rfm12
+    uint8_t x;
+    for (x = 0; x < ( sizeof(init_cmds) / 2) ; x++) {
+        rfm12_data(pgm_read_word(&init_cmds[x]));
+    }
 
-	#ifdef RX_ENTER_HOOK
-		RX_ENTER_HOOK;
-	#endif
+    #ifdef RX_ENTER_HOOK
+        RX_ENTER_HOOK;
+    #endif
 
-	#if RFM12_USE_CLOCK_OUTPUT || RFM12_LOW_BATT_DETECTOR
-		rfm12_data(RFM12_CMD_LBDMCD | RFM12_LBD_VOLTAGE | RFM12_CLOCK_OUT_FREQUENCY ); //set low battery detect, clock output
-	#endif
+    #if RFM12_USE_CLOCK_OUTPUT || RFM12_LOW_BATT_DETECTOR
+        rfm12_data(RFM12_CMD_LBDMCD | RFM12_LBD_VOLTAGE | RFM12_CLOCK_OUT_FREQUENCY ); //set low battery detect, clock output
+    #endif
 
-	//ASK receive mode feature initialization
-	#if RFM12_RECEIVE_ASK
-		adc_init();
-	#endif
+    //ASK receive mode feature initialization
+    #if RFM12_RECEIVE_ASK
+        adc_init();
+    #endif
 
-	//setup interrupt for falling edge trigger
-	RFM12_INT_SETUP();
+    //setup interrupt for falling edge trigger
+    RFM12_INT_SETUP();
 
-	//clear int flag
-	rfm12_read(RFM12_CMD_STATUS);
-	RFM12_INT_FLAG = (1<<RFM12_FLAG_BIT);
+    //clear int flag
+    rfm12_read(RFM12_CMD_STATUS);
+    RFM12_INT_FLAG = (1<<RFM12_FLAG_BIT);
 
-	//init receiver fifo, we now begin receiving.
-	rfm12_data(CLEAR_FIFO);
-	rfm12_data(ACCEPT_DATA);
+    //init receiver fifo, we now begin receiving.
+    rfm12_data(CLEAR_FIFO);
+    rfm12_data(ACCEPT_DATA);
 
-	//activate the interrupt
-	RFM12_INT_ON();
+    //activate the interrupt
+    RFM12_INT_ON();
 #if 0
 #endif
 }
@@ -793,22 +793,22 @@ void rfm12_init(void) {
 #if defined(RFM12_MOSFET_PWR_CTRL) 
 void rfm12_disable() 
 {
-	//deinitialize spi
+    //deinitialize spi
 #if 0
-		while (ctrl.rfm12_state != STATE_RX_IDLE);
+        while (ctrl.rfm12_state != STATE_RX_IDLE);
 
-		//disable the interrupt (as we're working directly with the transceiver now)
-		//we won't loose interrupts, as the AVR caches them in the int flag
-		RFM12_INT_OFF();
+        //disable the interrupt (as we're working directly with the transceiver now)
+        //we won't loose interrupts, as the AVR caches them in the int flag
+        RFM12_INT_OFF();
 
-		//disable receiver
-		ctrl.pwrmgt_shadow &= ~RFM12_PWRMGT_ER;
-		rfm12_data(ctrl.pwrmgt_shadow);
+        //disable receiver
+        ctrl.pwrmgt_shadow &= ~RFM12_PWRMGT_ER;
+        rfm12_data(ctrl.pwrmgt_shadow);
 
-		ctrl.rfm12_state = STATE_POWER_DOWN;
+        ctrl.rfm12_state = STATE_POWER_DOWN;
 #endif
-		SPCR = (1<<MSTR) | (1<<SPR0);//(0<<SPE) | (1<<MSTR) | (1<<SPR0); //SPI Master, clk/16
-		SS_ASSERT();
-		RFM12_INT_OFF();
+        SPCR = (1<<MSTR) | (1<<SPR0);//(0<<SPE) | (1<<MSTR) | (1<<SPR0); //SPI Master, clk/16
+        SS_ASSERT();
+        RFM12_INT_OFF();
 }
 #endif
