@@ -16,13 +16,12 @@
 #define RFM12_NORETURNS 0
 #define RFM12_USE_WAKEUP_TIMER 0
 #define RFM12_TRANSMIT_ONLY 0
+#define RFM12_MOSFET_PWR_CTRL 1
 
 /* Disable interrupt vector and run purely inline. This may be useful for
  * configurations where a hardware interrupt is not available.
  */
 #define RFM12_USE_POLLING 0
 #define RFM12_NOCOLLISIONDETECTION 0
-
-#define BUGONE_ANNOUNCE_SLEEP 1
 
 #endif

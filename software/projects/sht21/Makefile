@@ -1,9 +1,9 @@
 ### PROJECT CONFIG ###
 BUGONE_PATH=../..
-BOARD=arduino
+BOARD=bugone_mini
 
 PRG=sht21
-DEVICE_FILES=led.o sht2x.o ds18x20.o onewire.o crc8.o twi.o bandgap.o 
+DEVICE_FILES=led.o sht2x.o ds18x20.o onewire.o crc8.o twi.o bandgap.o
 FILES=main.o
 
 include $(BUGONE_PATH)/projects/bugone.inc

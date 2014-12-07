@@ -19,12 +19,17 @@ endif
 
 ifeq ($(BOARD),bugone)
 	MCU=atmega168
-	DUDE_OPT =-c usbasp -p m168 -V
+	DUDE_OPT =-c avrusb500 -P$(PORT) -p m168 -V
+endif
+
+ifeq ($(BOARD),bugone_mini)
+	MCU=atmega328p
+	DUDE_OPT =-c avrusb500 -P$(PORT) -p m328p -V -v
 endif
 
 ifeq ($(BOARD),arduino)
 	MCU=atmega328p
-	DUDE_OPT=-c arduino -p m328p -P$(PORT) -b57600 -V
+	DUDE_OPT=-c arduino -p m328p -P$(PORT) -V
 endif
 
 ifeq ($(BOARD),veroboard)
@@ -64,7 +69,7 @@ CC=avr-gcc -std=gnu99 -Wno-implicit-function-declaration
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DF_CPU=8000000 -DPRG=\"$(PRG)\"
+CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DPRG=\"$(PRG)\"
 LDFLAGS=-mmcu=$(MCU)
 
 
@@ -135,7 +140,8 @@ rdfuses:
 
 wrfuses:
 	# d7 = no watchdog
-	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m
+	# avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m
+	avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xd7:m -U efuse:w:0xff:m
 	#avrdude $(DUDE_OPT) -U lfuse:w:0xe2:m -U hfuse:w:0xc7:m
 
 optifuses:

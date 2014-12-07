@@ -786,4 +786,29 @@ void rfm12_init(void) {
 
 	//activate the interrupt
 	RFM12_INT_ON();
+#if 0
+#endif
 }
+
+#if defined(RFM12_MOSFET_PWR_CTRL) 
+void rfm12_disable() 
+{
+	//deinitialize spi
+#if 0
+		while (ctrl.rfm12_state != STATE_RX_IDLE);
+
+		//disable the interrupt (as we're working directly with the transceiver now)
+		//we won't loose interrupts, as the AVR caches them in the int flag
+		RFM12_INT_OFF();
+
+		//disable receiver
+		ctrl.pwrmgt_shadow &= ~RFM12_PWRMGT_ER;
+		rfm12_data(ctrl.pwrmgt_shadow);
+
+		ctrl.rfm12_state = STATE_POWER_DOWN;
+#endif
+		SPCR = (1<<MSTR) | (1<<SPR0);//(0<<SPE) | (1<<MSTR) | (1<<SPR0); //SPI Master, clk/16
+		SS_ASSERT();
+		RFM12_INT_OFF();
+}
+#endif

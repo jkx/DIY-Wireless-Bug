@@ -41,10 +41,16 @@ void delay_250ms()
 void bugone_init(application_t* applications) {
     char buf[16];
 
+#if defined(RFM12_MOSFET_PWR_CTRL)
+	 drive(MOSFET_PWR_PIN);
+	 clr_output(MOSFET_PWR_PIN);
+//	 DDR_MOSFET_PWR |= MASK(BIT_MOSFET_PWR);
+//	 PORT_MOSFET_PWR &= ~MASK(BIT_MOSFET_PWR);
+#endif
     led_init();
     uart_init();
-    rfm12_init();
-    config_init();
+	 rfm12_init();
+	 config_init();
     apps_setup(applications);
 
     uart_putstr_P(PSTR("\r\nFirmware version "));
@@ -60,7 +66,7 @@ void bugone_init(application_t* applications) {
 
     apps_init();
 
-    sei();
+	 sei();
     uart_putstr_P(PSTR("bugOne init complete\r\n"));
     //clr_output(LED1);
     //clr_output(LED2);
@@ -70,21 +76,49 @@ extern application_t applications[];
 
 volatile uint8_t send_flush=0;
 
+void bugone_complete_sleep() {
+#if BUGONE_ANNOUNCE_SLEEP
+	 send(0xFF, SLEEP, packet);
+    while (ctrl.txstate!=STATUS_FREE) {
+        rfm12_tick();
+    } 
+	 led_blink2();
+#endif
+    // To flush the UART
+#if defined(RFM12_MOSFET_PWR_CTRL) && RFM12_MOSFET_PWR_CTRL
+	 rfm12_disable();
+	 // Pull up the MOSFET grid to power down the rfm12
+	 tristate(MOSFET_PWR_PIN);
+	 set_output(MOSFET_PWR_PIN);
+#else
+    rfm12_power_down();
+#endif
+    delay_500ms();
+}
+
 void bugone_sleep() {
     clr_output(LED1);
-    // To flush the UART
-    delay_500ms();
-    rfm12_power_down();
     led_disable();
     bugone_deep_sleep();
 }
 
-void bugone_wakeup() {
+void bugone_complete_wakeup() {
     power_all_enable();
+#if defined(RFM12_MOSFET_PWR_CTRL) && RFM12_MOSFET_PWR_CTRL
+	 // Pull up the MOSFET grid to power down the rfm12
+	 drive(MOSFET_PWR_PIN);
+	 clr_output(MOSFET_PWR_PIN);
+    delay_250ms();
+	 rfm12_init();
+#else
     rfm12_power_up();
+    delay_250ms();
+#endif
+}
+
+void bugone_wakeup() {
     led_setup();
     set_output(LED1);
-    delay_250ms();
 }
 
 void bugone_send() {
@@ -113,12 +147,6 @@ void bugone_send() {
     while (ctrl.txstate!=STATUS_FREE) {
         rfm12_tick();
     } 
-#if BUGONE_ANNOUNCE_SLEEP
-	 send(0xFF, SLEEP, packet);
-    while (ctrl.txstate!=STATUS_FREE) {
-        rfm12_tick();
-    } 
-#endif
 }
 
 void bugone_loop() {
@@ -170,7 +198,7 @@ void bugone_setup_watchdog(int val) {
 
 void bugone_deep_sleep() {
     power_all_disable();
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
+    set_sleep_mode(SLEEP_MODE_PWR_SAVE); // set sleep mode and enable
     sleep_enable();
     sleep_mode();                        // let's sleep and wake-up
     sleep_disable();

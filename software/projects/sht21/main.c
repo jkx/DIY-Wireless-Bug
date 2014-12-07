@@ -17,23 +17,17 @@
 
 #include <avr/io.h>
 #define DS18B20_GND  B,2
+#define RFM12_CT B,7
 
 // XXX: Theses structures belong to PROGMEM ...
 application_t applications[] = {
   {NULL,sht2x_temp_read,NULL,NULL},
   {NULL,sht2x_hum_read,NULL,NULL},
-  {ds18x20_init,ds18x20_read,NULL,NULL},
   //{NULL,dht11_temperature_read,NULL,NULL},
   //{NULL,dht11_humidity_read,NULL,NULL},
   {NULL,NULL,NULL,NULL},
 };
 
-
-void io_init()
-{
-  drive(DS18B20_GND);
-  clr_output(DS18B20_GND);
-}
 
 // The watchdog wake us, what we do ?
 SIGNAL(WDT_vect) {
@@ -46,8 +40,6 @@ int main(void) {
   char buf[16];
   uint8_t wake_up=10;
 
-  eeprom_write_word(0,2);
-
   bugone_init(applications);
   bugone_setup_watchdog(9);
   
@@ -56,18 +48,12 @@ int main(void) {
     wake_up++;
     if (wake_up > 10)
     {
+		bugone_complete_wakeup();
       led_blink2();
-      io_init();
       delay_500ms();
       bugone_send();
-#if 0
-		delay_250ms();
-		// Send sleeping message
-		send(0xFF, SLEEP, get_tx_packet());
-		led_blink2();
-		rfm12_tick();
-#endif
       wake_up=0;
+		bugone_complete_sleep();
     }
   bugone_sleep();
   }
