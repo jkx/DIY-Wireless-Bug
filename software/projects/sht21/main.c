@@ -12,20 +12,20 @@
 #include <avr/pgmspace.h>
 #include <avr/interrupt.h>
 #include <avr/eeprom.h>
+
+#include "bandgap.h"
+#include "led.h"
 #include "sht2x.h"
-#include "ds18x20.h"
 
 #include <avr/io.h>
-#define DS18B20_GND  B,2
 #define RFM12_CT B,7
 
 // XXX: Theses structures belong to PROGMEM ...
-APPLICATIon_t applications[] = {
-    {NULL,sht2x_temp_read,NULL,NULL},
-    {NULL,sht2x_hum_read,NULL,NULL},
-    //{NULL,dht11_temperature_read,NULL,NULL},
-    //{NULL,dht11_humidity_read,NULL,NULL},
-    {NULL,NULL,NULL,NULL},
+application_t applications[] = {
+  {bandgap_init,bandgap_get,NULL,NULL},
+  {NULL,sht2x_temp_read,NULL,NULL},
+  {NULL,sht2x_hum_read,NULL,NULL},
+  {NULL,NULL,NULL,NULL},
 };
 
 
