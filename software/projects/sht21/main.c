@@ -22,9 +22,9 @@
 
 // XXX: Theses structures belong to PROGMEM ...
 application_t applications[] = {
-  {bandgap_init,bandgap_get,NULL,NULL},
   {NULL,sht2x_temp_read,NULL,NULL},
   {NULL,sht2x_hum_read,NULL,NULL},
+  {bandgap_init,bandgap_get,NULL,NULL},
   {NULL,NULL,NULL,NULL},
 };
 
@@ -38,7 +38,7 @@ SIGNAL(WDT_vect) {
 int main(void) {
     int r = 0;
     char buf[16];
-    uint8_t wake_up=10;
+    uint8_t wake_up=15;
 
     bugone_init(applications);
     bugone_setup_watchdog(9);
@@ -46,7 +46,7 @@ int main(void) {
     while (1) 
     {
         wake_up++;
-        if (wake_up > 10)
+        if (wake_up > 15)
         {
             bugone_complete_wakeup();
             led_blink2();
@@ -54,7 +54,9 @@ int main(void) {
             bugone_send();
             wake_up=0;
             bugone_complete_sleep();
-        }
+        } else {
+			  delay_250ms();
+		  }
         bugone_sleep();
     }
 }
