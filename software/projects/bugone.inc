@@ -19,12 +19,12 @@ endif
 
 ifeq ($(BOARD),bugone)
 	MCU=atmega168
-	DUDE_OPT =-c avrusb500 -P$(PORT) -p m168 -V
+	DUDE_OPT =-c usbasp -p m168 -V
 endif
 
 ifeq ($(BOARD),bugone_mini)
 	MCU=atmega328p
-	DUDE_OPT =-c avrusb500 -P$(PORT) -p m328p -V -v
+	DUDE_OPT =-c usbasp -p m328p -V -v
 endif
 
 ifeq ($(BOARD),arduino)
