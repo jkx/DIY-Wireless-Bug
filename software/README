@@ -17,6 +17,8 @@ guidelines :
 
 - Tabulation, please try to follow the GNU coding style : 4 spaces
 
+- Battery powered bugOne should return the bandgap voltage in the first field
+
 
   
 

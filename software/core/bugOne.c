@@ -83,7 +83,6 @@ void bugone_complete_sleep() {
     } 
     led_blink2();
 #endif
-    // To flush the UART
 #if defined(RFM12_MOSFET_PWR_CTRL) && RFM12_MOSFET_PWR_CTRL
     rfm12_disable();
     // Pull up the MOSFET grid to power down the rfm12
@@ -92,6 +91,7 @@ void bugone_complete_sleep() {
 #else
     rfm12_power_down();
 #endif
+    // To flush the UART
     delay_500ms();
 }
 
@@ -197,7 +197,7 @@ void bugone_setup_watchdog(int val) {
 
 void bugone_deep_sleep() {
     power_all_disable();
-    set_sleep_mode(SLEEP_MODE_PWR_SAVE); // set sleep mode and enable
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN); // set sleep mode and enable
     sleep_enable();
     sleep_mode();                        // let's sleep and wake-up
     sleep_disable();

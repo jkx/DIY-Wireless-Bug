@@ -29,6 +29,9 @@ int getInternal_1v1(void){
 }
 
 
+void bandgap_disable() {
+  ADCSRA = 0;    // disable ADC
+}
 
 // return the bandgap value 
 // to transform it to volt : (1023 * 1.1) / value

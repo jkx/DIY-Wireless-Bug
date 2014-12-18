@@ -20,7 +20,7 @@ void led_init() {
 	set_output(LED1);
 	set_output(LED2);
 
-	delay_1s();
+	delay_500ms();
 	clr_output(LED2);
 }
 

@@ -18,13 +18,14 @@
 #include "sht2x.h"
 
 #include <avr/io.h>
+#include <avr/power.h>
 #define RFM12_CT B,7
 
 // XXX: Theses structures belong to PROGMEM ...
 application_t applications[] = {
+  {bandgap_init,bandgap_get,NULL,NULL},
   {NULL,sht2x_temp_read,NULL,NULL},
   {NULL,sht2x_hum_read,NULL,NULL},
-  {bandgap_init,bandgap_get,NULL,NULL},
   {NULL,NULL,NULL,NULL},
 };
 
@@ -48,12 +49,14 @@ int main(void) {
         wake_up++;
         if (wake_up > 15)
         {
-            bugone_complete_wakeup();
+			bugone_complete_wakeup();
             led_blink2();
+			bandgap_init(NULL);
             delay_500ms();
             bugone_send();
             wake_up=0;
-            bugone_complete_sleep();
+			bandgap_disable();
+			bugone_complete_sleep();
         } else {
 			  delay_250ms();
 		  }
