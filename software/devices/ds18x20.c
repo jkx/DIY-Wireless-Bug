@@ -43,34 +43,48 @@ changelog:
 
 /* ds18x20 */
 void ds18x20_init(void *cfg) {
+
 	uint8_t diff;
-        uint8_t id[OW_ROMCODE_SIZE];
+  uint8_t id[OW_ROMCODE_SIZE];
 
 	uart_putstr_P(PSTR("ds18x20 init\r\n"));
 
-        ds18x20_wakeup();
-
 	ow_reset();
-
 	diff=OW_SEARCH_FIRST;
-	DS18X20_find_sensor(&diff, id);
-
-	if( diff == OW_PRESENCE_ERR ) {
-		uart_putstr_P(PSTR("No Sensor found\r\n"));
-		return;
+	while(1) {
+		DS18X20_find_sensor(&diff, id);		
+		if( diff == OW_PRESENCE_ERR ) {
+			uart_putstr_P(PSTR("No Sensor found\r\n"));
+			break;
+		}
+			
+		else {
+			uart_putstr_P(PSTR("ROM ID:"));
+			uart_hexdump(id,OW_ROMCODE_SIZE);
+		}
+		if (diff == OW_LAST_DEVICE )
+			break;
 	}
 
-	uart_putstr_P(PSTR("ds18x20 init end\r\n"));
+	DS18X20_start_meas(DS18X20_POWER_PARASITE,NULL);
+  _delay_ms(DS18B20_TCONV_12BIT);   
 
+	uart_putstr_P(PSTR("ds18x20 init end\r\n"));
 }
+
+int8_t ds18x20_read_id(struct packet_t *packet,uint8_t id[]) {
+	uint16_t temperature;
+	DS18X20_read_decicelsius(id,&temperature);
+	return set_data_int16(packet, temperature);
+}
+
 
 int8_t ds18x20_read(struct packet_t *packet) {
         uint16_t temperature;
 
-	uart_putstr_P(PSTR("ds18x20 read\r\n"));
+				uart_putstr_P(PSTR("ds18x20 read\r\n"));
 
-        // XXX : work with only 1 sensor
-        DS18X20_start_meas(DS18X20_POWER_EXTERN,NULL);
+        DS18X20_start_meas(DS18X20_POWER_PARASITE,NULL);
         _delay_ms(DS18B20_TCONV_12BIT);   
         DS18X20_read_decicelsius_single(DS18B20_FAMILY_CODE, &temperature);
 
