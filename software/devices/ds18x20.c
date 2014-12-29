@@ -73,14 +73,14 @@ void ds18x20_init(void *cfg) {
 }
 
 int8_t ds18x20_read_id(struct packet_t *packet,uint8_t id[]) {
-    uint16_t temperature;
+    int16_t temperature;
     DS18X20_read_decicelsius(id,&temperature);
     return set_data_int16(packet, temperature);
 }
 
 
 int8_t ds18x20_read(struct packet_t *packet) {
-    uint16_t temperature;
+    int16_t temperature;
 
     uart_putstr_P(PSTR("ds18x20 read\r\n"));
 
