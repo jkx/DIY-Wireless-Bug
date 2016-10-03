@@ -37,8 +37,14 @@ int main(void) {
 	uint8_t c;
 
 	uart_init();
+#if defined(RFM12_MOSFET_PWR_CTRL)
+	drive(MOSFET_PWR_PIN);
+	clr_output(MOSFET_PWR_PIN);
+	delay_250ms();
+#endif
 	rfm12_init();
 	timer0_init();
+	config_init();
 
 	sei();
 	led_init();
@@ -55,8 +61,8 @@ int main(void) {
 				uart_putc(data);
 				checksum ^= data;
 			}
-			toggle_output(LED2);
 			uart_putc(checksum);
+			toggle_output(LED2);
 			rfm12_rx_clear();
 		}
 
