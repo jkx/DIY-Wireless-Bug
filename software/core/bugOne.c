@@ -148,6 +148,44 @@ void bugone_send() {
     } 
 }
 
+void bugone_send_receive() {
+	// Send and receive loop
+    uint8_t *bufcontents;
+    struct packet_t *packet = get_tx_packet();
+    application_t *application;
+    int8_t len;
+    uint8_t i;
+    uart_putstr_P(PSTR("\r\n"));
+    i=0;
+    while ( (application = app_get(i)) != NULL) {
+        i++;
+        uart_putstr_P(PSTR("#"));
+        if (application->get == NULL) {
+            continue;
+        }
+        set_devices(packet,i,0x29);
+        len=application->get(packet);
+        if (len > 0) {
+            //data.remaining_len-=len;
+            //data.buf+=len;
+        }
+    }
+    send(0xFF,6,packet);
+
+    // RFM12 managment
+    while ((ctrl.txstate != STATUS_FREE) || (rfm12_rx_status() == STATUS_COMPLETE)) {
+		 while (ctrl.txstate != STATUS_FREE) {
+			 rfm12_tick();
+		 }
+		 delay_250ms();
+		 if (rfm12_rx_status() == STATUS_COMPLETE) {
+			 bufcontents=rfm12_rx_buffer();
+			 recv(bufcontents);
+			 //led_blink2();
+		 }
+    } 
+}
+
 void bugone_loop() {
     uint8_t *bufcontents;
 
