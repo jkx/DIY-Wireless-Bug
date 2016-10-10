@@ -24,7 +24,7 @@ endif
 
 ifeq ($(BOARD),bugone_mini)
 	MCU=atmega328p
-	DUDE_OPT =-c usbasp -p m328p -V -v
+	DUDE_OPT =-c avrusb500 -p m328p -P$(PORT) -V -v 
 endif
 
 ifeq ($(BOARD),arduino)
@@ -47,7 +47,7 @@ all: $(BOARD) $(BOARD)/$(PRG).hex
 ### CONSTANTS ###
 CORE=$(BUGONE_PATH)/core
 ifndef BASE
-	_BASE=network.o ping.o get.o apps.o value.o config.o uart.o rfm12.o bugOne.o
+	_BASE=network.o ping.o get.o apps.o value.o config.o adc.o uart.o rfm12.o bugOne.o
 	ifeq ($(DISABLE_MAIN), 1)
 		BASE=$(_BASE)
 	else
@@ -69,7 +69,7 @@ CC=avr-gcc -std=gnu99 -Wno-implicit-function-declaration
 AS=avr-as
 CPP=avr-cpp
 OBJCOPY=avr-objcopy
-CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DPRG=\"$(PRG)\"
+CFLAGS=-I. -I$(BUGONE_PATH)/boards/$(BOARD) -I$(BUGONE_PATH)/devices -I$(CORE) -I$(CORE)/uart -I$(CORE)/adc -I$(CORE)/protocol -I$(CORE)/aes -mmcu=$(MCU) -Os -DPRG=\"$(PRG)\"
 LDFLAGS=-mmcu=$(MCU)
 
 
@@ -156,6 +156,7 @@ $(BOARD)/bugOne.o:  $(CORE)/bugOne.c $(CORE)/bugOne.h
 $(BOARD)/config.o:  $(CORE)/config.c $(CORE)/config.h
 $(BOARD)/rfm12.o:   $(CORE)/rfm12.c $(CORE)/rfm12.h
 $(BOARD)/uart.o:    $(CORE)/uart/uart.c $(CORE)/uart/uart.h
+$(BOARD)/adc.o:     $(CORE)/adc/adc.c $(CORE)/adc/adc.h
 $(BOARD)/get.o:     $(CORE)/protocol/get.c
 $(BOARD)/network.o: $(CORE)/protocol/network.c $(CORE)/protocol/network.h
 $(BOARD)/ping.o:    $(CORE)/protocol/ping.c $(CORE)/protocol/ping.h
