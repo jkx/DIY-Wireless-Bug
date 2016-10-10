@@ -6,6 +6,7 @@
 */
 
 
+#include <stdlib.h>
 #include "bugOne.h"
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -28,6 +29,9 @@ int getInternal_1v1(void){
   return ADCL | (ADCH << 8);   // Récupére le résultat de la conversion
 }
 
+int bandgap_read(void) {
+	return getInternal_1v1();
+}
 
 void bandgap_disable() {
   ADCSRA = 0;    // disable ADC
@@ -38,7 +42,11 @@ void bandgap_disable() {
 // for additionnal info check out : 
 // http://skyduino.wordpress.com/2012/08/08/arduinoavr-mesurer-la-tension-reel-en-vcc/ 
 int8_t bandgap_get(struct packet_t *packet) {
+	int val;
+	bandgap_init(NULL);
 	uart_putstr_P(PSTR("bandgap_get\r\n"));
-	return set_data_int16(packet,getInternal_1v1());
+	val = getInternal_1v1();
+	bandgap_disable();
+	return set_data_int16(packet,val);
 }
 
