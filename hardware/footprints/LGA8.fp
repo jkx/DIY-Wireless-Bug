@@ -1,0 +1,26 @@
+
+Element["" "" "U?" "" 79.6500mm 54.9250mm 2.0000mm -1.0000mm 0 100 ""]
+(
+	Pad[-0.9500mm -1.1000mm -0.9500mm -0.9500mm 0.3500mm 20.00mil 0.8580mm "1" "1" "square"]
+	Pad[-0.3000mm -1.1000mm -0.3000mm -0.9500mm 0.3500mm 20.00mil 0.8580mm "2" "2" "square"]
+	Pad[0.3500mm -1.1000mm 0.3500mm -0.9500mm 0.3500mm 20.00mil 0.8580mm "3" "3" "square"]
+	Pad[1.0000mm -1.1000mm 1.0000mm -0.9500mm 0.3500mm 20.00mil 0.8580mm "4" "4" "square"]
+	Pad[-0.9500mm 1.0000mm -0.9500mm 1.1500mm 0.3500mm 20.00mil 0.8580mm "8" "8" "square,edge2"]
+	Pad[-0.3000mm 1.0000mm -0.3000mm 1.1500mm 0.3500mm 20.00mil 0.8580mm "7" "7" "square,edge2"]
+	Pad[0.3500mm 1.0000mm 0.3500mm 1.1500mm 0.3500mm 20.00mil 0.8580mm "6" "6" "square,edge2"]
+	Pad[1.0000mm 1.0000mm 1.0000mm 1.1500mm 0.3500mm 20.00mil 0.8580mm "5" "5" "square,edge2"]
+	ElementLine [-1.2500mm 1.2000mm -1.2500mm -1.1500mm 0.2000mm]
+	ElementLine [-0.7000mm -1.2000mm -0.5500mm -1.2000mm 0.2000mm]
+	ElementLine [-0.0500mm -1.2000mm 0.1000mm -1.2000mm 0.2000mm]
+	ElementLine [0.6000mm -1.2000mm 0.7500mm -1.2000mm 0.2000mm]
+	ElementLine [1.3000mm -1.1500mm 1.3000mm 1.2000mm 0.2000mm]
+	ElementLine [0.7500mm 1.2000mm 0.6000mm 1.2000mm 0.2000mm]
+	ElementLine [0.1000mm 1.2000mm -0.0500mm 1.2000mm 0.2000mm]
+	ElementLine [-0.5500mm 1.2000mm -0.7000mm 1.2000mm 0.2000mm]
+	ElementLine [-1.0000mm -0.5000mm -0.8500mm -0.5000mm 0.2000mm]
+	ElementLine [-0.8500mm -0.5000mm -0.8500mm -0.3500mm 0.2000mm]
+	ElementLine [-0.8500mm -0.3500mm -1.0000mm -0.3500mm 0.2000mm]
+	ElementLine [-1.0000mm -0.3500mm -1.0000mm -0.5000mm 0.2000mm]
+	ElementLine [-1.2500mm -1.2000mm -1.6000mm -1.5500mm 0.2000mm]
+
+	)
