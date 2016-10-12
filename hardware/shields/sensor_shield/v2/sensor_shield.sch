@@ -195,7 +195,7 @@ C 47200 40800 1 0 0 resistor-1.sym
 T 47500 41200 5 10 0 0 0 0 1
 device=RESISTOR
 T 47400 41100 5 10 1 1 0 0 1
-refdes=R2
+refdes=R3
 T 47200 40800 5 10 0 0 0 0 1
 footprint=1206
 T 47900 40700 5 10 1 1 0 0 1
@@ -206,7 +206,7 @@ C 47200 40200 1 0 0 resistor-1.sym
 T 47500 40600 5 10 0 0 0 0 1
 device=RESISTOR
 T 47400 40500 5 10 1 1 0 0 1
-refdes=R3
+refdes=R2
 T 47200 40200 5 10 0 0 0 0 1
 footprint=1206
 T 47900 40100 5 10 1 1 0 0 1
@@ -229,7 +229,7 @@ C 42100 43000 1 90 0 resistor-1.sym
 T 41700 43300 5 10 0 0 90 0 1
 device=RESISTOR
 T 41800 43200 5 10 1 1 90 0 1
-refdes=R4
+refdes=R5
 T 42100 43000 5 10 0 2 0 0 1
 footprint=1206
 T 42300 43000 5 10 1 1 90 0 1
@@ -240,7 +240,7 @@ C 42100 41900 1 90 0 resistor-1.sym
 T 41700 42200 5 10 0 0 90 0 1
 device=RESISTOR
 T 41800 42100 5 10 1 1 90 0 1
-refdes=R5
+refdes=R6
 T 42100 41900 5 10 0 0 0 0 1
 footprint=1206
 T 42300 42100 5 10 1 1 90 0 1
@@ -333,8 +333,8 @@ T 56200 44800 5 10 0 0 0 0 1
 device=CONNECTOR_10
 T 54400 45000 5 10 1 1 0 0 1
 refdes=CONN1B
-T 54200 41800 5 10 1 1 0 0 1
-footprint=JUMPER10
+T 54200 41800 5 10 0 1 0 0 1
+footprint=exp_hdr
 }
 C 51800 41800 1 0 0 connector10-1.sym
 {
@@ -342,8 +342,8 @@ T 53700 44800 5 10 0 0 0 0 1
 device=CONNECTOR_10
 T 51900 45000 5 10 1 1 0 0 1
 refdes=CONN2B
-T 51800 41800 5 10 1 1 0 0 1
-footprint=JUMPER10
+T 51800 41800 5 10 0 1 0 0 1
+footprint=exp_hdr
 }
 C 56100 45000 1 0 0 vcc-1.sym
 N 56000 44700 56300 44700 4
@@ -479,7 +479,7 @@ device=CAPACITOR
 T 49700 43300 5 10 0 0 270 0 1
 symversion=0.1
 T 49300 43300 5 10 1 1 270 0 1
-refdes=C1
+refdes=C2
 T 49100 42700 5 10 1 1 0 0 1
 footprint=1206
 T 48400 42800 5 10 1 1 0 0 1
@@ -494,7 +494,7 @@ device=RESISTOR
 T 49100 43500 5 10 0 2 0 0 1
 footprint=1206
 T 48800 43700 5 10 1 1 90 0 1
-refdes=R6
+refdes=R4
 T 49300 43700 5 10 1 1 90 0 1
 value=1k
 }
@@ -509,7 +509,7 @@ device=RESISTOR
 T 46100 44800 5 10 0 2 0 0 1
 footprint=1206
 T 45800 45000 5 10 1 1 90 0 1
-refdes=R6
+refdes=R7
 T 46300 45000 5 10 1 1 90 0 1
 value=100k
 }
