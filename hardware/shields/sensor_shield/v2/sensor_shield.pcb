@@ -11,7 +11,7 @@ Thermal[0.500000]
 DRC[6.00mil 6.00mil 6.00mil 6.00mil 15.00mil 6.00mil]
 Flags("nameonpcb,clearnew,newfullpoly,snappin")
 Groups("1,c:2:3:4:5:6,s:7:8")
-Styles["Signal,0.3080mm,36.00mil,20.00mil,6.00mil:Power,25.00mil,60.00mil,35.00mil,6.00mil:Fat,40.00mil,60.00mil,35.00mil,10.00mil:Skinny,6.00mil,24.02mil,11.81mil,6.00mil"]
+Styles["Signal,0.3080mm,36.00mil,20.00mil,6.00mil:Power,25.00mil,60.00mil,35.00mil,12.00mil:Fat,40.00mil,60.00mil,35.00mil,10.00mil:Skinny,6.00mil,24.02mil,11.81mil,6.00mil"]
 
 Symbol[' ' 18.00mil]
 (
@@ -1380,11 +1380,6 @@ Layer(2 "ground")
 	Line[640.00mil 400.00mil 640.00mil 110.00mil 12.00mil 12.00mil "clearline"]
 	Line[980.00mil 520.00mil 790.00mil 520.00mil 12.00mil 12.00mil "clearline"]
 	Line[790.00mil 520.00mil 730.00mil 460.00mil 12.00mil 12.00mil "clearline"]
-	Line[90.00mil 110.00mil 133.00mil 110.00mil 25.00mil 12.00mil "clearline"]
-	Line[133.00mil 110.00mil 179.00mil 156.00mil 25.00mil 12.00mil "clearline"]
-	Line[179.00mil 156.00mil 179.00mil 157.00mil 25.00mil 12.00mil "clearline"]
-	Line[179.00mil 157.00mil 210.00mil 188.00mil 25.00mil 12.00mil "clearline"]
-	Line[210.00mil 188.00mil 210.00mil 910.00mil 25.00mil 12.00mil "clearline"]
 	Line[90.00mil 670.00mil 32.00mil 728.00mil 0.3080mm 12.00mil "clearline"]
 	Line[32.00mil 728.00mil 32.00mil 1242.00mil 0.3080mm 12.00mil "clearline"]
 	Line[32.00mil 1242.00mil 69.00mil 1279.00mil 0.3080mm 12.00mil "clearline"]
@@ -1396,6 +1391,10 @@ Layer(2 "ground")
 	Line[1003.00mil 520.00mil 1024.00mil 541.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1024.00mil 541.00mil 1024.00mil 559.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1024.00mil 559.00mil 1026.00mil 561.00mil 0.3080mm 12.00mil "clearline"]
+	Line[210.00mil 910.00mil 210.00mil 185.00mil 25.00mil 24.00mil "clearline"]
+	Line[210.00mil 185.00mil 137.00mil 112.00mil 25.00mil 24.00mil "clearline"]
+	Line[137.00mil 112.00mil 92.00mil 112.00mil 25.00mil 24.00mil "clearline"]
+	Line[92.00mil 112.00mil 90.00mil 110.00mil 25.00mil 24.00mil "clearline"]
 	Polygon("clearpoly,fullpoly")
 	(
 		[1315.00mil 0.0000] [1345.00mil 0.0000] [1345.00mil 1330.00mil] [1315.00mil 1330.00mil] 
