@@ -11,7 +11,7 @@ Thermal[0.500000]
 DRC[6.00mil 6.00mil 6.00mil 6.00mil 15.00mil 6.00mil]
 Flags("nameonpcb,clearnew,newfullpoly,snappin")
 Groups("1,c:2:3:4:5:6,s:7:8")
-Styles["Signal,0.3080mm,36.00mil,20.00mil,6.00mil:Power,25.00mil,60.00mil,35.00mil,12.00mil:Fat,40.00mil,60.00mil,35.00mil,10.00mil:Skinny,6.00mil,24.02mil,11.81mil,6.00mil"]
+Styles["Signal,0.2000mm,36.00mil,20.00mil,6.00mil:Power,25.00mil,60.00mil,35.00mil,12.00mil:Fat,40.00mil,60.00mil,35.00mil,10.00mil:Skinny,6.00mil,24.02mil,11.81mil,6.00mil"]
 
 Symbol[' ' 18.00mil]
 (
@@ -1138,26 +1138,22 @@ Element["" "LGA8" "U2" "unknown" 1211.00mil 1044.00mil -2.9530mm -0.7460mm 0 100
 
 	)
 
-Element["" "WSOF6I" "U3" "unknown" 1201.00mil 810.00mil -0.4130mm -90.00mil 0 100 ""]
+Element["" "WSOF6I" "U3" "unknown" 1202.00mil 809.00mil -135.00mil -44.00mil 0 100 ""]
 (
-	Attribute("device" "BH1750")
-	Attribute("manufacturer" "unknown")
-	Attribute("manufacturer_part_number" "unknown")
-	Attribute("vendor" "unknown")
-	Attribute("vendor_part_number" "unknown")
-	Pad[1.3900mm 0.5400mm 1.7400mm 0.5400mm 0.2700mm 20.00mil 0.7780mm "VCC" "1" "square,edge2"]
-	Pad[1.3900mm -0.4900mm 1.7400mm -0.4900mm 0.2200mm 20.00mil 0.7280mm "GND" "3" "square,edge2"]
-	Pad[-1.6600mm 0.5400mm -1.3100mm 0.5400mm 0.2200mm 20.00mil 0.7280mm "SCL" "6" "square"]
-	Pad[-1.6600mm -0.0100mm -1.3100mm -0.0100mm 0.2200mm 20.00mil 0.7280mm "DVI" "5" "square"]
-	Pad[-1.6600mm -0.5100mm -1.3100mm -0.5100mm 0.2200mm 20.00mil 0.7280mm "SDA" "4" "square"]
-	Pad[1.3900mm 0.0100mm 1.7400mm 0.0100mm 0.2200mm 20.00mil 0.7280mm "ADDR" "2" "square,edge2"]
-	ElementLine [-1.3600mm 0.7400mm -1.3600mm 0.7900mm 0.2000mm]
-	ElementLine [-1.3600mm 0.7900mm 1.4900mm 0.7900mm 0.2000mm]
-	ElementLine [-1.3600mm -0.8100mm 1.4900mm -0.8100mm 0.2000mm]
-	ElementLine [1.4900mm -0.2600mm 1.4900mm -0.2200mm 0.2000mm]
-	ElementLine [1.5100mm 0.2500mm 1.5100mm 0.2900mm 0.2000mm]
-	ElementLine [-1.3700mm 0.2100mm -1.3700mm 0.3100mm 0.2000mm]
-	ElementLine [-1.3700mm -0.2800mm -1.3700mm -0.2300mm 0.2000mm]
+	Pad[1.3800mm 0.5500mm 1.7300mm 0.5500mm 0.2700mm 20.00mil 0.7780mm "1" "1" "square,edge2"]
+	Pad[1.3800mm -0.4800mm 1.7300mm -0.4800mm 0.2200mm 20.00mil 0.7280mm "3" "3" "square,edge2"]
+	Pad[-1.6700mm 0.5500mm -1.3200mm 0.5500mm 0.2200mm 20.00mil 0.7280mm "6" "6" "square"]
+	Pad[-1.6700mm 0.0000 -1.3200mm 0.0000 0.2200mm 20.00mil 0.7280mm "5" "5" "square"]
+	Pad[-1.6700mm -0.5000mm -1.3200mm -0.5000mm 0.2200mm 20.00mil 0.7280mm "4" "4" "square"]
+	Pad[1.3800mm 0.0200mm 1.7300mm 0.0200mm 0.2200mm 20.00mil 0.7280mm "2" "2" "square,edge2"]
+	ElementLine [1.5100mm 0.8400mm 1.9700mm 1.3000mm 0.2000mm]
+	ElementLine [-1.3700mm 0.7500mm -1.3700mm 0.8000mm 0.2000mm]
+	ElementLine [-1.3700mm 0.8000mm 1.4800mm 0.8000mm 0.2000mm]
+	ElementLine [-1.3700mm -0.8000mm 1.4800mm -0.8000mm 0.2000mm]
+	ElementLine [1.4800mm -0.2500mm 1.4800mm -0.2100mm 0.2000mm]
+	ElementLine [1.5000mm 0.2600mm 1.5000mm 0.3000mm 0.2000mm]
+	ElementLine [-1.3800mm 0.2200mm -1.3800mm 0.3200mm 0.2000mm]
+	ElementLine [-1.3800mm -0.2700mm -1.3800mm -0.2200mm 0.2000mm]
 
 	)
 Rat[210.00mil 910.00mil 1 90.00mil 1110.00mil 5  ""]
@@ -1285,10 +1281,8 @@ Layer(1 "top")
 	Line[1114.00mil 851.00mil 1133.00mil 832.00mil 0.2000mm 12.00mil "clearline"]
 	Line[1133.00mil 832.00mil 1150.80mil 832.00mil 0.2000mm 12.00mil "clearline"]
 	Line[1150.80mil 832.00mil 29.2490mm 21.1140mm 0.2000mm 12.00mil "clearline"]
-	Line[29.2256mm 789.00mil 1153.00mil 20.1012mm 0.2000mm 12.00mil "clearline"]
 	Line[1153.00mil 789.00mil 1171.00mil 789.00mil 0.2000mm 12.00mil "clearline"]
 	Line[1171.00mil 789.00mil 1195.00mil 813.00mil 0.2000mm 12.00mil "clearline"]
-	Line[1195.00mil 813.00mil 1195.00mil 1020.00mil 0.2000mm 12.00mil "clearline"]
 	Line[1195.00mil 1020.00mil 1185.00mil 1030.00mil 0.2000mm 12.00mil "clearline"]
 	Line[1185.00mil 1030.00mil 29.7400mm 1030.00mil 0.2000mm 12.00mil "clearline"]
 	Line[29.7400mm 1030.00mil 29.7344mm 26.1676mm 0.2000mm 12.00mil "clearline"]
@@ -1344,12 +1338,15 @@ Layer(1 "top")
 	Line[1080.00mil 830.00mil 1101.00mil 851.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1084.00mil 810.00mil 29.0104mm 810.00mil 0.2000mm 12.00mil "clearline"]
 	Line[29.0104mm 810.00mil 29.0204mm 20.5640mm 0.2000mm 12.00mil "clearline"]
-	Line[1108.00mil 789.00mil 28.9970mm 789.00mil 0.2000mm 12.00mil "clearline"]
 	Line[28.9970mm 789.00mil 29.0204mm 20.0640mm 0.2000mm 12.00mil "clearline"]
 	Line[1225.00mil 1023.00mil 1226.00mil 1023.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1226.00mil 1023.00mil 1233.00mil 1030.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1233.00mil 1030.00mil 1253.10mil 1030.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1253.10mil 1030.00mil 31.8344mm 26.1676mm 0.3080mm 12.00mil "clearline"]
+	Line[1195.00mil 813.00mil 1195.00mil 1020.00mil 0.2000mm 12.00mil "clearline"]
+	Line[1108.00mil 789.00mil 28.9970mm 789.00mil 0.2000mm 12.00mil "clearline"]
+	Line[1142.00mil 20.0504mm 29.2510mm 20.0504mm 0.2000mm 12.00mil "clearline"]
+	Line[29.2510mm 20.0504mm 1152.00mil 789.00mil 0.2000mm 12.00mil "clearline"]
 )
 Layer(2 "ground")
 (
@@ -1438,66 +1435,66 @@ Layer(10 "silk")
 )
 NetList()
 (
+	Net("ALIM1_2" "(unknown)")
+	(
+		Connect("ALIM1-2")
+	)
+	Net("ALIM1_3" "(unknown)")
+	(
+		Connect("ALIM1-3")
+	)
+	Net("ALIM2_3" "(unknown)")
+	(
+		Connect("ALIM2-3")
+	)
 	Net("BATSENSE" "(unknown)")
 	(
-		Connect("CONN2B-6")
 		Connect("CONN2-6")
 		Connect("R5-1")
 		Connect("R6-2")
 	)
 	Net("CONN1_3" "(unknown)")
 	(
-		Connect("CONN1B-3")
 		Connect("CONN1-3")
 	)
 	Net("CONN1_4" "(unknown)")
 	(
-		Connect("CONN1B-4")
 		Connect("CONN1-4")
 	)
 	Net("CONN1_6" "(unknown)")
 	(
-		Connect("CONN1B-6")
 		Connect("CONN1-6")
 	)
 	Net("CONN1_7" "(unknown)")
 	(
-		Connect("CONN1B-7")
 		Connect("CONN1-7")
 	)
 	Net("CONN1_8" "(unknown)")
 	(
-		Connect("CONN1B-8")
 		Connect("CONN1-8")
 	)
 	Net("CONN1_9" "(unknown)")
 	(
-		Connect("CONN1B-9")
 		Connect("CONN1-9")
 	)
 	Net("CONN2_2" "(unknown)")
 	(
-		Connect("CONN2B-2")
 		Connect("CONN2-2")
 	)
 	Net("CONN2_7" "(unknown)")
 	(
-		Connect("CONN2B-7")
 		Connect("CONN2-7")
 	)
 	Net("CONN2_8" "(unknown)")
 	(
-		Connect("CONN2B-8")
 		Connect("CONN2-8")
 	)
 	Net("CONN2_9" "(unknown)")
 	(
-		Connect("CONN2B-9")
 		Connect("CONN2-9")
 	)
 	Net("DATA1" "(unknown)")
 	(
-		Connect("CONN2B-3")
 		Connect("CONN2-3")
 	)
 	Net("DVI" "(unknown)")
@@ -1508,7 +1505,6 @@ NetList()
 	)
 	Net("FOUT" "(unknown)")
 	(
-		Connect("CONN1B-2")
 		Connect("CONN1-2")
 	)
 	Net("GND" "(unknown)")
@@ -1517,9 +1513,7 @@ NetList()
 		Connect("ALIM2-4")
 		Connect("C1-2")
 		Connect("C2-2")
-		Connect("CONN1B-10")
 		Connect("CONN1-10")
-		Connect("CONN2B-10")
 		Connect("CONN2-10")
 		Connect("R6-1")
 		Connect("R7-1")
@@ -1535,14 +1529,12 @@ NetList()
 	)
 	Net("OWBUS" "(unknown)")
 	(
-		Connect("CONN1B-5")
 		Connect("CONN1-5")
 		Connect("R1-1")
 		Connect("U4-2")
 	)
 	Net("SCL" "(unknown)")
 	(
-		Connect("CONN2B-4")
 		Connect("CONN2-4")
 		Connect("R2-1")
 		Connect("U1-4")
@@ -1551,7 +1543,6 @@ NetList()
 	)
 	Net("SDA" "(unknown)")
 	(
-		Connect("CONN2B-5")
 		Connect("CONN2-5")
 		Connect("R3-1")
 		Connect("U1-1")
@@ -1560,22 +1551,10 @@ NetList()
 	)
 	Net("unnamed_net1" "(unknown)")
 	(
-		Connect("ALIM1-3")
-	)
-	Net("unnamed_net2" "(unknown)")
-	(
-		Connect("ALIM1-2")
-	)
-	Net("unnamed_net3" "(unknown)")
-	(
-		Connect("ALIM2-3")
-	)
-	Net("unnamed_net4" "(unknown)")
-	(
 		Connect("JMP1-2")
 		Connect("R5-2")
 	)
-	Net("unnamed_net5" "(unknown)")
+	Net("unnamed_net2" "(unknown)")
 	(
 		Connect("R7-2")
 		Connect("U3-2")
@@ -1584,14 +1563,12 @@ NetList()
 	(
 		Connect("ALIM1-1")
 		Connect("ALIM2-2")
-		Connect("CONN1B-1")
 		Connect("CONN1-1")
 		Connect("JMP1-3")
 	)
 	Net("Vee" "(unknown)")
 	(
 		Connect("C1-1")
-		Connect("CONN2B-1")
 		Connect("CONN2-1")
 		Connect("R1-2")
 		Connect("R2-2")

@@ -5,11 +5,11 @@ FileVersion[20091103]
 
 PCB["" 6000.00mil 5000.00mil]
 
-Grid[3937.007874 0.0000 0.0000 1]
+Grid[39.370079 0.0000 0.0000 1]
 PolyArea[3100.006200]
 Thermal[0.500000]
 DRC[10.00mil 10.00mil 10.00mil 10.00mil 15.00mil 10.00mil]
-Flags("nameonpcb,uniquename,clearnew,snappin")
+Flags("nameonpcb,clearnew,snappin")
 Groups("1,c:2:3:4:5:6,s:7:8")
 Styles["Signal,0.2700mm,36.00mil,20.00mil,10.00mil:Power,25.00mil,60.00mil,35.00mil,10.00mil:Fat,0.2200mm,60.00mil,35.00mil,10.00mil:Skinny,0.2000mm,24.02mil,11.81mil,6.00mil"]
 
@@ -786,23 +786,24 @@ Symbol['~' 12.00mil]
 	SymbolLine[20.00mil 35.00mil 25.00mil 30.00mil 8.00mil]
 )
 Attribute("PCB::grid::unit" "mm")
-Attribute("PCB::grid::size" "1.0000mm")
+Attribute("PCB::grid::size" "0.0100mm")
 
-Element["selected" "" "U?" "" 49.0000mm 34.0000mm 2.0000mm 0.0000 0 100 "selected"]
+Element["" "" "" "" 47.7900mm 34.1800mm 0.0000 0.0000 0 100 ""]
 (
-	Pad[-0.5400mm 1.3900mm -0.5400mm 1.7400mm 0.2700mm 20.00mil 0.7780mm "1" "1" "selected,square,edge2"]
-	Pad[0.4900mm 1.3900mm 0.4900mm 1.7400mm 0.2200mm 20.00mil 0.7280mm "3" "3" "selected,square,edge2"]
-	Pad[-0.5400mm -1.6600mm -0.5400mm -1.3100mm 0.2200mm 20.00mil 0.7280mm "6" "6" "selected,square"]
-	Pad[0.0100mm -1.6600mm 0.0100mm -1.3100mm 0.2200mm 20.00mil 0.7280mm "5" "5" "selected,square"]
-	Pad[0.5100mm -1.6600mm 0.5100mm -1.3100mm 0.2200mm 20.00mil 0.7280mm "4" "4" "selected,square"]
-	Pad[-0.0100mm 1.3900mm -0.0100mm 1.7400mm 0.2200mm 20.00mil 0.7280mm "2" "2" "selected,square,edge2"]
-	ElementLine [-0.7400mm -1.3600mm -0.7900mm -1.3600mm 0.2000mm]
-	ElementLine [-0.7900mm -1.3600mm -0.7900mm 1.4900mm 0.2000mm]
-	ElementLine [0.8100mm 1.4900mm 0.8100mm -1.3600mm 0.2000mm]
-	ElementLine [0.2200mm 1.4900mm 0.2600mm 1.4900mm 0.2000mm]
-	ElementLine [-0.2900mm 1.5100mm -0.2500mm 1.5100mm 0.2000mm]
-	ElementLine [-0.2100mm -1.3700mm -0.3100mm -1.3700mm 0.2000mm]
-	ElementLine [0.2800mm -1.3700mm 0.2300mm -1.3700mm 0.2000mm]
+	Pad[-0.5500mm 1.3800mm -0.5500mm 1.7300mm 0.2700mm 20.00mil 0.7780mm "1" "1" "square,edge2"]
+	Pad[0.4800mm 1.3800mm 0.4800mm 1.7300mm 0.2200mm 20.00mil 0.7280mm "3" "3" "square,edge2"]
+	Pad[-0.5500mm -1.6700mm -0.5500mm -1.3200mm 0.2200mm 20.00mil 0.7280mm "6" "6" "square"]
+	Pad[0.0000 -1.6700mm 0.0000 -1.3200mm 0.2200mm 20.00mil 0.7280mm "5" "5" "square"]
+	Pad[0.5000mm -1.6700mm 0.5000mm -1.3200mm 0.2200mm 20.00mil 0.7280mm "4" "4" "square"]
+	Pad[-0.0200mm 1.3800mm -0.0200mm 1.7300mm 0.2200mm 20.00mil 0.7280mm "2" "2" "square,edge2"]
+	ElementLine [-0.8400mm 1.5100mm -1.3000mm 1.9700mm 0.2000mm]
+	ElementLine [-0.7500mm -1.3700mm -0.8000mm -1.3700mm 0.2000mm]
+	ElementLine [-0.8000mm -1.3700mm -0.8000mm 1.4800mm 0.2000mm]
+	ElementLine [0.8000mm 1.4800mm 0.8000mm -1.3700mm 0.2000mm]
+	ElementLine [0.2100mm 1.4800mm 0.2500mm 1.4800mm 0.2000mm]
+	ElementLine [-0.3000mm 1.5000mm -0.2600mm 1.5000mm 0.2000mm]
+	ElementLine [-0.2200mm -1.3800mm -0.3200mm -1.3800mm 0.2000mm]
+	ElementLine [0.2700mm -1.3800mm 0.2200mm -1.3800mm 0.2000mm]
 
 	)
 Layer(1 "top")
