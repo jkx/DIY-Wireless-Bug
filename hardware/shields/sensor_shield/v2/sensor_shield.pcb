@@ -1314,9 +1314,6 @@ Layer(1 "top")
 	Line[1240.00mil 1152.00mil 1240.00mil 1205.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1240.00mil 1205.00mil 1242.50mil 1207.50mil 0.3080mm 12.00mil "clearline"]
 	Line[1227.00mil 969.00mil 1227.00mil 1018.00mil 0.3080mm 12.00mil "clearline"]
-	Line[1227.00mil 1018.00mil 1237.00mil 1028.00mil 0.3080mm 12.00mil "clearline"]
-	Line[1237.00mil 1028.00mil 31.7780mm 1028.00mil 0.3080mm 12.00mil "clearline"]
-	Line[31.7780mm 1028.00mil 31.8344mm 26.1676mm 0.3080mm 12.00mil "clearline"]
 	Line[31.8344mm 1081.40mil 1236.40mil 1081.40mil 0.3080mm 12.00mil "clearline"]
 	Line[1236.40mil 1081.40mil 1225.00mil 1070.00mil 0.3080mm 12.00mil "clearline"]
 	Line[1225.00mil 1070.00mil 1225.00mil 971.00mil 0.3080mm 12.00mil "clearline"]
@@ -1349,6 +1346,10 @@ Layer(1 "top")
 	Line[29.0104mm 810.00mil 29.0204mm 20.5640mm 0.2000mm 12.00mil "clearline"]
 	Line[1108.00mil 789.00mil 28.9970mm 789.00mil 0.2000mm 12.00mil "clearline"]
 	Line[28.9970mm 789.00mil 29.0204mm 20.0640mm 0.2000mm 12.00mil "clearline"]
+	Line[1225.00mil 1023.00mil 1226.00mil 1023.00mil 0.3080mm 12.00mil "clearline"]
+	Line[1226.00mil 1023.00mil 1233.00mil 1030.00mil 0.3080mm 12.00mil "clearline"]
+	Line[1233.00mil 1030.00mil 1253.10mil 1030.00mil 0.3080mm 12.00mil "clearline"]
+	Line[1253.10mil 1030.00mil 31.8344mm 26.1676mm 0.3080mm 12.00mil "clearline"]
 )
 Layer(2 "ground")
 (
