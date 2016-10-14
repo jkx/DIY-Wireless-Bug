@@ -12,7 +12,7 @@ void apps_set(application_t* apps, uint8_t size) {
 }
 
 application_t* app_get(uint8_t device) {
-    if (device <= _size)
+    if (device < _size)
         return &_apps[device];
     else
         return NULL;

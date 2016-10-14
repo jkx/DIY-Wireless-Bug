@@ -75,6 +75,11 @@ uint8_t recv(char* buf) {
 	if (packet.network->type==SET) {
 		recv_set(&packet);
 	}
+#ifdef BUGONE_HAS_CONFIG
+	if (packet.network->type==GET_CONFIG) {
+		recv_get_config(&packet);
+	}
+#endif
 	rfm12_rx_clear();
 	return 0;
 }

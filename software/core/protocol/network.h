@@ -8,6 +8,8 @@
 #define SET  5
 #define VALUE 6
 #define SLEEP 7
+#define GET_CONFIG 8
+#define CONFIG 9
 
 struct hello_t {
 	uint8_t	address;
