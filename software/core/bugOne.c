@@ -18,6 +18,12 @@
 #define PRG "unknown"
 #endif
 
+#ifdef BUGONE_HAS_CONFIG
+static int8_t _conf_time = -1;
+static int8_t _conf_current_time = 127;
+#endif
+
+
 void delay_1s() {
     _delay_ms(250);
     _delay_ms(250);
@@ -69,6 +75,12 @@ void bugone_init(application_t* applications) {
     //clr_output(LED1);
     //clr_output(LED2);
 }
+
+#ifdef BUGONE_HAS_CONFIG
+void bugone_set_config_period(int8_t conf_time) {
+	_conf_time = conf_time;
+}
+#endif
 
 extern application_t applications[];
 
@@ -129,27 +141,46 @@ void bugone_send() {
     i=0;
     while ( (application = app_get(i)) != NULL) {
         i++;
-		  application->current_time++;
-		  if (application->current_time >= application->sleeptime) { 
-			  uart_putstr_P(PSTR("#"));
-			  if (application->get == NULL) {
-				  continue;
+		  if (application->sleeptime >= 0) {
+			  if (application->current_time >= application->sleeptime) { 
+				  uart_putstr_P(PSTR("#"));
+				  if (application->get == NULL) {
+					  continue;
+				  }
+				  set_devices(packet,i,0x29);
+				  len=application->get(packet);
+				  if (len > 0) {
+					  //data.remaining_len-=len;
+					  //data.buf+=len;
+				  }
+				  application->current_time = 0;
+			  } else {
+				  application->current_time++;
 			  }
-			  set_devices(packet,i,0x29);
-			  len=application->get(packet);
-			  if (len > 0) {
-				  //data.remaining_len-=len;
-				  //data.buf+=len;
-			  }
-			  application->current_time = 0;
 		  }
     }
     send(0xFF,6,packet);
 
+	 while (ctrl.txstate!=STATUS_FREE) {
+		 rfm12_tick();
+	 } 
+
+#ifdef BUGONE_HAS_CONFIG
+	 if (_conf_time >= 0) {
+		 if (_conf_current_time >= _conf_time) {
+			 packet = get_tx_packet();
+			 send_config(0xFF,packet);
+			 _conf_current_time = 0;
+			 while (ctrl.txstate!=STATUS_FREE) {
+				 rfm12_tick();
+			 } 
+		 }	else {
+			 _conf_current_time++;
+		 } 
+	 }
+#endif 
+
     // RFM12 managment
-    while (ctrl.txstate!=STATUS_FREE) {
-        rfm12_tick();
-    } 
 }
 
 void bugone_receive() { 

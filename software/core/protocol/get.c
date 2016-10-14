@@ -8,6 +8,31 @@
 #include "uart.h"
 #include "apps.h"
 
+#ifdef BUGONE_HAS_CONFIG
+void send_config(uint8_t dst, struct packet_t *packet) {
+    application_t *application;
+	 uint8_t i = 0;
+	 uint8_t sz = 1;
+	 char buf[256];
+	 while ( (application = app_get(i)) != NULL ) {
+		 i++;
+		 buf[sz++] = i;
+		 buf[sz++] = application->type;
+	 }
+	 buf[0] = i;
+	 memcpy(packet->payload,buf,sz);
+	 packet->payload+=sz;
+	 send(dst,CONFIG,packet);
+}
+#endif
+
+#ifdef BUGONE_HAS_CONFIG
+void recv_get_config(struct packet_t *packet) {
+	struct packet_t *send_packet = get_tx_packet();
+	send_config(packet->network->src,send_packet);
+}
+#endif
+
 void recv_get(struct packet_t *packet) {
 	uint8_t device_src,device_dst;
 	uint8_t len;
@@ -25,6 +50,7 @@ void recv_get(struct packet_t *packet) {
 	}
 	send(packet->network->src,VALUE,send_packet);
 }
+
 
 void send_get(uint8_t dst, uint8_t device) {
 	uart_putstr_P(PSTR("send_get()\r\n"));
