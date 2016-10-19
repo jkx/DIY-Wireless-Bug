@@ -1,0 +1,33 @@
+# Board description
+
+This shield is designed to provide different possibilities to create a sensor
+shield, for relative humidity, temperature, pressure and lux. All choices do not need to be
+soldered. 
+
+The following components can be soldered on the board:
+	- Sensirion SHT31D (U1): cheap (~5$ at Farnell) QFP sensor, using I2C for communication
+	https://www.sensirion.com/fileadmin/user_upload/customers/sensirion/Dokumente/Humidity_Sensors/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital.pdf
+	- Bosch BME280 (U2) : temperature, humidity and pressure. The package seems more protected than the Sensirion (and we had troubles with the Sensirion which seems to age fast). 
+	https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf
+	- Rohm BH1750 (U3) : Light sensor (Luxmeter)
+	http://rohmfs.rohm.com/en/products/databook/datasheet/ic/sensor/light/bh1750fvi-e.pdf
+	- DS18B20 (U4): popular 1-Wire temperature sensor from Maxim. 
+		http://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
+
+
+C1 stabilizes the power line. Expected value is 100nF.
+R1 is the pull-up resistor for 1-Wire bus. Expected value is 4.7kOhm.
+R2 and R3 are the pull-up resistors for I2C bus. Values can range from 1.8 to 10k. I prefer using 1.8k (strong pull-up), but the higher the resistance, the lower the current consumption. We use 4.7k on the board
+R4 is the pull up resistor for the BH1750 sensor. Along with C2, it provides correct timing for the reset. Ideal values are 1k for R4 and 100n for C1
+R5 and R6 are a voltage divider for battery sensing. It divides voltage by 2, allowing a battery up to 6.6V. 
+R7 is there to limit current in the ADDR tri state buffer from the BH1750. Expected value is 100k.
+
+U1, U2 and U3 uses I2C.
+
+Shield pinout : 
+
+CONN1_2 : FOUT, PD5
+CONN1-5 : 1-Wire bus, PB1
+CONN2_4 : SCL, PC5
+CONN2_5 : SDA, PC4
+CONN2_6 : battery sense, PC3

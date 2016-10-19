@@ -1,0 +1,4 @@
+elements-dir ../footprints
+schematics boost_battery.sch
+output-name boost_battery
+
