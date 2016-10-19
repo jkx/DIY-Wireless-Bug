@@ -1,0 +1,19 @@
+# Board description
+
+This board is a small battery supply card. It uses a Microchip MCP1640 boost
+converter, and is usable with a single 1.5V battery. It is designed to provide a
+3.3V (or 5v, depending on the resistor) output on Vcc. 
+
+Please note that this is a very basic board : it does not make use of advanced
+features such as Vin to Vout connection and enables. 
+
+# Parts names
+
+U1 : MCP1640
+L1 : B82462G4472M (EPCOS), 4.7uH power choke
+R1 : 976kOhm, 0805 package
+R2 : 562kOhm, 0805 package (for 3.3V)
+R2 (alt) : 309kOhm, 0805 package (5V)
+C1 : 4.7uF, 1206 package
+C2 : 10uF, 1206 package
+VIN : 0.7 to 1.7V
