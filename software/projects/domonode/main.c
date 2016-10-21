@@ -13,7 +13,6 @@
 #include <avr/interrupt.h>
 #include <avr/eeprom.h>
 
-#include "nodeconfig.h"
 #include "battery.h"
 #include "random.h"
 #include "bandgap.h"
