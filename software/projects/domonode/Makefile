@@ -3,7 +3,7 @@ BUGONE_PATH=../..
 BOARD=bugone_mini
 
 PRG=domonode
-DEVICE_FILES=led.o sht2x.o twi.o bandgap.o battery.o random.o nodeconfig.o
+DEVICE_FILES=led.o sht2x.o twi.o bandgap.o battery.o random.o
 FILES=main.o
 
 include $(BUGONE_PATH)/projects/bugone.inc
