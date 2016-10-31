@@ -72,11 +72,13 @@ void recv_set(struct packet_t *packet) {
 	uint8_t device_src,device_dst;
 	application_t* app;
 	uart_putstr_P(PSTR("recv_set()\r\n"));
+	uint8_t process = get_devices(packet,&device_src,&device_dst);
 
-	while (get_devices(packet,&device_src,&device_dst) == 1) {
+	while (process == 1) {
 		app=app_get(device_dst-1);
 		if (app == NULL) continue; 
 		if (app->set == NULL) continue;
 		app->set(packet);
+		process = get_devices(packet,&device_src,&device_dst);
 	}
 }
