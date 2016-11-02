@@ -8,7 +8,7 @@
 #include "uart.h"
 #include "apps.h"
 
-#ifdef BUGONE_HAS_CONFIG
+#if defined(BUGONE_HAS_CONFIG) && BUGONE_HAS_CONFIG
 void send_config(uint8_t dst, struct packet_t *packet) {
     application_t *application;
 	 uint8_t i = 0;
@@ -26,7 +26,7 @@ void send_config(uint8_t dst, struct packet_t *packet) {
 }
 #endif
 
-#ifdef BUGONE_HAS_CONFIG
+#if defined(BUGONE_HAS_CONFIG) && BUGONE_HAS_CONFIG
 void recv_get_config(struct packet_t *packet) {
 	struct packet_t *send_packet = get_tx_packet();
 	send_config(packet->network->src,send_packet);
@@ -73,12 +73,20 @@ void recv_set(struct packet_t *packet) {
 	application_t* app;
 	uart_putstr_P(PSTR("recv_set()\r\n"));
 	uint8_t process = get_devices(packet,&device_src,&device_dst);
+	struct packet_t *send_packet = get_tx_packet();
+	uint8_t len = 0;
 
 	while (process == 1) {
 		app=app_get(device_dst-1);
 		if (app == NULL) continue; 
 		if (app->set == NULL) continue;
-		app->set(packet);
+		if (app->set(packet)) {
+			set_devices(send_packet,device_dst,device_src);
+			len+=app->get(send_packet);
+		}
 		process = get_devices(packet,&device_src,&device_dst);
+	}
+	if (len > 0) {
+		send(packet->network->src,VALUE,send_packet);
 	}
 }

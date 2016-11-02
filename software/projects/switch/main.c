@@ -41,7 +41,7 @@ SIGNAL(WDT_vect) {
 int main(void) {
     int r = 0;
     char buf[16];
-	 wake_up = 20;
+	 wake_up = 255;
 
     bugone_init(applications);
 	 bugone_set_config_period(30);
@@ -52,13 +52,11 @@ int main(void) {
 	 while (1) 
 	 {
 		 bugone_receive();
-		 if (wake_up > 6)
+		 if (wake_up > 60)
 		 {
 			 led_blink2();
 			 bugone_send_receive();
 			 wake_up=0;
-		 } else {
-			 delay_250ms();
 		 }
 	 }
 }

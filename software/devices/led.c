@@ -24,7 +24,7 @@ void led_init() {
 	clr_output(LED2);
 }
 
-void led_set(struct packet_t *packet) {
+int8_t led_set(struct packet_t *packet) {
 	uart_putstr_P(PSTR("led_set()\r\n"));
 	// XXX : WTF ??? if (get_data_type(packet)!=0x49) { uart_putstr_P(PSTR("not an integer")); return; }
 	uart_putc(get_data_type(packet));

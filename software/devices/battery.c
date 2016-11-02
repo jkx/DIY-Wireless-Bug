@@ -40,7 +40,7 @@ int8_t battery_get(struct packet_t *packet) {
 	itoa(vcc,buf,10);
 	uart_putstr("VCC: ");
 	uart_putstr(buf);
-	vcc = 1100L * 1023 / vcc;
+	vcc = 1100L * 1023L / vcc;
 	itoa(vcc,buf,10);
 	uart_putstr(" ( ->  ");
 	uart_putstr(buf);
@@ -48,7 +48,7 @@ int8_t battery_get(struct packet_t *packet) {
 	itoa(val,buf,10);
 	uart_putstr("Vbat: ");
 	uart_putstr(buf);
-	val = (vcc / 1023) * val * 2;
+	val = (vcc  * val * 2)/1023L;
 	itoa(val,buf,10);
 	uart_putstr(" ( ->  ");
 	uart_putstr(buf);

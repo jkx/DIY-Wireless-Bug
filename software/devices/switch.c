@@ -21,7 +21,7 @@ void switch_init(void *cfg) {
 	delay_500ms();
 }
 
-void switch_set(struct packet_t *packet) {
+int8_t switch_set(struct packet_t *packet) {
 //	uart_putstr_P(PSTR("switch_set()\r\n"));
 //	uart_putc(get_data_type(packet));//!=0x49) { uart_putstr_P(PSTR("not an integer")); return; }
 	get_data_type(packet);
@@ -32,6 +32,7 @@ void switch_set(struct packet_t *packet) {
 		uart_putstr_P(PSTR("set_switch()\r\n"));
 		clr_output(RELAY_PIN);
 	}
+	return 1;
 }
 
 int8_t switch_get(struct packet_t *packet) {
