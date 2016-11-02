@@ -8,6 +8,7 @@
 
 #include <stdlib.h>
 #include "bugOne.h"
+#include "uart.h"
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include "avr_compat.h"

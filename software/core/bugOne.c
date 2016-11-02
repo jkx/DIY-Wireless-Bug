@@ -10,6 +10,7 @@
 
 #include "avr_compat.h"
 #include "rfm12.h"
+#include "uart.h"
 
 #include "apps.h"
 #include "config.h"
@@ -22,6 +23,8 @@
 static int8_t _conf_time = -1;
 static int8_t _conf_current_time = 127;
 #endif
+
+static uint8_t asleep = 0;
 
 
 void delay_1s() {
@@ -49,7 +52,7 @@ void delay_50ms()
 }
 void delay_25ms()
 {
-    _delay_ms(50);
+    _delay_ms(25);
 }
 
 /* Initialise board */
@@ -119,6 +122,7 @@ void bugone_complete_sleep() {
 void bugone_sleep() {
     clr_output(LED1);
     led_disable();
+	 asleep = 1;
     bugone_deep_sleep();
 }
 
@@ -137,8 +141,9 @@ void bugone_complete_wakeup() {
 }
 
 void bugone_wakeup() {
-    led_setup();
-    set_output(LED1);
+	led_setup();
+	set_output(LED1);
+	asleep = 0;
 }
 
 void bugone_send() {
