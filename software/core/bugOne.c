@@ -18,7 +18,7 @@
 #define PRG "unknown"
 #endif
 
-#ifdef BUGONE_HAS_CONFIG
+#if defined(BUGONE_HAS_CONFIG) && BUGONE_HAS_CONFIG
 static int8_t _conf_time = -1;
 static int8_t _conf_current_time = 127;
 #endif
@@ -41,6 +41,15 @@ void delay_500ms()
 void delay_250ms()
 {
     _delay_ms(250);
+}
+
+void delay_50ms()
+{
+    _delay_ms(50);
+}
+void delay_25ms()
+{
+    _delay_ms(50);
 }
 
 /* Initialise board */
@@ -76,7 +85,7 @@ void bugone_init(application_t* applications) {
     //clr_output(LED2);
 }
 
-#ifdef BUGONE_HAS_CONFIG
+#if defined(BUGONE_HAS_CONFIG) && BUGONE_HAS_CONFIG
 void bugone_set_config_period(int8_t conf_time) {
 	_conf_time = conf_time;
 }
@@ -87,7 +96,7 @@ extern application_t applications[];
 volatile uint8_t send_flush=0;
 
 void bugone_complete_sleep() {
-#if BUGONE_ANNOUNCE_SLEEP
+#if defined(BUGONE_ANNOUNCE_SLEEP) && BUGONE_ANNOUNCE_SLEEP
     struct packet_t *packet = get_tx_packet();
     send(0xFF, SLEEP, packet);
     while (ctrl.txstate!=STATUS_FREE) {
@@ -165,7 +174,7 @@ void bugone_send() {
 		 rfm12_tick();
 	 } 
 
-#ifdef BUGONE_HAS_CONFIG
+#if defined(BUGONE_HAS_CONFIG) && BUGONE_HAS_CONFIG
 	 if (_conf_time >= 0) {
 		 if (_conf_current_time >= _conf_time) {
 			 packet = get_tx_packet();

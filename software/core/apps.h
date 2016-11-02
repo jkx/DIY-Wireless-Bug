@@ -20,7 +20,7 @@ enum {
 typedef struct {
 	void (*init)(void*);
 	int8_t (*get)(struct packet_t*);
-	void (*set)(struct packet_t*);
+	int8_t (*set)(struct packet_t*);// Return true if require update
 	void *cfg;
 	// Type of data from previous enum
 	uint8_t type;

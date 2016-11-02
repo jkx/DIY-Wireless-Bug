@@ -61,19 +61,10 @@ int main(void) {
 			led_blink2();
 			delay_500ms();
 			bugone_send_receive();
-			//bugone_send();
-			//delay_500ms();
-			//// Receive packets
-			//while (rfm12_rx_status() == STATUS_COMPLETE) {
-			//	bufcontents=rfm12_rx_buffer();
-			//	recv(bufcontents);
-			//	led_blink2();
-			//	delay_250ms();
-			//}
 			wake_up=0;
 			bugone_complete_sleep();
 		} else {
-			delay_250ms();
+			delay_25ms();
 		}
 		bugone_sleep();
 	}
