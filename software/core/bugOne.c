@@ -195,7 +195,7 @@ void bugone_receive() {
 		 if (rfm12_rx_status() == STATUS_COMPLETE) {
 			 bufcontents=rfm12_rx_buffer();
 			 recv(bufcontents);
-			 //led_blink2();
+			 led_blink2();
 		 }
     } 
 }
