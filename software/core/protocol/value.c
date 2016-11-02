@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <string.h>
 #include <avr/pgmspace.h>
+#include "uart.h"
 #include "network.h"
 #include "avr_compat.h"
 #include "rfm12.h"
