@@ -151,6 +151,7 @@ void bugone_send() {
     application_t *application;
     int8_t len;
     uint8_t i;
+	 uint8_t to_send = 0;
     uart_putstr_P(PSTR("\r\n"));
     i=0;
     while ( (application = app_get(i)) != NULL) {
@@ -161,19 +162,22 @@ void bugone_send() {
 				  if (application->get == NULL) {
 					  continue;
 				  }
+				  to_send = 1;
 				  set_devices(packet,i,0x29);
 				  len=application->get(packet);
 				  if (len > 0) {
 					  //data.remaining_len-=len;
 					  //data.buf+=len;
 				  }
-				  application->current_time = 0;
+				  application->current_time = 1;
 			  } else {
 				  application->current_time++;
 			  }
 		  }
     }
-    send(0xFF,6,packet);
+	 if (to_send) {
+		 send(0xFF,6,packet);
+	 }
 
 	 while (ctrl.txstate!=STATUS_FREE) {
 		 rfm12_tick();
